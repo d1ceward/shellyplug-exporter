@@ -1,0 +1,56 @@
+name: Main
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types:
+      - opened
+      - synchronize
+jobs:
+  lints:
+    name: Lints
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        container:
+          - crystallang/crystal:1.3.2
+    container:
+      image: ${{ matrix.container }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Crystal shard cache
+        uses: actions/cache@v1
+        with:
+          path: lib
+          key: ${{ runner.os }}-shards-${{ hashFiles('**/shard.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-shards-
+      - name: Install dependencies
+        run: shards install
+      - name: Run ameba
+        run: crystal lib/ameba/bin/ameba.cr
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        container:
+          - crystallang/crystal:1.3.2
+    container:
+      image: ${{ matrix.container }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Crystal shard cache
+        uses: actions/cache@v1
+        with:
+          path: lib
+          key: ${{ runner.os }}-shards-${{ hashFiles('**/shard.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-shards-
+      - name: Install dependencies
+        run: shards install
+      - name: Run tests
+        run: crystal spec
