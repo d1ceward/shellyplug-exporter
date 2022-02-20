@@ -1,0 +1,7 @@
+# Ignore coverage files
+/coverage
+/run_tests.cr
+/run_tests
+
+# Ignore documentation files
+/docs

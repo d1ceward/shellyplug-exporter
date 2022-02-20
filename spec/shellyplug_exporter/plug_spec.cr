@@ -7,5 +7,11 @@ describe ShellyplugExporter::Plug do
 
       plug_data["power"]?.try(&.as_f).should eq(73.24)
     end
+
+    it "should return correct total value" do
+      plug_data = ShellyplugExporter::Plug.new.fetch_plug_data
+
+      plug_data["total"]?.try(&.as_i).should eq(243812)
+    end
   end
 end

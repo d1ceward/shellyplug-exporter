@@ -1,6 +1,7 @@
 module ShellyplugExporter
   class Server
-    def self.run
+    # Start the listening server for Prometheus
+    def self.run : Nil
       # Server config
       Kemal.config.env = "production"
       Kemal.config.host_binding = "0.0.0.0"

@@ -1,5 +1,6 @@
 module ShellyplugExporter
   class Plug
+    # Store url/login informations for Shelly plug API calls
     def initialize
       @hostname = ENV["SHELLYPLUG_HOSTNAME"]?
       @port = ENV["SHELLYPLUG_PORT"]?.presence || "80"
@@ -7,7 +8,8 @@ module ShellyplugExporter
       @http_password = ENV["SHELLYPLUG_HTTP_PASSWORD"]?
     end
 
-    def fetch_plug_data
+    # Call and parse result from Shelly plug API
+    def fetch_plug_data : JSON::Any
       raise MissingHostname.new("Missing hostname environement variable") unless @hostname
 
       client = HTTP::Client.new(@hostname.not_nil!, @port.to_i)
