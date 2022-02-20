@@ -15,4 +15,4 @@ FROM alpine:latest
 WORKDIR /
 COPY --from=builder /app/bin/shellyplug_exporter .
 
-ENTRYPOINT ["/shellyplug_exporter"]
+ENTRYPOINT ["/shellyplug_exporter", "run"]
