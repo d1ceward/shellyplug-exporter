@@ -23,7 +23,7 @@ release_func() {
   crystal docs --project-version=${1}
   sed -i "s/  VERSION = \".*/  VERSION = \"${1}\"/" src/version.cr
   sed -i "0,/version: .*/s//version: ${1}/" shard.yml
-  sed -i "s/# shellyplug-prometheus-exporter (v.*/# shellyplug-prometheus-exporter (v${1})/" README.md
+  sed -i "s/# shellyplug-exporter (v.*/# shellyplug-exporter (v${1})/" README.md
   git add docs/ src/version.cr shard.yml README.md
   git commit -m "Bump version number to v${1}"
   git push origin master

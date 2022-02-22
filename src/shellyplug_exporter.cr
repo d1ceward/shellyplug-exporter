@@ -12,7 +12,7 @@ require "./shellyplug_exporter/plug"
 if !ENV["CRYSTAL_SPEC_CONTEXT"]?
   run_server = false
   port = nil
-  parser = OptionParser.new do |parser|
+  option_parser = OptionParser.new do |parser|
     parser.banner = "Prometheus Exporter for Shelly plugs\nUsage: shellyplug_exporter [subcommand]"
 
     parser.on("run", "Run exporter server") do
@@ -46,7 +46,7 @@ if !ENV["CRYSTAL_SPEC_CONTEXT"]?
     end
   end
 
-  parser.parse
+  option_parser.parse
 
   config = ShellyplugExporter::Config.new(port)
   server = ShellyplugExporter::Server.new(config)
@@ -54,7 +54,7 @@ if !ENV["CRYSTAL_SPEC_CONTEXT"]?
   if run_server
     server.run
   else
-    puts parser
+    puts option_parser
     exit(1)
   end
 end

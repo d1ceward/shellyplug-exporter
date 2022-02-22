@@ -25,7 +25,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: d1ceward/shellyplug-prometheus-exporter
+          images: d1ceward/shellyplug-exporter
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
