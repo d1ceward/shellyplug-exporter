@@ -12,12 +12,8 @@ jobs:
   lints:
     name: Lints
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        container:
-          - crystallang/crystal:1.3.2
     container:
-      image: ${{ matrix.container }}
+      image: crystallang/crystal:1.3.2
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -36,12 +32,8 @@ jobs:
     name: Tests
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    strategy:
-      matrix:
-        container:
-          - crystallang/crystal:1.3.2
     container:
-      image: ${{ matrix.container }}
+      image: crystallang/crystal:1.3.2
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
