@@ -1,4 +1,4 @@
-# shellyplug-prometheus-exporter (v0.1.1)
+# shellyplug-prometheus-exporter (v0.1.2)
 ![GitHub Workflow Status (event)](https://github.com/D1ceWard/shellyplug-prometheus-exporter/actions/workflows/main.yml/badge.svg?branch=master)
 [![GitHub issues](https://img.shields.io/github/issues/D1ceWard/shellyplug-prometheus-exporter)](https://github.com/D1ceWard/shellyplug-prometheus-exporter/issues)
 [![GitHub license](https://img.shields.io/github/license/D1ceWard/shellyplug-prometheus-exporter)](https://github.com/D1ceWard/shellyplug-prometheus-exporter/blob/master/LICENSE)

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Crystal Docs 1.2.2">
-<meta name="crystal_docs.project_version" content="0.1.1">
+<meta name="crystal_docs.project_version" content="0.1.2">
 <meta name="crystal_docs.project_name" content="shellyplug-prometheus-exporter">
 
 
@@ -13,7 +13,7 @@
 <script type="text/javascript" src="js/doc.js"></script>
 
   <meta name="repository-name" content="shellyplug-prometheus-exporter">
-  <title>shellyplug-prometheus-exporter 0.1.1</title>
+  <title>shellyplug-prometheus-exporter 0.1.2</title>
   <script type="text/javascript">
   CrystalDocs.base_path = "";
   </script>
@@ -39,7 +39,7 @@
       </h1>
 
       <span class="project-version">
-        0.1.1
+        0.1.2
       </span>
     </div>
   </div>
@@ -88,15 +88,36 @@
 
 
 <div class="main-content">
-<h1><a id="shellyplug-prometheus-exporter-v0.1.0" class="anchor" href="#shellyplug-prometheus-exporter-v0.1.0">  <svg class="octicon-link" aria-hidden="true">
+<h1><a id="shellyplug-prometheus-exporter-v0.1.1" class="anchor" href="#shellyplug-prometheus-exporter-v0.1.1">  <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
-</a>shellyplug-prometheus-exporter (v0.1.0)</h1>
+</a>shellyplug-prometheus-exporter (v0.1.1)</h1>
 <p><img src="https://github.com/D1ceWard/shellyplug-prometheus-exporter/actions/workflows/main.yml/badge.svg?branch=master" alt="GitHub Workflow Status (event)" />
 <a href="https://github.com/D1ceWard/shellyplug-prometheus-exporter/issues"><img src="https://img.shields.io/github/issues/D1ceWard/shellyplug-prometheus-exporter" alt="GitHub issues" /></a>
 <a href="https://github.com/D1ceWard/shellyplug-prometheus-exporter/blob/master/LICENSE"><img src="https://img.shields.io/github/license/D1ceWard/shellyplug-prometheus-exporter" alt="GitHub license" /></a></p>
 <p>Prometheus Exporter for Shelly plugs</p>
 <p>:rocket: Suggestions for new improvements are welcome in the issue tracker.</p>
+<h2><a id="usage" class="anchor" href="#usage">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Usage</h2>
+<p>Run with docker-compose file :</p>
+<pre><code class="language-crystal">---
+version: &quot;3&quot;
+
+services:
+  plug_exporter:
+    image: d1ceward/shellyplug-prometheus-exporter
+    restart: unless-stopped
+    ports:
+      - &quot;80:8080&quot;
+    environment:
+      - EXPORTER_PORT=80
+      - SHELLYPLUG_HOSTNAME=&quot;shelly-plug-hostname-or-ip&quot;
+      - SHELLYPLUG_PORT=80
+      - SHELLYPLUG_HTTP_USERNAME=&quot;username-for-http-auth&quot;
+      - SHELLYPLUG_HTTP_PASSWORD=&quot;password-for-http-auth&quot;</code></pre>
 <p>Documentation available here : https://d1ceward.github.io/shellyplug-prometheus-exporter/</p>
 <h2><a id="contributing" class="anchor" href="#contributing">
   <svg class="octicon-link" aria-hidden="true">
