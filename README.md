@@ -57,8 +57,10 @@ Documentation available here : https://d1ceward.github.io/shellyplug-exporter/
 Name                   | Description                          | Type    |
 -----------------------|--------------------------------------|---------|
 shellyplug_power       | Current power drawn in watts         | Gauge   |
+shellyplug_overpower   | Overpower drawn in watts/minute      | Gauge   |
 shellyplug_total_power | Total power consumed in watts/minute | Counter |
-
+shellyplug_temperature | Plug temperature in celsius          | Gauge   |
+shellyplug_uptime      | Plug uptime in seconds               | Gauge   |
 
 ## Contributing
 

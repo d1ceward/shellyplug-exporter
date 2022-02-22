@@ -1,6 +1,6 @@
 module ShellyplugExporter
   class Plug
-    API_ENDPOINT = "/meter/0"
+    API_ENDPOINT = "/status"
 
     def initialize(@config : Config); end
 
@@ -8,9 +8,15 @@ module ShellyplugExporter
       response = execute_request
       data = parse_response(response)
 
+      # Data about power consumption
+      meter = data["meters"]?.try(&.[0])
+
       {
-        :power => data["power"]?.try(&.as_f?) || 0_f64,
-        :total => data["total"]?.try(&.as_i64?) || 0_i64
+        :power => meter.try(&.["power"]?).try(&.as_f?) || 0_f64,
+        :overpower => meter.try(&.["overpower"]?).try(&.as_f?) || 0_f64,
+        :total => meter.try(&.["total"]?).try(&.as_i64?) || 0_i64,
+        :temperature => data["temperature"]?.try(&.as_f?) || 0_f64,
+        :uptime => data["uptime"]?.try(&.as_i64?) || 0_i64
       }
     end
 
