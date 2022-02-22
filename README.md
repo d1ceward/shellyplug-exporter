@@ -1,7 +1,7 @@
 # shellyplug-exporter (v1.0.0)
 ![GitHub Workflow Status (main)](https://github.com/D1ceWard/shellyplug-exporter/actions/workflows/main.yml/badge.svg?branch=master)
 ![GitHub Workflow Status (publish)](https://github.com/D1ceWard/shellyplug-exporter/actions/workflows/publish.yml/badge.svg?branch=master)
-[![Docker Pulls](https://img.shields.io/docker/pulls/D1ceWard/shellyplug-exporter.svg)](https://hub.docker.com/r/D1ceWard/shellyplug-exporter)
+[![Docker Pulls](https://img.shields.io/docker/pulls/D1ceWard/shellyplug-exporter.svg)](https://hub.docker.com/r/d1ceward/shellyplug-exporter)
 [![GitHub issues](https://img.shields.io/github/issues/D1ceWard/shellyplug-exporter)](https://github.com/D1ceWard/shellyplug-exporter/issues)
 [![GitHub license](https://img.shields.io/github/license/D1ceWard/shellyplug-exporter)](https://github.com/D1ceWard/shellyplug-exporter/blob/master/LICENSE)
 
