@@ -4,16 +4,16 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Crystal Docs 1.2.2">
-<meta name="crystal_docs.project_version" content="0.1.2">
-<meta name="crystal_docs.project_name" content="shellyplug-prometheus-exporter">
+<meta name="crystal_docs.project_version" content="1.0">
+<meta name="crystal_docs.project_name" content="shellyplug-exporter">
 
 
 
 <link href="../css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="../js/doc.js"></script>
 
-  <meta name="repository-name" content="shellyplug-prometheus-exporter">
-  <title>ShellyplugExporter::Plug - shellyplug-prometheus-exporter 0.1.2</title>
+  <meta name="repository-name" content="shellyplug-exporter">
+  <title>ShellyplugExporter::Plug - shellyplug-exporter 1.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -34,12 +34,12 @@
     <div class="project-summary">
       <h1 class="project-name">
         <a href="../index.html">
-          shellyplug-prometheus-exporter
+          shellyplug-exporter
         </a>
       </h1>
 
       <span class="project-version">
-        0.1.2
+        1.0
       </span>
     </div>
   </div>
@@ -51,27 +51,22 @@
   <div class="types-list">
     <ul>
   
-  <li class="parent open current" data-id="shellyplug-prometheus-exporter/ShellyplugExporter" data-name="shellyplugexporter">
+  <li class="parent open current" data-id="shellyplug-exporter/ShellyplugExporter" data-name="shellyplugexporter">
       <a href="../ShellyplugExporter.html">ShellyplugExporter</a>
       
         <ul>
   
-  <li class=" " data-id="shellyplug-prometheus-exporter/ShellyplugExporter/InvalidCredentials" data-name="shellyplugexporter::invalidcredentials">
-      <a href="../ShellyplugExporter/InvalidCredentials.html">InvalidCredentials</a>
+  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/Config" data-name="shellyplugexporter::config">
+      <a href="../ShellyplugExporter/Config.html">Config</a>
       
     </li>
   
-  <li class=" " data-id="shellyplug-prometheus-exporter/ShellyplugExporter/MissingHostname" data-name="shellyplugexporter::missinghostname">
-      <a href="../ShellyplugExporter/MissingHostname.html">MissingHostname</a>
-      
-    </li>
-  
-  <li class=" current" data-id="shellyplug-prometheus-exporter/ShellyplugExporter/Plug" data-name="shellyplugexporter::plug">
+  <li class=" current" data-id="shellyplug-exporter/ShellyplugExporter/Plug" data-name="shellyplugexporter::plug">
       <a href="../ShellyplugExporter/Plug.html">Plug</a>
       
     </li>
   
-  <li class=" " data-id="shellyplug-prometheus-exporter/ShellyplugExporter/Server" data-name="shellyplugexporter::server">
+  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/Server" data-name="shellyplugexporter::server">
       <a href="../ShellyplugExporter/Server.html">Server</a>
       
     </li>
@@ -123,7 +118,7 @@
   </h2>
   
     
-      <a href="https://github.com/D1ceWard/shellyplug-prometheus-exporter/blob/e36b380387887f0cb8c93412863b67caf94faa7c/src/shellyplug_exporter/plug.cr#L2" target="_blank">
+      <a href="https://github.com/D1ceWard/shellyplug-exporter/blob/2ff47c9111a46ff7f5c9a251d19a1a97d72fbb10/src/shellyplug_exporter/plug.cr#L2" target="_blank">
         shellyplug_exporter/plug.cr
       </a>
     
@@ -131,6 +126,25 @@
   
 
 
+
+  
+    <h2>
+      <a id="constant-summary" class="anchor" href="#constant-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Constant Summary
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="API_ENDPOINT">
+        <strong>API_ENDPOINT</strong> = <code><span class="s">&quot;/meter/0&quot;</span></code>
+      </dt>
+      
+    
+  </dl>
 
 
 
@@ -145,9 +159,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new-class-method" class="signature"><strong>.new</strong></a>
-        
-          <div class="summary"><p>Store url/login informations for Shelly plug API calls</p></div>
+        <a href="#new%28config%3AConfig%29-class-method" class="signature"><strong>.new</strong>(config : Config)</a>
         
       </li>
     
@@ -168,9 +180,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#fetch_plug_data%3AJSON%3A%3AAny-instance-method" class="signature"><strong>#fetch_plug_data</strong> : JSON::Any</a>
-        
-          <div class="summary"><p>Call and parse result from Shelly plug API</p></div>
+        <a href="#query_data%3AHash%28Symbol%2CFloat64%7CInt64%29-instance-method" class="signature"><strong>#query_data</strong> : Hash(Symbol, Float64 | Int64)</a>
         
       </li>
     
@@ -214,23 +224,18 @@
     Constructor Detail
   </h2>
   
-    <div class="entry-detail" id="new-class-method">
+    <div class="entry-detail" id="new(config:Config)-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>
+        def self.<strong>new</strong>(config : <a href="../ShellyplugExporter/Config.html">Config</a>)
 
-        <a class="method-permalink" href="#new-class-method">#</a>
+        <a class="method-permalink" href="#new%28config%3AConfig%29-class-method">#</a>
       </div>
-      
-        <div class="doc">
-          
-          <p>Store url/login informations for Shelly plug API calls</p>
-        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/D1ceWard/shellyplug-prometheus-exporter/blob/e36b380387887f0cb8c93412863b67caf94faa7c/src/shellyplug_exporter/plug.cr#L4" target="_blank">View source</a>]
+          [<a href="https://github.com/D1ceWard/shellyplug-exporter/blob/2ff47c9111a46ff7f5c9a251d19a1a97d72fbb10/src/shellyplug_exporter/plug.cr#L5" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -249,23 +254,18 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="fetch_plug_data:JSON::Any-instance-method">
+    <div class="entry-detail" id="query_data:Hash(Symbol,Float64|Int64)-instance-method">
       <div class="signature">
         
-        def <strong>fetch_plug_data</strong> : JSON::Any
+        def <strong>query_data</strong> : Hash(Symbol, Float64 | Int64)
 
-        <a class="method-permalink" href="#fetch_plug_data%3AJSON%3A%3AAny-instance-method">#</a>
+        <a class="method-permalink" href="#query_data%3AHash%28Symbol%2CFloat64%7CInt64%29-instance-method">#</a>
       </div>
-      
-        <div class="doc">
-          
-          <p>Call and parse result from Shelly plug API</p>
-        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/D1ceWard/shellyplug-prometheus-exporter/blob/e36b380387887f0cb8c93412863b67caf94faa7c/src/shellyplug_exporter/plug.cr#L12" target="_blank">View source</a>]
+          [<a href="https://github.com/D1ceWard/shellyplug-exporter/blob/2ff47c9111a46ff7f5c9a251d19a1a97d72fbb10/src/shellyplug_exporter/plug.cr#L7" target="_blank">View source</a>]
         
       </div>
     </div>
