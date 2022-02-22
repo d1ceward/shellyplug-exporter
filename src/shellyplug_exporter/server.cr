@@ -1,35 +1,36 @@
 module ShellyplugExporter
   class Server
-    # Start the listening server for Prometheus
-    def self.run : Nil
-      # Server config
+    def initialize(@config : Config)
+      @plug_instance = Plug.new(@config)
+    end
+
+    def run
+      initialize_server_config
+
+      # The only needed route for prometheus
+      get "/metrics" { build_prometheus_response(@plug_instance.query_data) }
+
+      Kemal.run
+    end
+
+    private def initialize_server_config
       Kemal.config.env = "production"
       Kemal.config.host_binding = "0.0.0.0"
-      Kemal.config.port = (ENV["EXPORTER_PORT"]?.presence || "80").to_i
+      Kemal.config.port = @config.exporter_server_port
+    end
 
-      plug_instance = Plug.new
+    private def build_prometheus_response(data : Hash(Symbol, Float64 | Int64)) : String
+      String.build do |io|
+        # shellyplug_power metric
+        io << "# HELP shellyplug_power Current power drawn in watts\n"
+        io << "# TYPE shellyplug_power gauge\n"
+        io << "shellyplug_power #{data[:power]}\n"
 
-      # Route that return metrics data
-      get "/metrics" do
-        plug_data = begin
-                      plug_instance.fetch_plug_data
-                    rescue ex : MissingHostname | InvalidCredentials
-                      puts("No data, #{ex} !")
-                      JSON.parse("{}")
-                    end
-
-        String.build do |io|
-          io << "# HELP power Current power drawn in watts\n"
-          io << "# TYPE power gauge\n"
-          io << "power #{plug_data["power"]?.try(&.as_f?) || 0}\n"
-          io << "# HELP total_power Total power consumed in Watt-minute\n"
-          io << "# TYPE total_power gauge"
-          io << "total_power #{plug_data["total"]?.try(&.as_i?) || 0}\n"
-        end
+        # shellyplug_total_power metric
+        io << "# HELP shellyplug_total_power Total power consumed in watts/minute\n"
+        io << "# TYPE shellyplug_total_power gauge\n"
+        io << "shellyplug_total_power #{data[:total]}\n"
       end
-
-      # Start webserver
-      Kemal.run
     end
   end
 end
