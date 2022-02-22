@@ -1,34 +1,64 @@
 # shellyplug-exporter (v0.1.2)
-![GitHub Workflow Status (event)](https://github.com/D1ceWard/shellyplug-exporter/actions/workflows/main.yml/badge.svg?branch=master)
+![GitHub Workflow Status (main)](https://github.com/D1ceWard/shellyplug-exporter/actions/workflows/main.yml/badge.svg?branch=master)
+![GitHub Workflow Status (publish)](https://github.com/D1ceWard/shellyplug-exporter/actions/workflows/publish.yml/badge.svg?branch=master)
+[![Docker Pulls](https://img.shields.io/docker/pulls/D1ceWard/shellyplug-exporter.svg)](https://hub.docker.com/r/D1ceWard/shellyplug-exporter)
 [![GitHub issues](https://img.shields.io/github/issues/D1ceWard/shellyplug-exporter)](https://github.com/D1ceWard/shellyplug-exporter/issues)
 [![GitHub license](https://img.shields.io/github/license/D1ceWard/shellyplug-exporter)](https://github.com/D1ceWard/shellyplug-exporter/blob/master/LICENSE)
 
-Prometheus Exporter for Shelly plugs model S
+Prometheus exporter for Shelly plugs model S written in Crystal.
+> **Note** It uses the api provided by the plug, it does not use the MQTT protocol
 
 :rocket: Suggestions for new improvements are welcome in the issue tracker.
 
-## Usage
+## Installation and Usage
 
-Run with docker-compose file :
+The `SHELLYPLUG_HOST` environment variable is required to retrieve information from the plug, `SHELLYPLUG_PORT` is optional (default 80).
+Authentication variables `SHELLYPLUG_AUTH_USERNAME` and `SHELLYPLUG_AUTH_PASSWORD` depend on whether http authentication is enabled on the plug.
+
+The `shellyplug-exporter` listens on HTTP port 5000 by default. See the environment variable `EXPORTER_PORT` to change this behavior.
+
+### Docker
+
+With `docker run` command :
+```shell
+docker run -d \
+  -p 8080:5000 \
+  -e SHELLYPLUG_HOST="shelly-plug-hostname-or-ip" \
+  -e SHELLYPLUG_PORT="80" \
+  -e SHELLYPLUG_AUTH_USERNAME="username-for-http-auth" \
+  -e SHELLYPLUG_AUTH_PASSWORD="password-for-http-auth" \
+  -e EXPORTER_PORT=5000 \
+  d1ceward/shellyplug-exporter:latest
 ```
+
+With docker-compose file :
+```yaml
 ---
 version: "3"
 
 services:
   plug_exporter:
-    image: d1ceward/shellyplug-prometheus-exporter
+    image: d1ceward/shellyplug-exporter:latest
     restart: unless-stopped
     ports:
-      - "80:8080"
+      - "8080:5000"
     environment:
-      - EXPORTER_PORT=80
-      - SHELLYPLUG_HOSTNAME="shelly-plug-hostname-or-ip"
+      - SHELLYPLUG_HOST="shelly-plug-hostname-or-ip"
       - SHELLYPLUG_PORT=80
-      - SHELLYPLUG_HTTP_USERNAME="username-for-http-auth"
-      - SHELLYPLUG_HTTP_PASSWORD="password-for-http-auth"
+      - SHELLYPLUG_AUTH_USERNAME="username-for-http-auth"
+      - SHELLYPLUG_AUTH_PASSWORD="password-for-http-auth"
+      - EXPORTER_PORT=5000
 ```
 
 Documentation available here : https://d1ceward.github.io/shellyplug-exporter/
+
+## Metrics
+
+Name                   | Description                          | Type    |
+-----------------------|--------------------------------------|---------|
+shellyplug_power       | Current power drawn in watts         | Gauge   |
+shellyplug_total_power | Total power consumed in watts/minute | Counter |
+
 
 ## Contributing
 
@@ -39,6 +69,20 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/D1ceWa
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+## Development building and running
+
+1. Install corresponding version of Crystal lang (cf: `.crystal-version` file)
+2. Install Crystal dependencies with `shards install`
+3. Build with `shards build`
+
+The newly created binary should be at `bin/shelly_exporter`
+
+### Running tests
+
+```shell
+crystal spec
+```
 
 ## Contributors
 

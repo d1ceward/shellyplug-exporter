@@ -16,7 +16,7 @@ module ShellyplugExporter
     private def initialize_server_config
       Kemal.config.env = "production"
       Kemal.config.host_binding = "0.0.0.0"
-      Kemal.config.port = @config.exporter_server_port
+      Kemal.config.port = @config.exporter_port
     end
 
     private def build_prometheus_response(data : Hash(Symbol, Float64 | Int64)) : String
@@ -28,7 +28,7 @@ module ShellyplugExporter
 
         # shellyplug_total_power metric
         io << "# HELP shellyplug_total_power Total power consumed in watts/minute\n"
-        io << "# TYPE shellyplug_total_power gauge\n"
+        io << "# TYPE shellyplug_total_power counter\n"
         io << "shellyplug_total_power #{data[:total]}\n"
       end
     end

@@ -15,15 +15,15 @@ module ShellyplugExporter
     end
 
     private def execute_request : HTTP::Client::Response
-      client = HTTP::Client.new(@config.shellyplug_host, 80)
+      client = HTTP::Client.new(@config.plug_host, @config.plug_port)
       client.connect_timeout = 4
 
-      if @config.shellyplug_auth_username && @config.shellyplug_auth_password
-        client.basic_auth(@config.shellyplug_auth_username, @config.shellyplug_auth_password)
+      if @config.plug_auth_username && @config.plug_auth_password
+        client.basic_auth(@config.plug_auth_username, @config.plug_auth_password)
       end
 
       client.get(API_ENDPOINT)
-    rescue IO::TimeoutError
+    rescue IO::TimeoutError | Socket::Addrinfo::Error | Socket::ConnectError
       HTTP::Client::Response.new(408)
     end
 
@@ -31,9 +31,9 @@ module ShellyplugExporter
       return JSON.parse(response.body) if response.status_code == 200
 
       if response == 408
-        puts "Timeout error, please check your environment variable or plug status."
+        Log.error { "Timeout error, please check your environment variable or plug status." }
       else
-        puts "Invalid response, please check your environment variable or plug status."
+        Log.error { "Invalid response, please check your environment variable or plug status." }
       end
 
       JSON.parse("{}")
