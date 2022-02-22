@@ -4,15 +4,17 @@ require "http/client"
 require "option_parser"
 
 require "./version"
-require "./error"
-require "./shellyplug_exporter/server"
-require "./shellyplug_exporter/plug"
+# require "./error"
+# require "./shellyplug_exporter/server"
+# require "./shellyplug_exporter/plug"
 
-OptionParser.parse do |parser|
-  parser.banner = "Prometheus Exporter for Shelly plugs"
+run_server = false
+
+parser = OptionParser.new do |parser|
+  parser.banner = "Prometheus Exporter for Shelly plugs\nUsage: shellyplug_exporter [subcommand]"
 
   parser.on("run", "Run exporter server") do
-    ShellyplugExporter::Server.run
+    run_server = true
   end
 
   parser.on("-v", "--version", "Show version") do
@@ -20,7 +22,7 @@ OptionParser.parse do |parser|
     exit
   end
 
-  parser.on "-h", "--help", "Show help" do
+  parser.on("-h", "--help", "Show help") do
     puts parser
     exit
   end
@@ -37,4 +39,13 @@ OptionParser.parse do |parser|
     STDERR.puts parser
     exit(1)
   end
+end
+
+parser.parse
+
+if run_server
+  puts "Hello"
+else
+  puts parser
+  exit(1)
 end

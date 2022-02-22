@@ -1,4 +1,4 @@
-name: shellyplug-prometheus-exporter
+name: shellyplug-exporter
 version: 0.1.2
 authors:
   - D1ceWard <contact@d1ceward.com>
@@ -17,6 +17,9 @@ development_dependencies:
     version: ~> 0.14.0
   kemal-basic-auth:
     github: kemalcr/kemal-basic-auth
+    version: ~> 1.0.0
+  spec-kemal:
+    github: kemalcr/spec-kemal
     version: ~> 1.0.0
 
 targets:

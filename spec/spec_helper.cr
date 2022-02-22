@@ -1,5 +1,6 @@
-require "spec"
 require "kemal-basic-auth"
+require "spec"
+require "spec-kemal"
 require "../src/shellyplug_exporter"
 
 ENV["EXPORTER_PORT"] = "80"
