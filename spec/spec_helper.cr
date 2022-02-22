@@ -2,6 +2,7 @@ require "spec"
 require "kemal-basic-auth"
 require "../src/shellyplug_exporter"
 
+ENV["EXPORTER_PORT"] = "80"
 ENV["SHELLYPLUG_HOSTNAME"] = "0.0.0.0"
 ENV["SHELLYPLUG_PORT"] = "3000"
 ENV["SHELLYPLUG_HTTP_USERNAME"] = "username"

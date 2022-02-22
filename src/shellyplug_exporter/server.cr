@@ -5,12 +5,12 @@ module ShellyplugExporter
       # Server config
       Kemal.config.env = "production"
       Kemal.config.host_binding = "0.0.0.0"
-      Kemal.config.port = 3000
+      Kemal.config.port = (ENV["EXPORTER_PORT"]?.presence || "80").to_i
 
       plug_instance = Plug.new
 
       # Route that return metrics data
-      get "/" do
+      get "/metrics" do
         plug_data = begin
                       plug_instance.fetch_plug_data
                     rescue ex : MissingHostname | InvalidCredentials

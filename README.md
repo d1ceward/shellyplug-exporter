@@ -7,6 +7,27 @@ Prometheus Exporter for Shelly plugs
 
 :rocket: Suggestions for new improvements are welcome in the issue tracker.
 
+## Usage
+
+Run with docker-compose file :
+```
+---
+version: "3"
+
+services:
+  plug_exporter:
+    image: d1ceward/shellyplug-prometheus-exporter
+    restart: unless-stopped
+    ports:
+      - "80:8080"
+    environment:
+      - EXPORTER_PORT=80
+      - SHELLYPLUG_HOSTNAME="shelly-plug-hostname-or-ip"
+      - SHELLYPLUG_PORT=80
+      - SHELLYPLUG_HTTP_USERNAME="username-for-http-auth"
+      - SHELLYPLUG_HTTP_PASSWORD="password-for-http-auth"
+```
+
 Documentation available here : https://d1ceward.github.io/shellyplug-prometheus-exporter/
 
 ## Contributing
