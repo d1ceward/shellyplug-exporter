@@ -12,6 +12,7 @@ module ShellyplugExporter
       # The only needed route for prometheus
       get "/metrics" { build_prometheus_response(@plug_instance.query_data) }
 
+      Log.info { "Metrics server listening on port #{@config.exporter_port}." }
       Kemal.run
     end
 
