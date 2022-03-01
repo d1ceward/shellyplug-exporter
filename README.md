@@ -53,6 +53,8 @@ Documentation available here : https://d1ceward.github.io/shellyplug-exporter/
 
 ## Metrics
 
+Base path: `/metrics`
+
 Name                   | Description                          | Type    |
 -----------------------|--------------------------------------|---------|
 shellyplug_power       | Current power drawn in watts         | Gauge   |
