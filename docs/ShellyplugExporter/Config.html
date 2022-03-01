@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Crystal Docs 1.2.2">
-<meta name="crystal_docs.project_version" content="1.1.0">
+<meta name="crystal_docs.project_version" content="1.1.1">
 <meta name="crystal_docs.project_name" content="shellyplug-exporter">
 
 
@@ -13,7 +13,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="shellyplug-exporter">
-  <title>ShellyplugExporter::Config - shellyplug-exporter 1.1.0</title>
+  <title>ShellyplugExporter::Config - shellyplug-exporter 1.1.1</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -39,7 +39,7 @@
       </h1>
 
       <span class="project-version">
-        1.1.0
+        1.1.1
       </span>
     </div>
   </div>
@@ -118,7 +118,7 @@
   </h2>
   
     
-      <a href="https://github.com/D1ceWard/shellyplug-exporter/blob/e80af1730b2ca9c95a3608ad466e04e0174d4287/src/shellyplug_exporter/config.cr#L2" target="_blank">
+      <a href="https://github.com/D1ceWard/shellyplug-exporter/blob/f8e85c29184cfe2aa3ec2cbf2824ff48f7dc7e51/src/shellyplug_exporter/config.cr#L2" target="_blank">
         shellyplug_exporter/config.cr
       </a>
     
@@ -140,7 +140,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new%28port%3AInt32%3F%3Dnil%29-class-method" class="signature"><strong>.new</strong>(port : Int32? = <span class="n">nil</span>)</a>
+        <a href="#new-class-method" class="signature"><strong>.new</strong></a>
         
       </li>
     
@@ -166,7 +166,17 @@
       </li>
     
       <li class="entry-summary">
+        <a href="#exporter_port%3D%28exporter_port%3AInt32%29-instance-method" class="signature"><strong>#exporter_port=</strong>(exporter_port : Int32)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#plug_auth_password%3AString%3F-instance-method" class="signature"><strong>#plug_auth_password</strong> : String?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#plug_auth_password%3D%28plug_auth_password%3AString%3F%29-instance-method" class="signature"><strong>#plug_auth_password=</strong>(plug_auth_password : String?)</a>
         
       </li>
     
@@ -176,12 +186,27 @@
       </li>
     
       <li class="entry-summary">
+        <a href="#plug_auth_username%3D%28plug_auth_username%3AString%3F%29-instance-method" class="signature"><strong>#plug_auth_username=</strong>(plug_auth_username : String?)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#plug_host%3AString-instance-method" class="signature"><strong>#plug_host</strong> : String</a>
         
       </li>
     
       <li class="entry-summary">
+        <a href="#plug_host%3D%28plug_host%3AString%29-instance-method" class="signature"><strong>#plug_host=</strong>(plug_host : String)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#plug_port%3AInt32-instance-method" class="signature"><strong>#plug_port</strong> : Int32</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#plug_port%3D%28plug_port%3AInt32%29-instance-method" class="signature"><strong>#plug_port=</strong>(plug_port : Int32)</a>
         
       </li>
     
@@ -225,18 +250,18 @@
     Constructor Detail
   </h2>
   
-    <div class="entry-detail" id="new(port:Int32?=nil)-class-method">
+    <div class="entry-detail" id="new-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>(port : Int32? = <span class="n">nil</span>)
+        def self.<strong>new</strong>
 
-        <a class="method-permalink" href="#new%28port%3AInt32%3F%3Dnil%29-class-method">#</a>
+        <a class="method-permalink" href="#new-class-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/D1ceWard/shellyplug-exporter/blob/e80af1730b2ca9c95a3608ad466e04e0174d4287/src/shellyplug_exporter/config.cr#L9" target="_blank">View source</a>]
+          [<a href="https://github.com/D1ceWard/shellyplug-exporter/blob/f8e85c29184cfe2aa3ec2cbf2824ff48f7dc7e51/src/shellyplug_exporter/config.cr#L9" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -266,7 +291,23 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/D1ceWard/shellyplug-exporter/blob/e80af1730b2ca9c95a3608ad466e04e0174d4287/src/shellyplug_exporter/config.cr#L3" target="_blank">View source</a>]
+          [<a href="https://github.com/D1ceWard/shellyplug-exporter/blob/f8e85c29184cfe2aa3ec2cbf2824ff48f7dc7e51/src/shellyplug_exporter/config.cr#L3" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="exporter_port=(exporter_port:Int32)-instance-method">
+      <div class="signature">
+        
+        def <strong>exporter_port=</strong>(exporter_port : Int32)
+
+        <a class="method-permalink" href="#exporter_port%3D%28exporter_port%3AInt32%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D1ceWard/shellyplug-exporter/blob/f8e85c29184cfe2aa3ec2cbf2824ff48f7dc7e51/src/shellyplug_exporter/config.cr#L3" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -282,7 +323,23 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/D1ceWard/shellyplug-exporter/blob/e80af1730b2ca9c95a3608ad466e04e0174d4287/src/shellyplug_exporter/config.cr#L7" target="_blank">View source</a>]
+          [<a href="https://github.com/D1ceWard/shellyplug-exporter/blob/f8e85c29184cfe2aa3ec2cbf2824ff48f7dc7e51/src/shellyplug_exporter/config.cr#L7" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="plug_auth_password=(plug_auth_password:String?)-instance-method">
+      <div class="signature">
+        
+        def <strong>plug_auth_password=</strong>(plug_auth_password : String?)
+
+        <a class="method-permalink" href="#plug_auth_password%3D%28plug_auth_password%3AString%3F%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D1ceWard/shellyplug-exporter/blob/f8e85c29184cfe2aa3ec2cbf2824ff48f7dc7e51/src/shellyplug_exporter/config.cr#L7" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -298,7 +355,23 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/D1ceWard/shellyplug-exporter/blob/e80af1730b2ca9c95a3608ad466e04e0174d4287/src/shellyplug_exporter/config.cr#L6" target="_blank">View source</a>]
+          [<a href="https://github.com/D1ceWard/shellyplug-exporter/blob/f8e85c29184cfe2aa3ec2cbf2824ff48f7dc7e51/src/shellyplug_exporter/config.cr#L6" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="plug_auth_username=(plug_auth_username:String?)-instance-method">
+      <div class="signature">
+        
+        def <strong>plug_auth_username=</strong>(plug_auth_username : String?)
+
+        <a class="method-permalink" href="#plug_auth_username%3D%28plug_auth_username%3AString%3F%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D1ceWard/shellyplug-exporter/blob/f8e85c29184cfe2aa3ec2cbf2824ff48f7dc7e51/src/shellyplug_exporter/config.cr#L6" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -314,7 +387,23 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/D1ceWard/shellyplug-exporter/blob/e80af1730b2ca9c95a3608ad466e04e0174d4287/src/shellyplug_exporter/config.cr#L4" target="_blank">View source</a>]
+          [<a href="https://github.com/D1ceWard/shellyplug-exporter/blob/f8e85c29184cfe2aa3ec2cbf2824ff48f7dc7e51/src/shellyplug_exporter/config.cr#L4" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="plug_host=(plug_host:String)-instance-method">
+      <div class="signature">
+        
+        def <strong>plug_host=</strong>(plug_host : String)
+
+        <a class="method-permalink" href="#plug_host%3D%28plug_host%3AString%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D1ceWard/shellyplug-exporter/blob/f8e85c29184cfe2aa3ec2cbf2824ff48f7dc7e51/src/shellyplug_exporter/config.cr#L4" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -330,7 +419,23 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/D1ceWard/shellyplug-exporter/blob/e80af1730b2ca9c95a3608ad466e04e0174d4287/src/shellyplug_exporter/config.cr#L5" target="_blank">View source</a>]
+          [<a href="https://github.com/D1ceWard/shellyplug-exporter/blob/f8e85c29184cfe2aa3ec2cbf2824ff48f7dc7e51/src/shellyplug_exporter/config.cr#L5" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="plug_port=(plug_port:Int32)-instance-method">
+      <div class="signature">
+        
+        def <strong>plug_port=</strong>(plug_port : Int32)
+
+        <a class="method-permalink" href="#plug_port%3D%28plug_port%3AInt32%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D1ceWard/shellyplug-exporter/blob/f8e85c29184cfe2aa3ec2cbf2824ff48f7dc7e51/src/shellyplug_exporter/config.cr#L5" target="_blank">View source</a>]
         
       </div>
     </div>
