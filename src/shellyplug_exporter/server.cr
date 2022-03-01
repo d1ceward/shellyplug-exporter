@@ -19,6 +19,7 @@ module ShellyplugExporter
       Kemal.config.env = "production"
       Kemal.config.host_binding = "0.0.0.0"
       Kemal.config.port = @config.exporter_port
+      Kemal.config.logging = false
     end
 
     private def build_prometheus_response(data : Hash(Symbol, Float64 | Int64)) : String

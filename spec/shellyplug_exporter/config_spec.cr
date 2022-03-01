@@ -16,9 +16,10 @@ describe ShellyplugExporter::Config do
       instance.exporter_port.should eq(5000)
     end
 
-    it "should return given port by param in priority" do
+    it "should return given port by setter in priority" do
       ENV["EXPORTER_PORT"] = "42"
-      instance = ShellyplugExporter::Config.new(21)
+      instance = ShellyplugExporter::Config.new
+      instance.exporter_port = 21
 
       instance.exporter_port.should eq(21)
     end
@@ -38,6 +39,14 @@ describe ShellyplugExporter::Config do
 
       instance.plug_host.should eq("192.168.33.1")
     end
+
+    it "should return given plug host by setter in priority" do
+      ENV["SHELLYPLUG_HOST"] = "theworldsworstwebsiteever.com"
+      instance = ShellyplugExporter::Config.new
+      instance.plug_host = "www.nyan.cat"
+
+      instance.plug_host.should eq("www.nyan.cat")
+    end
   end
 
   describe "#plug_port" do
@@ -53,6 +62,14 @@ describe ShellyplugExporter::Config do
     instance = ShellyplugExporter::Config.new
 
     instance.plug_port.should eq(80)
+  end
+
+  it "should return given plug port by setter in priority" do
+    ENV["SHELLYPLUG_PORT"] = "666"
+    instance = ShellyplugExporter::Config.new
+    instance.plug_port = 999
+
+    instance.plug_port.should eq(999)
   end
 end
 
@@ -70,6 +87,14 @@ end
 
       instance.plug_auth_username.should be_nil
     end
+
+    it "should return given plug http auth username by setter in priority" do
+      ENV["SHELLYPLUG_AUTH_USERNAME"] = "xxr34p3r"
+      instance = ShellyplugExporter::Config.new
+      instance.plug_auth_username = "Hellwalker"
+
+      instance.plug_auth_username.should eq("Hellwalker")
+    end
   end
 
   describe "#plug_auth_password" do
@@ -85,6 +110,14 @@ end
       instance = ShellyplugExporter::Config.new
 
       instance.plug_auth_password.should be_nil
+    end
+
+    it "should return given plug http auth username by setter in priority" do
+      ENV["SHELLYPLUG_AUTH_PASSWORD"] = "123456789*"
+      instance = ShellyplugExporter::Config.new
+      instance.plug_auth_password = "FBISurveillanceVan"
+
+      instance.plug_auth_password.should eq("FBISurveillanceVan")
     end
   end
 end
