@@ -1,8 +1,8 @@
 # shellyplug-exporter (v1.1.2)
-![GitHub Workflow Status (main)](https://github.com/D1ceWard/shellyplug-exporter/actions/workflows/main.yml/badge.svg?branch=master)
+![GitHub Workflow Status (main)](https://github.com/d1ceward/shellyplug-exporter/actions/workflows/main.yml/badge.svg?branch=master)
 [![Docker Pulls](https://img.shields.io/docker/pulls/d1ceward/shellyplug-exporter.svg)](https://hub.docker.com/r/d1ceward/shellyplug-exporter)
-[![GitHub issues](https://img.shields.io/github/issues/D1ceWard/shellyplug-exporter)](https://github.com/D1ceWard/shellyplug-exporter/issues)
-[![GitHub license](https://img.shields.io/github/license/D1ceWard/shellyplug-exporter)](https://github.com/D1ceWard/shellyplug-exporter/blob/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/d1ceward/shellyplug-exporter)](https://github.com/d1ceward/shellyplug-exporter/issues)
+[![GitHub license](https://img.shields.io/github/license/d1ceward/shellyplug-exporter)](https://github.com/d1ceward/shellyplug-exporter/blob/master/LICENSE)
 
 Prometheus exporter for Shelly plugs model S written in Crystal.
 > **Note** It uses the api provided by the plug, it does not use the MQTT protocol
@@ -89,4 +89,4 @@ crystal spec
 
 ## Contributors
 
-- [D1ceWard](https://github.com/D1ceWard) - creator and maintainer
+- [d1ceward](https://github.com/d1ceward) - creator and maintainer
