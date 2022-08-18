@@ -17,7 +17,7 @@ if !ENV["CRYSTAL_SPEC_CONTEXT"]?
 
   # Intialize CLI parser
   option_parser = OptionParser.new do |parser|
-    parser.banner = "Prometheus Exporter for Shelly plugs\nUsage: shellyplug_exporter [subcommand]"
+    parser.banner = "Prometheus Exporter for Shelly plugs\nUsage: shellyplug-exporter [subcommand]"
 
     parser.on("run", "Run exporter server") do
       run_server = true

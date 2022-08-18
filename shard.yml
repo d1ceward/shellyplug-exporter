@@ -23,5 +23,5 @@ development_dependencies:
     version: ~> 1.0.0
 
 targets:
-  shellyplug_exporter:
+  shellyplug-exporter:
     main: src/shellyplug_exporter.cr

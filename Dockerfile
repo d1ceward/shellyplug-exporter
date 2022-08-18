@@ -13,6 +13,6 @@ RUN shards build --static --no-debug --release --production -v
 FROM alpine:latest
 
 WORKDIR /
-COPY --from=builder /app/bin/shellyplug_exporter .
+COPY --from=builder /app/bin/shellyplug-exporter .
 
-ENTRYPOINT ["/shellyplug_exporter", "run"]
+ENTRYPOINT ["/shellyplug-exporter", "run"]
