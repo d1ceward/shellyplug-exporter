@@ -65,7 +65,7 @@ shellyplug_uptime      | Plug uptime in seconds               | Gauge   |
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/D1ceWard/shellyplug-exporter. By contributing you agree to abide by the Code of Merit.
+Bug reports and pull requests are welcome on GitHub at https://github.com/d1ceward/shellyplug-exporter. By contributing you agree to abide by the Code of Merit.
 
 1. Fork it (<https://github.com/D1ceWard/shellyplug-exporter/fork>)
 2. Create your feature branch (`git checkout -b my-new-feature`)
@@ -79,7 +79,7 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/D1ceWa
 2. Install Crystal dependencies with `shards install`
 3. Build with `shards build`
 
-The newly created binary should be at `bin/shelly_exporter`
+The newly created binary should be at `bin/shellyplug-exporter`
 
 ### Running tests
 
