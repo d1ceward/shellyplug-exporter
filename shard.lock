@@ -1,12 +1,12 @@
 version: 2.0
 shards:
   ameba:
-    git: https://github.com/veelenga/ameba.git
-    version: 0.14.3
+    git: https://github.com/crystal-ameba/ameba.git
+    version: 1.1.0
 
   backtracer:
     git: https://github.com/sija/backtracer.cr.git
-    version: 1.2.1
+    version: 1.2.2
 
   exception_page:
     git: https://github.com/crystal-loot/exception_page.git
@@ -14,15 +14,11 @@ shards:
 
   kemal:
     git: https://github.com/kemalcr/kemal.git
-    version: 1.1.0
+    version: 1.1.2
 
   kemal-basic-auth:
     git: https://github.com/kemalcr/kemal-basic-auth.git
     version: 1.0.0
-
-  kilt:
-    git: https://github.com/jeromegn/kilt.git
-    version: 0.6.1
 
   radix:
     git: https://github.com/luislavena/radix.git
