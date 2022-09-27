@@ -42,10 +42,10 @@ services:
     ports:
       - "8080:5000"
     environment:
-      - SHELLYPLUG_HOST="shelly-plug-hostname-or-ip"
+      - SHELLYPLUG_HOST=shelly-plug-hostname-or-ip
       - SHELLYPLUG_PORT=80
-      - SHELLYPLUG_AUTH_USERNAME="username-for-http-auth"
-      - SHELLYPLUG_AUTH_PASSWORD="password-for-http-auth"
+      - SHELLYPLUG_AUTH_USERNAME=username-for-http-auth
+      - SHELLYPLUG_AUTH_PASSWORD=password-for-http-auth
       - EXPORTER_PORT=5000
 ```
 
