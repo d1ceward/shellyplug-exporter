@@ -103,3 +103,6 @@ spawn do
 
   Kemal.run
 end
+
+# Sleep kemal server time to start
+sleep(2)
