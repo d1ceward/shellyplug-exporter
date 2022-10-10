@@ -1,4 +1,4 @@
-FROM crystallang/crystal:1.5.0-alpine as builder
+FROM crystallang/crystal:1.6.0-alpine as builder
 
 WORKDIR /app
 
