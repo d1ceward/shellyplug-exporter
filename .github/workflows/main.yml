@@ -15,10 +15,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Set crystal version environement variable
+        run: echo "CRYSTAL_VERSION=$(cat .crystal-version)" >> $GITHUB_ENV
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
         with:
-          crystal: 1.6.0
+          crystal: ${{ env.CRYSTAL_VERSION }}
       - name: Crystal shard cache
         uses: actions/cache@v3
         with:
@@ -35,10 +37,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Set crystal version environement variable
+        run: echo "CRYSTAL_VERSION=$(cat .crystal-version)" >> $GITHUB_ENV
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
         with:
-          crystal: 1.6.0
+          crystal: ${{ env.CRYSTAL_VERSION }}
       - name: Crystal shard cache
         uses: actions/cache@v3
         with:
