@@ -13,7 +13,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="shellyplug-exporter">
-  <title>ShellyplugExporter::Plug - shellyplug-exporter 1.4.0</title>
+  <title>ShellyplugExporter::CLI - shellyplug-exporter 1.4.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -56,7 +56,7 @@
       
         <ul>
   
-  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/CLI" data-name="shellyplugexporter::cli">
+  <li class=" current" data-id="shellyplug-exporter/ShellyplugExporter/CLI" data-name="shellyplugexporter::cli">
       <a href="../ShellyplugExporter/CLI.html">CLI</a>
       
     </li>
@@ -66,7 +66,7 @@
       
     </li>
   
-  <li class=" current" data-id="shellyplug-exporter/ShellyplugExporter/Plug" data-name="shellyplugexporter::plug">
+  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/Plug" data-name="shellyplugexporter::plug">
       <a href="../ShellyplugExporter/Plug.html">Plug</a>
       
     </li>
@@ -90,12 +90,12 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">class</span> ShellyplugExporter::Plug
+  <span class="kind">class</span> ShellyplugExporter::CLI
 
 </h1>
 
 
-  <ul class="superclass-hierarchy"><li class="superclass"><a href="../ShellyplugExporter/Plug.html">ShellyplugExporter::Plug</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../ShellyplugExporter/CLI.html">ShellyplugExporter::CLI</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
 
 
 
@@ -123,33 +123,14 @@
   </h2>
   
     
-      <a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/plug.cr#L2" target="_blank">
-        shellyplug_exporter/plug.cr
+      <a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/cli.cr#L2" target="_blank">
+        shellyplug_exporter/cli.cr
       </a>
     
     <br/>
   
 
 
-
-  
-    <h2>
-      <a id="constant-summary" class="anchor" href="#constant-summary">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>
-      Constant Summary
-    </h2>
-  
-  <dl>
-    
-      <dt class="entry-const" id="API_ENDPOINT">
-        <strong>API_ENDPOINT</strong> = <code><span class="s">&quot;/status&quot;</span></code>
-      </dt>
-      
-    
-  </dl>
 
 
 
@@ -164,7 +145,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new%28config%3AConfig%29-class-method" class="signature"><strong>.new</strong>(config : Config)</a>
+        <a href="#new-class-method" class="signature"><strong>.new</strong></a>
         
       </li>
     
@@ -185,7 +166,22 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#query_data%3AHash%28Symbol%2CFloat64%7CInt64%29-instance-method" class="signature"><strong>#query_data</strong> : Hash(Symbol, Float64 | Int64)</a>
+        <a href="#config%3AConfig-instance-method" class="signature"><strong>#config</strong> : Config</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#config%3D%28config%3AConfig%29-instance-method" class="signature"><strong>#config=</strong>(config : Config)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#run_server%3ABool-instance-method" class="signature"><strong>#run_server</strong> : Bool</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#run_server%3D%28run_server%3ABool%29-instance-method" class="signature"><strong>#run_server=</strong>(run_server : Bool)</a>
         
       </li>
     
@@ -229,18 +225,18 @@
     Constructor Detail
   </h2>
   
-    <div class="entry-detail" id="new(config:Config)-class-method">
+    <div class="entry-detail" id="new-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>(config : <a href="../ShellyplugExporter/Config.html">Config</a>)
+        def self.<strong>new</strong>
 
-        <a class="method-permalink" href="#new%28config%3AConfig%29-class-method">#</a>
+        <a class="method-permalink" href="#new-class-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/plug.cr#L5" target="_blank">View source</a>]
+          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/cli.cr#L6" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -259,18 +255,66 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="query_data:Hash(Symbol,Float64|Int64)-instance-method">
+    <div class="entry-detail" id="config:Config-instance-method">
       <div class="signature">
         
-        def <strong>query_data</strong> : Hash(Symbol, Float64 | Int64)
+        def <strong>config</strong> : <a href="../ShellyplugExporter/Config.html">Config</a>
 
-        <a class="method-permalink" href="#query_data%3AHash%28Symbol%2CFloat64%7CInt64%29-instance-method">#</a>
+        <a class="method-permalink" href="#config%3AConfig-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/plug.cr#L7" target="_blank">View source</a>]
+          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/cli.cr#L3" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="config=(config:Config)-instance-method">
+      <div class="signature">
+        
+        def <strong>config=</strong>(config : <a href="../ShellyplugExporter/Config.html">Config</a>)
+
+        <a class="method-permalink" href="#config%3D%28config%3AConfig%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/cli.cr#L3" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="run_server:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>run_server</strong> : Bool
+
+        <a class="method-permalink" href="#run_server%3ABool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/cli.cr#L4" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="run_server=(run_server:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>run_server=</strong>(run_server : Bool)
+
+        <a class="method-permalink" href="#run_server%3D%28run_server%3ABool%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/cli.cr#L4" target="_blank">View source</a>]
         
       </div>
     </div>

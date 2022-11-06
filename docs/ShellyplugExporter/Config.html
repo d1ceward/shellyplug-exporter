@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Crystal Docs 1.5.0">
-<meta name="crystal_docs.project_version" content="1.3.2">
+<meta name="crystal_docs.project_version" content="1.4.0">
 <meta name="crystal_docs.project_name" content="shellyplug-exporter">
 
 
@@ -13,7 +13,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="shellyplug-exporter">
-  <title>ShellyplugExporter::Config - shellyplug-exporter 1.3.2</title>
+  <title>ShellyplugExporter::Config - shellyplug-exporter 1.4.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -39,7 +39,7 @@
       </h1>
 
       <span class="project-version">
-        1.3.2
+        1.4.0
       </span>
     </div>
   </div>
@@ -55,6 +55,11 @@
       <a href="../ShellyplugExporter.html">ShellyplugExporter</a>
       
         <ul>
+  
+  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/CLI" data-name="shellyplugexporter::cli">
+      <a href="../ShellyplugExporter/CLI.html">CLI</a>
+      
+    </li>
   
   <li class=" current" data-id="shellyplug-exporter/ShellyplugExporter/Config" data-name="shellyplugexporter::config">
       <a href="../ShellyplugExporter/Config.html">Config</a>
@@ -95,6 +100,20 @@
 
 
 
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>A configuration entry for the program.</p>
+<p>Config can be loaded from environment variables and adjusted.</p>
+<pre><code class="language-crystal">config <span class="o">=</span> <span class="t">ShellyplugExporter</span><span class="t">::</span><span class="t">Config</span>.new
+config.exporter_port <span class="o">=</span> my_exporter_port</code></pre>
+
 
 
 
@@ -118,7 +137,7 @@
   </h2>
   
     
-      <a href="https://github.com/d1ceward/shellyplug-exporter/blob/06b1c79cede73590ae6c4f6b1ff03aeffd29cc21/src/shellyplug_exporter/config.cr#L2" target="_blank">
+      <a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/config.cr#L10" target="_blank">
         shellyplug_exporter/config.cr
       </a>
     
@@ -142,6 +161,8 @@
       <li class="entry-summary">
         <a href="#new-class-method" class="signature"><strong>.new</strong></a>
         
+          <div class="summary"><p>Creates a new instance of <code><a href="../ShellyplugExporter/Config.html">ShellyplugExporter::Config</a></code> based on environment variables.</p></div>
+        
       </li>
     
   </ul>
@@ -163,50 +184,84 @@
       <li class="entry-summary">
         <a href="#exporter_port%3AInt32-instance-method" class="signature"><strong>#exporter_port</strong> : Int32</a>
         
+          <div class="summary"><p>Port through which the web server of the exporter will be accessible.</p></div>
+        
       </li>
     
       <li class="entry-summary">
         <a href="#exporter_port%3D%28exporter_port%3AInt32%29-instance-method" class="signature"><strong>#exporter_port=</strong>(exporter_port : Int32)</a>
+        
+          <div class="summary"><p>Port through which the web server of the exporter will be accessible.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#last_request_succeded%3ABool%3F-instance-method" class="signature"><strong>#last_request_succeded</strong> : Bool?</a>
+        
+          <div class="summary"><p>Boolean representing if last request of the plug was successful.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#last_request_succeded%3D%28last_request_succeded%3ABool%3F%29-instance-method" class="signature"><strong>#last_request_succeded=</strong>(last_request_succeded : Bool?)</a>
+        
+          <div class="summary"><p>Boolean representing if last request of the plug was successful.</p></div>
         
       </li>
     
       <li class="entry-summary">
         <a href="#plug_auth_password%3AString%3F-instance-method" class="signature"><strong>#plug_auth_password</strong> : String?</a>
         
+          <div class="summary"><p>Password for authentication of the plug (can be configured in the plug).</p></div>
+        
       </li>
     
       <li class="entry-summary">
         <a href="#plug_auth_password%3D%28plug_auth_password%3AString%3F%29-instance-method" class="signature"><strong>#plug_auth_password=</strong>(plug_auth_password : String?)</a>
+        
+          <div class="summary"><p>Password for authentication of the plug (can be configured in the plug).</p></div>
         
       </li>
     
       <li class="entry-summary">
         <a href="#plug_auth_username%3AString%3F-instance-method" class="signature"><strong>#plug_auth_username</strong> : String?</a>
         
+          <div class="summary"><p>Username for authentication of the plug (can be configured in the plug).</p></div>
+        
       </li>
     
       <li class="entry-summary">
         <a href="#plug_auth_username%3D%28plug_auth_username%3AString%3F%29-instance-method" class="signature"><strong>#plug_auth_username=</strong>(plug_auth_username : String?)</a>
+        
+          <div class="summary"><p>Username for authentication of the plug (can be configured in the plug).</p></div>
         
       </li>
     
       <li class="entry-summary">
         <a href="#plug_host%3AString-instance-method" class="signature"><strong>#plug_host</strong> : String</a>
         
+          <div class="summary"><p>Hostname or ip address of the plug.</p></div>
+        
       </li>
     
       <li class="entry-summary">
         <a href="#plug_host%3D%28plug_host%3AString%29-instance-method" class="signature"><strong>#plug_host=</strong>(plug_host : String)</a>
+        
+          <div class="summary"><p>Hostname or ip address of the plug.</p></div>
         
       </li>
     
       <li class="entry-summary">
         <a href="#plug_port%3AInt32-instance-method" class="signature"><strong>#plug_port</strong> : Int32</a>
         
+          <div class="summary"><p>Port of the plug api.</p></div>
+        
       </li>
     
       <li class="entry-summary">
         <a href="#plug_port%3D%28plug_port%3AInt32%29-instance-method" class="signature"><strong>#plug_port=</strong>(plug_port : Int32)</a>
+        
+          <div class="summary"><p>Port of the plug api.</p></div>
         
       </li>
     
@@ -258,10 +313,15 @@
         <a class="method-permalink" href="#new-class-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Creates a new instance of <code><a href="../ShellyplugExporter/Config.html">ShellyplugExporter::Config</a></code> based on environment variables.</p>
+        </div>
+      
       <br/>
       <div>
         
-          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/06b1c79cede73590ae6c4f6b1ff03aeffd29cc21/src/shellyplug_exporter/config.cr#L9" target="_blank">View source</a>]
+          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/config.cr#L30" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -288,10 +348,15 @@
         <a class="method-permalink" href="#exporter_port%3AInt32-instance-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Port through which the web server of the exporter will be accessible.</p>
+        </div>
+      
       <br/>
       <div>
         
-          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/06b1c79cede73590ae6c4f6b1ff03aeffd29cc21/src/shellyplug_exporter/config.cr#L3" target="_blank">View source</a>]
+          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/config.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -304,10 +369,57 @@
         <a class="method-permalink" href="#exporter_port%3D%28exporter_port%3AInt32%29-instance-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Port through which the web server of the exporter will be accessible.</p>
+        </div>
+      
       <br/>
       <div>
         
-          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/06b1c79cede73590ae6c4f6b1ff03aeffd29cc21/src/shellyplug_exporter/config.cr#L3" target="_blank">View source</a>]
+          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/config.cr#L12" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="last_request_succeded:Bool?-instance-method">
+      <div class="signature">
+        
+        def <strong>last_request_succeded</strong> : Bool?
+
+        <a class="method-permalink" href="#last_request_succeded%3ABool%3F-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Boolean representing if last request of the plug was successful.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/config.cr#L27" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="last_request_succeded=(last_request_succeded:Bool?)-instance-method">
+      <div class="signature">
+        
+        def <strong>last_request_succeded=</strong>(last_request_succeded : Bool?)
+
+        <a class="method-permalink" href="#last_request_succeded%3D%28last_request_succeded%3ABool%3F%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Boolean representing if last request of the plug was successful.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/config.cr#L27" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -320,10 +432,15 @@
         <a class="method-permalink" href="#plug_auth_password%3AString%3F-instance-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Password for authentication of the plug (can be configured in the plug).</p>
+        </div>
+      
       <br/>
       <div>
         
-          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/06b1c79cede73590ae6c4f6b1ff03aeffd29cc21/src/shellyplug_exporter/config.cr#L7" target="_blank">View source</a>]
+          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/config.cr#L24" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -336,10 +453,15 @@
         <a class="method-permalink" href="#plug_auth_password%3D%28plug_auth_password%3AString%3F%29-instance-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Password for authentication of the plug (can be configured in the plug).</p>
+        </div>
+      
       <br/>
       <div>
         
-          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/06b1c79cede73590ae6c4f6b1ff03aeffd29cc21/src/shellyplug_exporter/config.cr#L7" target="_blank">View source</a>]
+          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/config.cr#L24" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -352,10 +474,15 @@
         <a class="method-permalink" href="#plug_auth_username%3AString%3F-instance-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Username for authentication of the plug (can be configured in the plug).</p>
+        </div>
+      
       <br/>
       <div>
         
-          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/06b1c79cede73590ae6c4f6b1ff03aeffd29cc21/src/shellyplug_exporter/config.cr#L6" target="_blank">View source</a>]
+          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/config.cr#L21" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -368,10 +495,15 @@
         <a class="method-permalink" href="#plug_auth_username%3D%28plug_auth_username%3AString%3F%29-instance-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Username for authentication of the plug (can be configured in the plug).</p>
+        </div>
+      
       <br/>
       <div>
         
-          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/06b1c79cede73590ae6c4f6b1ff03aeffd29cc21/src/shellyplug_exporter/config.cr#L6" target="_blank">View source</a>]
+          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/config.cr#L21" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -384,10 +516,15 @@
         <a class="method-permalink" href="#plug_host%3AString-instance-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Hostname or ip address of the plug.</p>
+        </div>
+      
       <br/>
       <div>
         
-          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/06b1c79cede73590ae6c4f6b1ff03aeffd29cc21/src/shellyplug_exporter/config.cr#L4" target="_blank">View source</a>]
+          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/config.cr#L15" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -400,10 +537,15 @@
         <a class="method-permalink" href="#plug_host%3D%28plug_host%3AString%29-instance-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Hostname or ip address of the plug.</p>
+        </div>
+      
       <br/>
       <div>
         
-          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/06b1c79cede73590ae6c4f6b1ff03aeffd29cc21/src/shellyplug_exporter/config.cr#L4" target="_blank">View source</a>]
+          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/config.cr#L15" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -416,10 +558,15 @@
         <a class="method-permalink" href="#plug_port%3AInt32-instance-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Port of the plug api.</p>
+        </div>
+      
       <br/>
       <div>
         
-          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/06b1c79cede73590ae6c4f6b1ff03aeffd29cc21/src/shellyplug_exporter/config.cr#L5" target="_blank">View source</a>]
+          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/config.cr#L18" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -432,10 +579,15 @@
         <a class="method-permalink" href="#plug_port%3D%28plug_port%3AInt32%29-instance-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Port of the plug api.</p>
+        </div>
+      
       <br/>
       <div>
         
-          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/06b1c79cede73590ae6c4f6b1ff03aeffd29cc21/src/shellyplug_exporter/config.cr#L5" target="_blank">View source</a>]
+          [<a href="https://github.com/d1ceward/shellyplug-exporter/blob/3cb275778768a2dc6f0e611f28056bd45eaa32c6/src/shellyplug_exporter/config.cr#L18" target="_blank">View source</a>]
         
       </div>
     </div>
