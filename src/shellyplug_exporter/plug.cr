@@ -35,7 +35,7 @@ module ShellyplugExporter
 
     private def parse_response(response : HTTP::Client::Response) : JSON::Any
       if response.status_code == 200
-        @config.last_plug_status = true
+        @config.last_request_succeded = true
 
         return JSON.parse(response.body)
       end
@@ -46,7 +46,7 @@ module ShellyplugExporter
         Log.error { "Invalid response, please check your environment variable or plug status." }
       end
 
-      @config.last_plug_status = false
+      @config.last_request_succeded = false
 
       JSON.parse("{}")
     end

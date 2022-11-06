@@ -8,23 +8,23 @@ module ShellyplugExporter
   # config.exporter_port = my_exporter_port
   # ```
   class Config
-    # Export server port.
+    # Port through which the web server of the exporter will be accessible.
     property exporter_port : Int32
 
-    # Shelly Plug S hostname or IP in the network of exporter.
+    # Hostname or ip address of the plug.
     property plug_host : String
 
-    # Shelly Plug S port
+    # Port of the plug api.
     property plug_port : Int32
 
-    # Shelly Plug S authentication username (can be configured in the plug).
+    # Username for authentication of the plug (can be configured in the plug).
     property plug_auth_username : String?
 
-    # Shelly Plug S authentication password (can be configured in the plug).
+    # Password for authentication of the plug (can be configured in the plug).
     property plug_auth_password : String?
 
-    # Last plug status (if request succeded or not).
-    property last_plug_status : Bool? = nil
+    # Boolean representing if last request of the plug was successful.
+    property last_request_succeded : Bool? = nil
 
     # Creates a new instance of `ShellyplugExporter::Config` based on environment variables.
     def initialize

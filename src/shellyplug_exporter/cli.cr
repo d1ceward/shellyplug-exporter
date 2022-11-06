@@ -1,5 +1,5 @@
 module ShellyplugExporter
-  class Cli
+  class CLI
     property config : Config = Config.new
     property run_server : Bool = false
 
@@ -7,26 +7,16 @@ module ShellyplugExporter
       parser = option_parser
       parser.parse
 
-      if @run_server
-        initialise_and_run_server
-      else
-        display_help(parser, 1)
-      end
-    end
-
-    private def initialise_and_run_server
-      return if ENV["CRYSTAL_SPEC_CONTEXT"]?
-
-      ShellyplugExporter::Server.new(config).run
+      @run_server ? ShellyplugExporter::Server.new(config).run : display_help(parser, 1)
     end
 
     private def display_version
-      puts "version #{ShellyplugExporter::VERSION}"
+      STDOUT.puts "version #{ShellyplugExporter::VERSION}"
       exit
     end
 
     private def display_help(parser : OptionParser, exit_code : Int32 = 0)
-      puts(parser)
+      STDOUT.puts(parser)
       exit(exit_code)
     end
 
@@ -48,7 +38,7 @@ module ShellyplugExporter
         parser.banner = "Prometheus Exporter for Shelly plugs\nUsage: shellyplug-exporter [subcommand]"
 
         parser.on("run", "Run exporter server") do
-          run_server = true
+          @run_server = true
 
           parser.on("-p PORT", "--port=PORT", "Specifies exporter server port") do |port|
             config.exporter_port = port.to_i

@@ -10,4 +10,4 @@ require "./shellyplug_exporter/config"
 require "./shellyplug_exporter/server"
 require "./shellyplug_exporter/plug"
 
-ShellyplugExporter::Cli.new
+ShellyplugExporter::CLI.new unless ENV["CRYSTAL_SPEC_CONTEXT"]?

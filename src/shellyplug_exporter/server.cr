@@ -9,11 +9,11 @@ module ShellyplugExporter
     def run
       initialize_server_config
 
-      # The only needed route for prometheus
       get "/metrics" { build_prometheus_response(@plug_instance.query_data) }
-
       get "/health" do |env|
-        env.response.status_code = @config.last_plug_status ? 204 : 500
+        status_code = @config.last_request_succeded.nil? || @config.last_request_succeded ? 204 : 503
+
+        env.response.status_code = status_code
       end
 
       Log.info { "Metrics server listening on port #{@config.exporter_port}." }
