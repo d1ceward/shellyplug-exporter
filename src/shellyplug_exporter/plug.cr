@@ -33,14 +33,20 @@ module ShellyplugExporter
       HTTP::Client::Response.new(408)
     end
 
-    private def parse_response(response : HTTP::Client::Response)
-      return JSON.parse(response.body) if response.status_code == 200
+    private def parse_response(response : HTTP::Client::Response) : JSON::Any
+      if response.status_code == 200
+        @config.last_request_succeded = true
+
+        return JSON.parse(response.body)
+      end
 
       if response == 408
         Log.error { "Timeout error, please check your environment variable or plug status." }
       else
         Log.error { "Invalid response, please check your environment variable or plug status." }
       end
+
+      @config.last_request_succeded = false
 
       JSON.parse("{}")
     end
