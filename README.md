@@ -89,7 +89,7 @@ shellyplug_uptime      | Plug uptime in seconds               | Gauge   |
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/d1ceward/shellyplug-exporter. By contributing you agree to abide by the Code of Merit.
 
-1. Fork it (<https://github.com/D1ceWard/shellyplug-exporter/fork>)
+1. Fork it (<https://github.com/d1ceward/shellyplug-exporter/fork>)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

@@ -1,7 +1,7 @@
 name: shellyplug-exporter
 version: 1.4.1
 authors:
-  - D1ceWard <contact@d1ceward.com>
+  - d1ceward <contact@d1ceward.com>
 description: Prometheus Exporter for Shelly plugs
 license: MIT
 crystal: 1.6.2
