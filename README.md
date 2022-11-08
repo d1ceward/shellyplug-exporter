@@ -49,6 +49,24 @@ services:
       - EXPORTER_PORT=5000
 ```
 
+### Linux
+
+```bash
+# Download the executable file
+wget --no-verbose -O shellyplug-exporter https://github.com/d1ceward/shellyplug-exporter/releases/download/v1.4.0/shellyplug-exporter-linux-amd64
+
+# Modify the executable's permissions
+chmod +x shellyplug-exporter
+
+# Execution example
+shellyplug-exporter run \
+  --plug-host=shelly-plug-hostname-or-ip \
+  --plug-port=80 \
+  --plug-auth-username=username-for-http-auth \
+  --plug-auth-password=password-for-http-auth \
+  --port 5000
+```
+
 Documentation available here : https://d1ceward.github.io/shellyplug-exporter/
 
 ## Metrics

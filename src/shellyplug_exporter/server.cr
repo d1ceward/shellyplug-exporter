@@ -9,11 +9,18 @@ module ShellyplugExporter
     def run
       initialize_server_config
 
+      error 404 { "Page not found" }
       get "/metrics" { build_prometheus_response(@plug_instance.query_data) }
       get "/health" do |env|
-        status_code = @config.last_request_succeded.nil? || @config.last_request_succeded ? 204 : 503
+        if @config.last_request_succeded.nil? || @config.last_request_succeded
+          env.response.status_code = 200
 
-        env.response.status_code = status_code
+          "OK: Everything is fine"
+        else
+          env.response.status_code = 503
+
+          "ERROR: The last plug request did not work"
+        end
       end
 
       Log.info { "Metrics server listening on port #{@config.exporter_port}." }

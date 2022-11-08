@@ -23,6 +23,7 @@ release_func() {
   sed -i "s/  VERSION = \".*/  VERSION = \"${1}\"/" src/version.cr
   sed -i "0,/version: .*/s//version: ${1}/" shard.yml
   sed -i "s/# shellyplug-exporter (v.*/# shellyplug-exporter (v${1})/" README.md
+  sed -i "s#releases/download/v.*/shelly#releases/download/v${1}/shelly#" README.md
 
   crystal docs --project-version=${1}
 

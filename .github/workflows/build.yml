@@ -25,11 +25,17 @@ jobs:
         run: shards install --production -v
       - name: Build binary
         run: shards build --static --no-debug --release --production -v
-      - name: Upload binaries
+      - name: Upload binary to action artifacts
         uses: actions/upload-artifact@v3
         with:
           name: shellyplug-exporter
           path: bin/shellyplug-exporter
+      - name: Create draft release with binary uploaded in it
+        uses: d1ceward/draft-assets-release-action@v1
+        with:
+          name: shellyplug-exporter-linux-amd64
+          path: bin/shellyplug-exporter
+          token: ${{ secrets.GITHUB_TOKEN }}
   publish:
     name: Publish
     needs: build
