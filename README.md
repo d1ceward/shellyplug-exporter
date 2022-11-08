@@ -51,14 +51,18 @@ services:
 
 ### Linux
 
-```bash
-# Download the executable file
+Download the executable file :
+```shell
 wget --no-verbose -O shellyplug-exporter https://github.com/d1ceward/shellyplug-exporter/releases/download/v1.4.0/shellyplug-exporter-linux-amd64
+```
 
-# Modify the executable's permissions
+Modify the executable's permissions :
+```shell
 chmod +x shellyplug-exporter
+```
 
-# Execution example
+Execution example :
+```shell
 shellyplug-exporter run \
   --plug-host=shelly-plug-hostname-or-ip \
   --plug-port=80 \
