@@ -1,0 +1,7 @@
+Globs:
+  - '**/*.cr'
+  - '!lib'
+  - '!tmp'
+
+Lint/Formatting:
+  Enabled: false

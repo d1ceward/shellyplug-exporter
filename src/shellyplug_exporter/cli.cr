@@ -1,7 +1,7 @@
 module ShellyplugExporter
   class CLI
     property config : Config = Config.new
-    property run_server : Bool = false
+    property? run_server : Bool = false
 
     def initialize
       parser = option_parser
