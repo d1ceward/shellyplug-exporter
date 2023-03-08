@@ -5,37 +5,55 @@ on:
       - 'v*'
 jobs:
   build:
-    name: Build
+    name: Build for ${{ matrix.binarySuffix }}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - binarySuffix: linux-amd64
+            arch: x86_64
+            distro: alpine_latest
+          - binarySuffix: linux-arm64
+            arch: aarch64
+            distro: alpine_latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Set crystal version environement variable
-        run: echo "CRYSTAL_VERSION=$(cat .crystal-version)" >> $GITHUB_ENV
-      - name: Install Crystal
-        uses: crystal-lang/install-crystal@v1
         with:
-          crystal: ${{ env.CRYSTAL_VERSION }}
-      - name: Crystal shard cache
-        uses: actions/cache@v3
-        with:
-          path: lib
-          key: ${{ runner.os }}-shards-${{ hashFiles('**/shard.lock') }}
-      - name: Install dependencies
-        run: shards install --production -v
+          path: repository
       - name: Build binary
-        run: shards build --static --no-debug --release --production -v
-      - name: Upload binary to action artifacts
+        uses: d1ceward/run-on-arch-action@master
+        with:
+          arch: ${{ matrix.arch }}
+          distro: ${{ matrix.distro }}
+          dockerRunArgs: --volume "${PWD}/repository:/repository"
+          run: |
+            apk update
+            apk add make g++ openssl-dev openssl-libs-static yaml-static zlib-static curl crystal shards
+
+            export CRYSTAL_DIR=/tmp/crystal
+            export CRYSTAL_VERSION=$(cat /repository/.crystal-version)
+
+            mkdir -p $CRYSTAL_DIR
+            cd $CRYSTAL_DIR
+
+            curl -s -L --retry 15 --retry-delay 2 "https://github.com/crystal-lang/crystal/archive/${CRYSTAL_VERSION}.tar.gz" | tar xz -C $CRYSTAL_DIR --strip-component=1
+
+            export LLVM_VERSION=$(cat src/llvm/ext/llvm-versions.txt | awk '{print $1;}' | grep -o -E '[0-9]+' | head -1)
+            apk add "llvm${LLVM_VERSION}-dev" "llvm${LLVM_VERSION}-static"
+
+            make
+
+            cd /repository
+            shards install --production -v
+            /tmp/crystal/bin/crystal build --static --no-debug --verbose --release -o ./shellyplug-exporter src/shellyplug_exporter.cr
+
+            mv shellyplug-exporter shellyplug-exporter-${{ matrix.binarySuffix }}
+      - name: Upload binaries to action artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: shellyplug-exporter
-          path: bin/shellyplug-exporter
-      - name: Create draft release with binary uploaded in it
-        uses: d1ceward/draft-assets-release-action@v1
-        with:
-          name: shellyplug-exporter-linux-amd64
-          path: bin/shellyplug-exporter
-          token: ${{ secrets.GITHUB_TOKEN }}
+          name: shellyplug-exporter-${{ matrix.binarySuffix }}
+          path: ./repository/shellyplug-exporter-${{ matrix.binarySuffix }}
   publish:
     name: Publish
     needs: build
@@ -44,6 +62,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
+      - name: Create draft release with binaries
+        uses: d1ceward/draft-assets-release-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: |
+            ./shellyplug-exporter-linux-amd64/shellyplug-exporter-linux-amd64
+            ./shellyplug-exporter-linux-arm64/shellyplug-exporter-linux-arm64
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
@@ -63,7 +88,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
