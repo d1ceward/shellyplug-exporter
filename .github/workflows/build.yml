@@ -1,8 +1,8 @@
 name: Build
 on:
   push:
-    # tags:
-    #   - 'v*'
+    tags:
+      - 'v*'
 jobs:
   build:
     name: Build for ${{ matrix.binarySuffix }}
@@ -54,41 +54,41 @@ jobs:
         with:
           name: shellyplug-exporter-${{ matrix.binarySuffix }}
           path: ./repository/shellyplug-exporter-${{ matrix.binarySuffix }}
-  # publish:
-  #   name: Publish
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v3
-  #     - uses: actions/download-artifact@v3
-  #     - name: Create draft release with binaries
-  #       uses: d1ceward/draft-assets-release-action@v2
-  #       with:
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-  #         files: |
-  #           ./shellyplug-exporter-linux-amd64/shellyplug-exporter-linux-amd64
-  #           ./shellyplug-exporter-linux-arm64/shellyplug-exporter-linux-arm64
-  #     - name: Set up QEMU
-  #       uses: docker/setup-qemu-action@v2
-  #     - name: Set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v2
-  #     - name: Login to DockerHub
-  #       uses: docker/login-action@v2
-  #       with:
-  #         username: ${{ secrets.DOCKER_USERNAME }}
-  #         password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-  #         logout: true
-  #     - name: Extract metadata (tags, labels) for Docker
-  #       id: meta
-  #       uses: docker/metadata-action@v4
-  #       with:
-  #         images: d1ceward/shellyplug-exporter
-  #     - name: Build and push
-  #       uses: docker/build-push-action@v3
-  #       with:
-  #         context: .
-  #         platforms: linux/amd64,linux/arm64
-  #         push: true
-  #         tags: ${{ steps.meta.outputs.tags }}
-  #         labels: ${{ steps.meta.outputs.labels }}
+  publish:
+    name: Publish
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+      - name: Create draft release with binaries
+        uses: d1ceward/draft-assets-release-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: |
+            ./shellyplug-exporter-linux-amd64/shellyplug-exporter-linux-amd64
+            ./shellyplug-exporter-linux-arm64/shellyplug-exporter-linux-arm64
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+          logout: true
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: d1ceward/shellyplug-exporter
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
