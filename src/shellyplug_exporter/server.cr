@@ -42,12 +42,12 @@ module ShellyplugExporter
         io << "shellyplug_power #{data[:power]}\n"
 
         # shellyplug_overpower metric
-        io << "# HELP shellyplug_overpower Overpower drawn in watts/minute\n"
+        io << "# HELP shellyplug_overpower Overpower drawn in watts\n"
         io << "# TYPE shellyplug_overpower gauge\n"
         io << "shellyplug_overpower #{data[:overpower]}\n"
 
         # shellyplug_total_power metric
-        io << "# HELP shellyplug_total_power Total power consumed in watts/minute\n"
+        io << "# HELP shellyplug_total_power Total power consumed in watt-minute\n"
         io << "# TYPE shellyplug_total_power counter\n"
         io << "shellyplug_total_power #{data[:total]}\n"
 

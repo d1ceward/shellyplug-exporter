@@ -80,8 +80,8 @@ Base path: `/metrics`
 Name                   | Description                          | Type    |
 -----------------------|--------------------------------------|---------|
 shellyplug_power       | Current power drawn in watts         | Gauge   |
-shellyplug_overpower   | Overpower drawn in watts/minute      | Gauge   |
-shellyplug_total_power | Total power consumed in watts/minute | Counter |
+shellyplug_overpower   | Overpower drawn in watts             | Gauge   |
+shellyplug_total_power | Total power consumed in watt-minute  | Counter |
 shellyplug_temperature | Plug temperature in celsius          | Gauge   |
 shellyplug_uptime      | Plug uptime in seconds               | Gauge   |
 
