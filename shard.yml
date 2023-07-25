@@ -4,7 +4,7 @@ authors:
   - d1ceward <contact@d1ceward.com>
 description: Prometheus Exporter for Shelly plugs
 license: MIT
-crystal: 1.7.3
+crystal: 1.8.2
 
 dependencies:
   kemal:
@@ -15,6 +15,9 @@ development_dependencies:
   ameba:
     github: crystal-ameba/ameba
     version: ~> 1.4.0
+  webmock:
+    github: manastech/webmock.cr
+    version: ~> 0.14.0
   kemal-basic-auth:
     github: kemalcr/kemal-basic-auth
     version: ~> 1.0.0

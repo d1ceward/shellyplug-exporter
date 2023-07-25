@@ -2,7 +2,7 @@ version: 2.0
 shards:
   ameba:
     git: https://github.com/crystal-ameba/ameba.git
-    version: 1.4.2
+    version: 1.4.3
 
   backtracer:
     git: https://github.com/sija/backtracer.cr.git
@@ -10,7 +10,7 @@ shards:
 
   exception_page:
     git: https://github.com/crystal-loot/exception_page.git
-    version: 0.3.0
+    version: 0.3.1
 
   kemal:
     git: https://github.com/kemalcr/kemal.git
@@ -27,4 +27,8 @@ shards:
   spec-kemal:
     git: https://github.com/kemalcr/spec-kemal.git
     version: 1.0.0
+
+  webmock:
+    git: https://github.com/manastech/webmock.cr.git
+    version: 0.14.0
 
