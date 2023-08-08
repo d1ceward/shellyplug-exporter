@@ -1,8 +1,7 @@
 ENV["CRYSTAL_SPEC_CONTEXT"] = "true"
 
-require "kemal-basic-auth"
 require "spec"
-require "spec-kemal"
+require "webmock"
 require "../src/shellyplug_exporter"
 
 module DummyConfig
@@ -20,26 +19,3 @@ module DummyConfig
     ENV["SHELLYPLUG_AUTH_PASSWORD"] = PLUG_AUTH_PASSWORD
   end
 end
-
-# Start dummy server with fake response
-spawn do
-  valid_status_json = File.read(Path[__DIR__, "fixtures", "valid_status.json"])
-
-  basic_auth(DummyConfig::PLUG_AUTH_USERNAME, DummyConfig::PLUG_AUTH_PASSWORD)
-
-  Kemal.config.env = "production"
-  Kemal.config.host_binding = DummyConfig::PLUG_HOST
-  Kemal.config.port = DummyConfig::PLUG_PORT.to_i
-  Kemal.config.logging = false
-
-  get "/status" do |env|
-    env.response.content_type = "application/json"
-
-    valid_status_json
-  end
-
-  Kemal.run
-end
-
-# Sleep 2s to let kemal server time to start
-sleep(2)

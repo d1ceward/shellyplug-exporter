@@ -1,14 +1,23 @@
 module ShellyplugExporter
+  # Plug class represents a Shelly plug device and provides methods to query data from it.
+  #
+  # ```
+  # config = ShellyplugExporter::Config.new
+  # ShellyplugExporter::Plug.new(config)
+  # ```
   class Plug
+    # API endpoint for querying plug status.
     API_ENDPOINT = "/status"
 
+    # Initialize a new Plug instance.
     def initialize(@config : Config); end
 
+    # Query data from the plug device.
     def query_data : Hash(Symbol, Float64 | Int64)
       response = execute_request
       data = parse_response(response)
 
-      # Data about power consumption
+      # Data about power consumption.
       meter = data["meters"]?.try(&.[0])
 
       {

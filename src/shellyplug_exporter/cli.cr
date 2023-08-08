@@ -1,12 +1,22 @@
 module ShellyplugExporter
+  # CLI class handles command line interface interactions for the exporter.
+  #
+  # ```
+  # ShellyplugExporter::CLI.new
+  # ```
   class CLI
+    # Configuration settings for the exporter.
     property config : Config = Config.new
+
+    # Whether to run the exporter server.
     property? run_server : Bool = false
 
+    # Initialize the CLI.
     def initialize
       parser = option_parser
       parser.parse
 
+      # If run_server flag is set, start the exporter server; otherwise, display help.
       @run_server ? ShellyplugExporter::Server.new(config).run : display_help(parser, 1)
     end
 

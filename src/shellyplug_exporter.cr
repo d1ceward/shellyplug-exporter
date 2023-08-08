@@ -1,8 +1,8 @@
 require "log"
 require "option_parser"
-require "kemal"
 require "json"
 require "http/client"
+require "http/server"
 
 require "./version"
 require "./shellyplug_exporter/cli"

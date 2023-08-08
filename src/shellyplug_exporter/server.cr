@@ -7,31 +7,21 @@ module ShellyplugExporter
 
     # Start a server for prometheus to retrieve metrics
     def run
-      initialize_server_config
-
-      error 404 { "Page not found" }
-      get "/metrics" { build_prometheus_response(@plug_instance.query_data) }
-      get "/health" do |env|
-        if @config.last_request_succeded.nil? || @config.last_request_succeded
-          env.response.status_code = 200
-
-          "OK: Everything is fine"
+      server = HTTP::Server.new do |context|
+        # Match the request's path to different routes and call corresponding handlers
+        case context.request.path
+        when "/metrics" then metrics_handler(context)
+        when "/health" then health_handler(context)
         else
-          env.response.status_code = 503
-
-          "ERROR: The last plug request did not work"
+          # Return a 404 response for unknown routes
+          context.response.status_code = 404
+          context.response.print("Not found")
         end
       end
 
-      Log.info { "Metrics server listening on port #{@config.exporter_port}." }
-      Kemal.run
-    end
-
-    private def initialize_server_config
-      Kemal.config.env = "production"
-      Kemal.config.host_binding = "0.0.0.0"
-      Kemal.config.port = @config.exporter_port
-      Kemal.config.logging = false
+      Log.info { "Metrics server listening on http://0.0.0.0:#{@config.exporter_port}." }
+      server.bind_tcp("0.0.0.0", @config.exporter_port)
+      server.listen
     end
 
     private def build_prometheus_response(data : Hash(Symbol, Float64 | Int64)) : String
@@ -60,6 +50,21 @@ module ShellyplugExporter
         io << "# HELP shellyplug_uptime Plug uptime in seconds\n"
         io << "# TYPE shellyplug_uptime gauge\n"
         io << "shellyplug_uptime #{data[:uptime]}\n"
+      end
+    end
+
+    private def metrics_handler(context : HTTP::Server::Context)
+      context.response.status_code = 200
+      context.response.print(build_prometheus_response(@plug_instance.query_data))
+    end
+
+    private def health_handler(context : HTTP::Server::Context)
+      if @config.last_request_succeded.nil? || @config.last_request_succeded
+        context.response.status_code = 200
+        context.response.print("OK: Everything is fine")
+      else
+        context.response.status_code = 503
+        context.response.print("ERROR: The last plug request did not work")
       end
     end
   end

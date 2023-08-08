@@ -1,7 +1,6 @@
 require "../spec_helper"
 
 describe ShellyplugExporter::Plug do
-
   describe "#query_data" do
     valid_data =  {
       :power => 71.71,
@@ -12,7 +11,14 @@ describe ShellyplugExporter::Plug do
     }
     invalid_data = { :power => 0.0, :overpower => 0.0, :total => 0, :temperature => 0.0, :uptime => 0 }
 
-    before_each { DummyConfig.fill_env }
+    before_each do
+      DummyConfig.fill_env
+
+      valid_status_json = File.read(Path[__DIR__, "../fixtures/valid_status.json"])
+
+      WebMock.stub(:get, "127.0.0.1:5001/status")
+             .to_return(body: valid_status_json, headers: { "Content-Type" => "application/json" })
+    end
 
     it "should return an hash with correct values" do
       config = ShellyplugExporter::Config.new
