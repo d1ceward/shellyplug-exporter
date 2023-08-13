@@ -1,6 +1,8 @@
 require "../spec_helper"
 
 describe ShellyplugExporter::Config do
+  before_each { DummyConfig.fill_env }
+
   describe "#exporter_port" do
     it "should return correct value from env" do
       ENV["EXPORTER_PORT"] = "42"
