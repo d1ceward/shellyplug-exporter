@@ -27,7 +27,7 @@ module ShellyplugExporter
     property last_request_succeded : Bool? = nil
 
     # Creates a new instance of `ShellyplugExporter::Config` based on environment variables.
-    def initialize
+    def initialize : Nil
       @exporter_port = ENV.fetch("EXPORTER_PORT", "5000").to_i32
       @plug_host = ENV.fetch("SHELLYPLUG_HOST", "192.168.33.1")
       @plug_port = ENV.fetch("SHELLYPLUG_PORT", "80").to_i32

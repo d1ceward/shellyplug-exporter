@@ -2,7 +2,7 @@ version: 2.0
 shards:
   ameba:
     git: https://github.com/crystal-ameba/ameba.git
-    version: 1.6.0
+    version: 1.6.1
 
   webmock:
     git: https://github.com/manastech/webmock.cr.git

@@ -1,12 +1,12 @@
 module ShellyplugExporter
   # HTTP server formatting and returning metrics
   class Server
-    def initialize(@config : Config)
+    def initialize(@config : Config) : Nil
       @plug_instance = Plug.new(@config)
     end
 
     # Start a server for prometheus to retrieve metrics
-    def run
+    def run : Nil
       server = HTTP::Server.new do |context|
         # Match the request's path to different routes and call corresponding handlers
         case context.request.path
@@ -53,12 +53,12 @@ module ShellyplugExporter
       end
     end
 
-    private def metrics_handler(context : HTTP::Server::Context)
+    private def metrics_handler(context : HTTP::Server::Context) : Nil
       context.response.status_code = 200
       context.response.print(build_prometheus_response(@plug_instance.query_data))
     end
 
-    private def health_handler(context : HTTP::Server::Context)
+    private def health_handler(context : HTTP::Server::Context) : Nil
       if @config.last_request_succeded.nil? || @config.last_request_succeded
         context.response.status_code = 200
         context.response.print("OK: Everything is fine")

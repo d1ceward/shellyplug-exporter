@@ -10,7 +10,7 @@ module ShellyplugExporter
     API_ENDPOINT = "/status"
 
     # Initialize a new Plug instance.
-    def initialize(@config : Config); end
+    def initialize(@config : Config) : Nil; end
 
     # Query data from the plug device.
     def query_data : Hash(Symbol, Float64 | Int64)
@@ -31,7 +31,7 @@ module ShellyplugExporter
 
     private def execute_request : HTTP::Client::Response
       client = HTTP::Client.new(@config.plug_host, @config.plug_port)
-      client.connect_timeout = 4
+      client.connect_timeout = 4.seconds
 
       if @config.plug_auth_username && @config.plug_auth_password
         client.basic_auth(@config.plug_auth_username, @config.plug_auth_password)

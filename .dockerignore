@@ -1,4 +1,5 @@
-# Ignore coverage files
+# Ignore spec & coverage files
+/spec
 /coverage
 /run_tests.cr
 /run_tests

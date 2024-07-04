@@ -12,7 +12,7 @@ module ShellyplugExporter
     property? run_server : Bool = false
 
     # Initialize the CLI.
-    def initialize
+    def initialize : Nil
       parser = option_parser
       parser.parse
 
@@ -20,30 +20,30 @@ module ShellyplugExporter
       @run_server ? ShellyplugExporter::Server.new(config).run : display_help(parser, 1)
     end
 
-    private def display_version
+    private def display_version : Nil
       STDOUT.puts "version #{ShellyplugExporter::VERSION}"
       exit
     end
 
-    private def display_help(parser : OptionParser, exit_code : Int32 = 0)
+    private def display_help(parser : OptionParser, exit_code : Int32 = 0) : Nil
       STDOUT.puts(parser)
       exit(exit_code)
     end
 
-    private def missing_option(parser : OptionParser, flag : String)
+    private def missing_option(parser : OptionParser, flag : String) : Nil
       STDERR.puts("ERROR: #{flag} is missing something.")
       STDERR.puts("")
       STDERR.puts(parser)
       exit(1)
     end
 
-    private def invalid_option(parser : OptionParser, flag : String)
+    private def invalid_option(parser : OptionParser, flag : String) : Nil
       STDERR.puts("ERROR: #{flag} is not a valid option.")
       STDERR.puts(parser)
       exit(1)
     end
 
-    private def option_parser
+    private def option_parser : OptionParser
       OptionParser.new do |parser|
         parser.banner = "Prometheus Exporter for Shelly plugs\nUsage: shellyplug-exporter [subcommand]"
 

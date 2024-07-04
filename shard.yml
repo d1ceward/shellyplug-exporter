@@ -4,7 +4,7 @@ authors:
   - d1ceward <contact@d1ceward.com>
 description: Prometheus Exporter for Shelly plugs
 license: MIT
-crystal: 1.11.0
+crystal: 1.12.2
 
 development_dependencies:
   ameba:
