@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set crystal version environement variable
         run: echo "CRYSTAL_VERSION=$(cat .crystal-version)" >> $GITHUB_ENV
       - name: Install Crystal
@@ -22,7 +22,7 @@ jobs:
         with:
           crystal: ${{ env.CRYSTAL_VERSION }}
       - name: Crystal shard cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: lib
           key: ${{ runner.os }}-shards-${{ hashFiles('**/shard.lock') }}
@@ -36,7 +36,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Set crystal version environement variable
         run: echo "CRYSTAL_VERSION=$(cat .crystal-version)" >> $GITHUB_ENV
       - name: Install Crystal
@@ -44,7 +44,7 @@ jobs:
         with:
           crystal: ${{ env.CRYSTAL_VERSION }}
       - name: Crystal shard cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: lib
           key: ${{ runner.os }}-shards-${{ hashFiles('**/shard.lock') }}
