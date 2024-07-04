@@ -1,4 +1,4 @@
-# shellyplug-exporter (v1.6.0)
+# shellyplug-exporter (v1.7.0)
 ![GitHub Workflow Status (main)](https://github.com/d1ceward/shellyplug-exporter/actions/workflows/main.yml/badge.svg?branch=master)
 [![Docker Pulls](https://img.shields.io/docker/pulls/d1ceward/shellyplug-exporter.svg)](https://hub.docker.com/r/d1ceward/shellyplug-exporter)
 [![GitHub issues](https://img.shields.io/github/issues/d1ceward/shellyplug-exporter)](https://github.com/d1ceward/shellyplug-exporter/issues)
@@ -53,7 +53,7 @@ services:
 
 Download the executable file :
 ```shell
-wget --no-verbose -O shellyplug-exporter https://github.com/d1ceward/shellyplug-exporter/releases/download/v1.6.0/shellyplug-exporter-linux-amd64
+wget --no-verbose -O shellyplug-exporter https://github.com/d1ceward/shellyplug-exporter/releases/download/v1.7.0/shellyplug-exporter-linux-amd64
 ```
 
 Modify the executable's permissions :
