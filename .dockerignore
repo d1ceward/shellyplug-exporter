@@ -1,8 +1,14 @@
 # Ignore spec & coverage files
-/spec
-/coverage
-/run_tests.cr
-/run_tests
+spec/
+coverage/
+run_tests/
+run_tests.cr
 
 # Ignore documentation files
-/docs
+.github/
+docs/
+CODE_OF_CONDUCT.md
+
+# Ignore source files
+src/
+lib/
