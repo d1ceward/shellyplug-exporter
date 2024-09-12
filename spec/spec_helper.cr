@@ -1,5 +1,3 @@
-ENV["CRYSTAL_SPEC_CONTEXT"] = "true"
-
 require "spec"
 require "webmock"
 require "../src/shellyplug_exporter"

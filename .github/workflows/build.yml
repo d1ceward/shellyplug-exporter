@@ -46,7 +46,7 @@ jobs:
 
             cd /repository
             shards install --production -v
-            /tmp/crystal/bin/crystal build --static --no-debug --verbose --release -o ./shellyplug-exporter src/shellyplug_exporter.cr
+            /tmp/crystal/bin/crystal build --static --no-debug --verbose --release -o ./shellyplug-exporter src/shellyplug_exporter_run.cr
 
             mv shellyplug-exporter shellyplug-exporter-${{ matrix.binarySuffix }}
       - name: Upload binaries to action artifacts

@@ -16,4 +16,4 @@ development_dependencies:
 
 targets:
   shellyplug-exporter:
-    main: src/shellyplug_exporter.cr
+    main: src/shellyplug_exporter_run.cr
