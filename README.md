@@ -33,20 +33,18 @@ docker run -d \
 With docker-compose file :
 ```yaml
 ---
-version: "3"
-
 services:
   plug_exporter:
     image: d1ceward/shellyplug-exporter:latest
     restart: unless-stopped
     ports:
-      - "8080:5000"
+      - 8080:5000
     environment:
-      - SHELLYPLUG_HOST=shelly-plug-hostname-or-ip
-      - SHELLYPLUG_PORT=80
-      - SHELLYPLUG_AUTH_USERNAME=username-for-http-auth
-      - SHELLYPLUG_AUTH_PASSWORD=password-for-http-auth
-      - EXPORTER_PORT=5000
+      SHELLYPLUG_HOST: shelly-plug-hostname-or-ip
+      SHELLYPLUG_PORT: 80
+      SHELLYPLUG_AUTH_USERNAME: username-for-http-auth
+      SHELLYPLUG_AUTH_PASSWORD: password-for-http-auth
+      EXPORTER_PORT: 5000
 ```
 
 ### Linux
