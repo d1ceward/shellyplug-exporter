@@ -7,6 +7,7 @@ jobs:
   build:
     name: Build for ${{ matrix.binarySuffix }}
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     strategy:
       matrix:
         include:
@@ -58,12 +59,13 @@ jobs:
     name: Publish
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
       - name: Create draft release with binaries
-        uses: d1ceward/draft-assets-release-action@v3
+        uses: d1ceward/release-upload-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           files: |
