@@ -10,5 +10,5 @@ bin/*
 
 # Ignore coverage files
 coverage/
-run_tests/
+run_tests
 run_tests.cr
