@@ -14,6 +14,7 @@ FROM alpine:latest
 RUN apk --no-cache add curl
 
 WORKDIR /
+COPY ./LICENSE .
 COPY --from=builder ./shellyplug-exporter .
 
 RUN chmod +x /shellyplug-exporter
