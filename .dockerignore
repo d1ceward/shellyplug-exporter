@@ -5,7 +5,7 @@ bin/
 .ameba.yml
 spec/
 coverage/
-run_tests/
+run_tests
 run_tests.cr
 
 # Ignore documentation files
