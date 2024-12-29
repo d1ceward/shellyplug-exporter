@@ -1,4 +1,6 @@
-# shellyplug-exporter (v1.9.0)
+![](.github/images/shelly_plug_s.png)
+
+# shellyplug-exporter (v1.10.0)
 ![GitHub Workflow Status (main)](https://github.com/d1ceward/shellyplug-exporter/actions/workflows/main.yml/badge.svg?branch=master)
 [![Docker Pulls](https://img.shields.io/docker/pulls/d1ceward/shellyplug-exporter.svg)](https://hub.docker.com/r/d1ceward/shellyplug-exporter)
 [![GitHub issues](https://img.shields.io/github/issues/d1ceward/shellyplug-exporter)](https://github.com/d1ceward/shellyplug-exporter/issues)
@@ -33,27 +35,25 @@ docker run -d \
 With docker-compose file :
 ```yaml
 ---
-version: "3"
-
 services:
   plug_exporter:
     image: d1ceward/shellyplug-exporter:latest
     restart: unless-stopped
     ports:
-      - "8080:5000"
+      - 8080:5000
     environment:
-      - SHELLYPLUG_HOST=shelly-plug-hostname-or-ip
-      - SHELLYPLUG_PORT=80
-      - SHELLYPLUG_AUTH_USERNAME=username-for-http-auth
-      - SHELLYPLUG_AUTH_PASSWORD=password-for-http-auth
-      - EXPORTER_PORT=5000
+      SHELLYPLUG_HOST: shelly-plug-hostname-or-ip
+      SHELLYPLUG_PORT: 80
+      SHELLYPLUG_AUTH_USERNAME: username-for-http-auth
+      SHELLYPLUG_AUTH_PASSWORD: password-for-http-auth
+      EXPORTER_PORT: 5000
 ```
 
 ### Linux
 
 Download the executable file :
 ```shell
-wget --no-verbose -O shellyplug-exporter https://github.com/d1ceward/shellyplug-exporter/releases/download/v1.9.0/shellyplug-exporter-linux-amd64
+wget --no-verbose -O shellyplug-exporter https://github.com/d1ceward/shellyplug-exporter/releases/download/v1.10.0/shellyplug-exporter-linux-amd64
 ```
 
 Modify the executable's permissions :

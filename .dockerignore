@@ -1,14 +1,26 @@
+# Ignore executables
+bin/
+
 # Ignore spec & coverage files
+.ameba.yml
 spec/
 coverage/
 run_tests/
 run_tests.cr
 
 # Ignore documentation files
-.github/
 docs/
 CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+README.md
+SECURITY.md
 
 # Ignore source files
+.git/
+.github/
+.gitignore
+.crystal-version
 src/
 lib/
+shard.yml
+shard.lock
