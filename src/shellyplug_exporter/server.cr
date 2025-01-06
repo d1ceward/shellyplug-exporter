@@ -8,6 +8,9 @@ module ShellyplugExporter
     # Start a server for prometheus to retrieve metrics
     def run : Nil
       server = HTTP::Server.new do |context|
+        # Setting the content type to text/plain for prometheus
+        context.response.content_type = "text/plain"
+
         # Match the request's path to different routes and call corresponding handlers
         case context.request.path
         when "/metrics" then metrics_handler(context)
