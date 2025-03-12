@@ -29,7 +29,7 @@ docker run -d \
   -e SHELLYPLUG_AUTH_USERNAME="username-for-http-auth" \
   -e SHELLYPLUG_AUTH_PASSWORD="password-for-http-auth" \
   -e EXPORTER_PORT=5000 \
-  d1ceward/shellyplug-exporter:latest
+  ghcr.io/d1ceward/shellyplug-exporter:latest # Or with Docker Hub: d1ceward/shellyplug-exporter:latest
 ```
 
 With docker-compose file :
@@ -37,7 +37,7 @@ With docker-compose file :
 ---
 services:
   plug_exporter:
-    image: d1ceward/shellyplug-exporter:latest
+    image: ghcr.io/d1ceward/shellyplug-exporter:latest # Or with Docker Hub: d1ceward/shellyplug-exporter:latest
     restart: unless-stopped
     ports:
       - 8080:5000
