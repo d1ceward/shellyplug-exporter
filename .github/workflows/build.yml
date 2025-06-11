@@ -40,8 +40,7 @@ jobs:
 
             curl -s -L --retry 15 --retry-delay 2 "https://github.com/crystal-lang/crystal/archive/${CRYSTAL_VERSION}.tar.gz" | tar xz -C $CRYSTAL_DIR --strip-component=1
 
-            export LLVM_VERSION=$(cat src/llvm/ext/llvm-versions.txt | awk '{print $1;}')
-            export APK_LLVM_VERSION=$(echo $LLVM_VERSION | cut -d. -f1)
+            export APK_LLVM_VERSION=$(cat src/llvm/ext/llvm-versions.txt | awk '{print $1;}' | cut -d. -f1)
             apk add "llvm${APK_LLVM_VERSION}-dev" "llvm${APK_LLVM_VERSION}-static"
 
             make
