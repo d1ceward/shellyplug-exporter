@@ -6,18 +6,19 @@ module ShellyplugExporter
   # ShellyplugExporter::Plug.new(config)
   # ```
   class Plug
-    # API endpoint for querying plug status.
-    API_ENDPOINT = "/status"
+    property name : String? = nil
 
-    # Initialize a new Plug instance.
-    def initialize(@config : Config) : Nil; end
+    @client : ShellyplugExporter::PlugClient
 
-    # Query data from the plug device.
+    def initialize(@config : Config) : Nil
+      @client = ShellyplugExporter::PlugClient.new(@config)
+      @name = fetch_name
+    end
+
     def query_data : Hash(Symbol, Float64 | Int64)
-      response = execute_request
+      response = @client.fetch_status
       data = parse_response(response)
 
-      # Data about power consumption.
       meter = data["meters"]?.try(&.[0])
 
       {
@@ -29,17 +30,20 @@ module ShellyplugExporter
       }
     end
 
-    private def execute_request : HTTP::Client::Response
-      client = HTTP::Client.new(@config.plug_host, @config.plug_port)
-      client.connect_timeout = 4.seconds
+    private def fetch_name : String?
+      response = @client.fetch_settings
 
-      if @config.plug_auth_username && @config.plug_auth_password
-        client.basic_auth(@config.plug_auth_username, @config.plug_auth_password)
+      if response.status_code == 200
+        settings = JSON.parse(response.body)
+
+        settings["name"]?.try(&.as_s?)
+      else
+        Log.error { "Failed to fetch plug name, using default." }
+
+        nil
       end
-
-      client.get(API_ENDPOINT)
-    rescue IO::TimeoutError | Socket::Addrinfo::Error | Socket::ConnectError
-      HTTP::Client::Response.new(408)
+    rescue
+      nil
     end
 
     private def parse_response(response : HTTP::Client::Response) : JSON::Any
@@ -49,14 +53,13 @@ module ShellyplugExporter
         return JSON.parse(response.body)
       end
 
-      if response == 408
+      if response.status_code == 408
         Log.error { "Timeout error, please check your environment variable or plug status." }
       else
         Log.error { "Invalid response, please check your environment variable or plug status." }
       end
 
       @config.last_request_succeded = false
-
       JSON.parse("{}")
     end
   end

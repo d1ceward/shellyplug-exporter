@@ -1,6 +1,30 @@
 require "../spec_helper"
 
 describe ShellyplugExporter::Plug do
+  describe "#initialize and #name" do
+    before_each do
+      WebMock.reset
+      DummyConfig.fill_env
+    end
+
+    it "sets name from fetch_name when response is 200" do
+      WebMock.stub(:get, "127.0.0.1:5001/settings")
+             .to_return(body: "{\"name\": \"TestPlug\"}", status: 200)
+
+      config = ShellyplugExporter::Config.new
+      plug = ShellyplugExporter::Plug.new(config)
+      plug.name.should eq("TestPlug")
+    end
+
+    it "sets name to nil when fetch_name fails (non-200)" do
+      WebMock.stub(:get, "127.0.0.1:5001/settings").to_return(status: 500)
+
+      config = ShellyplugExporter::Config.new
+      plug = ShellyplugExporter::Plug.new(config)
+      plug.name.should be_nil
+    end
+  end
+
   describe "#query_data" do
     before_each do
       WebMock.reset
@@ -8,7 +32,6 @@ describe ShellyplugExporter::Plug do
              .with(headers: { "Authorization" => "Basic #{Base64.strict_encode("username:password").chomp}" })
              .to_return(body: File.read(Path[__DIR__, "../fixtures/valid_status.json"]))
       WebMock.stub(:get, "127.0.0.1:5001/status").to_return(status: 401)
-
       DummyConfig.fill_env
     end
 
