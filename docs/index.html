@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.13.3">
-<meta name="crystal_docs.project_version" content="1.10.1">
+<meta name="generator" content="Crystal Docs 1.15.1">
+<meta name="crystal_docs.project_version" content="1.11.0">
 <meta name="crystal_docs.project_name" content="shellyplug-exporter">
 
 
@@ -14,7 +14,7 @@
 <script type="text/javascript" src="js/doc.js"></script>
 
   <meta name="repository-name" content="shellyplug-exporter">
-  <title>shellyplug-exporter 1.10.1</title>
+  <title>shellyplug-exporter 1.11.0</title>
   <script type="text/javascript">
   CrystalDocs.base_path = "";
   </script>
@@ -45,7 +45,7 @@
       </h1>
 
       <span class="project-version">
-        1.10.1
+        1.11.0
       </span>
     </div>
   </div>
@@ -77,6 +77,11 @@
       
     </li>
   
+  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/PlugClient" data-name="shellyplugexporter::plugclient">
+      <a href="ShellyplugExporter/PlugClient.html">PlugClient</a>
+      
+    </li>
+  
   <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/Server" data-name="shellyplugexporter::server">
       <a href="ShellyplugExporter/Server.html">Server</a>
       
@@ -95,11 +100,11 @@
 
 <div class="main-content">
 <p><img src=".github/images/shelly_plug_s.png" alt="" /></p>
-<h1><a id="shellyplug-exporter-v1.10.1" class="anchor" href="#shellyplug-exporter-v1.10.1">
+<h1><a id="shellyplug-exporter-v1.11.0" class="anchor" href="#shellyplug-exporter-v1.11.0">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
-</a>shellyplug-exporter (v1.10.1)</h1>
+</a>shellyplug-exporter (v1.11.0)</h1>
 <p><img src="https://github.com/d1ceward/shellyplug-exporter/actions/workflows/main.yml/badge.svg?branch=master" alt="GitHub Workflow Status (main)" />
 <a href="https://hub.docker.com/r/d1ceward/shellyplug-exporter"><img src="https://img.shields.io/docker/pulls/d1ceward/shellyplug-exporter.svg" alt="Docker Pulls" /></a>
 <a href="https://github.com/d1ceward/shellyplug-exporter/issues"><img src="https://img.shields.io/github/issues/d1ceward/shellyplug-exporter" alt="GitHub issues" /></a>
@@ -130,12 +135,12 @@ Authentication variables <code>SHELLYPLUG_AUTH_USERNAME</code> and <code>SHELLYP
   -e SHELLYPLUG_AUTH_USERNAME=&quot;username-for-http-auth&quot; \
   -e SHELLYPLUG_AUTH_PASSWORD=&quot;password-for-http-auth&quot; \
   -e EXPORTER_PORT=5000 \
-  d1ceward/shellyplug-exporter:latest</code></pre>
+  ghcr.io/d1ceward/shellyplug-exporter:latest # Or with Docker Hub: d1ceward/shellyplug-exporter:latest</code></pre>
 <p>With docker-compose file :</p>
 <pre><code class="language-yaml">---
 services:
   plug_exporter:
-    image: d1ceward/shellyplug-exporter:latest
+    image: ghcr.io/d1ceward/shellyplug-exporter:latest # Or with Docker Hub: d1ceward/shellyplug-exporter:latest
     restart: unless-stopped
     ports:
       - 8080:5000
@@ -151,7 +156,7 @@ services:
   </svg>
 </a>Linux</h3>
 <p>Download the executable file :</p>
-<pre><code class="language-shell">wget --no-verbose -O shellyplug-exporter https://github.com/d1ceward/shellyplug-exporter/releases/download/v1.10.1/shellyplug-exporter-linux-amd64</code></pre>
+<pre><code class="language-shell">wget --no-verbose -O shellyplug-exporter https://github.com/d1ceward/shellyplug-exporter/releases/download/v1.11.0/shellyplug-exporter-linux-amd64</code></pre>
 <p>Modify the executable's permissions :</p>
 <pre><code class="language-shell">chmod +x shellyplug-exporter</code></pre>
 <p>Execution example :</p>

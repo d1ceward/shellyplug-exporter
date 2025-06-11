@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="shellyplug-exporter">
-  <title>ShellyplugExporter::Plug - shellyplug-exporter 1.11.0</title>
+  <title>ShellyplugExporter::PlugClient - shellyplug-exporter 1.11.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -72,12 +72,12 @@
       
     </li>
   
-  <li class=" current" data-id="shellyplug-exporter/ShellyplugExporter/Plug" data-name="shellyplugexporter::plug">
+  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/Plug" data-name="shellyplugexporter::plug">
       <a href="../ShellyplugExporter/Plug.html">Plug</a>
       
     </li>
   
-  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/PlugClient" data-name="shellyplugexporter::plugclient">
+  <li class=" current" data-id="shellyplug-exporter/ShellyplugExporter/PlugClient" data-name="shellyplugexporter::plugclient">
       <a href="../ShellyplugExporter/PlugClient.html">PlugClient</a>
       
     </li>
@@ -103,12 +103,12 @@
 
   <span class="kind">
     class
-  </span> ShellyplugExporter::<wbr>Plug
+  </span> ShellyplugExporter::<wbr>PlugClient
 
 </h1>
 
 
-  <ul class="superclass-hierarchy"><li class="superclass"><a href="../ShellyplugExporter/Plug.html">ShellyplugExporter::Plug</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../ShellyplugExporter/PlugClient.html">ShellyplugExporter::PlugClient</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
 
 
 
@@ -122,9 +122,7 @@
     Overview
   </h2>
 
-  <p>Plug class represents a Shelly plug device and provides methods to query data from it.</p>
-<pre><code class="language-crystal">config <span class="o">=</span> <span class="t">ShellyplugExporter</span><span class="t">::</span><span class="t">Config</span>.new
-<span class="t">ShellyplugExporter</span><span class="t">::</span><span class="t">Plug</span>.new(config)</code></pre>
+  <p>Handles HTTP communication with the Shelly plug device.</p>
 
 
 
@@ -151,12 +149,36 @@
   </h2>
   
     
-      shellyplug_exporter/plug.cr
+      shellyplug_exporter/plug_client.cr
     
     <br/>
   
 
 
+
+  
+    <h2>
+      <a id="constant-summary" class="anchor" href="#constant-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Constant Summary
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="SETTINGS_ENDPOINT">
+        <strong>SETTINGS_ENDPOINT</strong> = <code><span class="s">&quot;/settings&quot;</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="STATUS_ENDPOINT">
+        <strong>STATUS_ENDPOINT</strong> = <code><span class="s">&quot;/status&quot;</span></code>
+      </dt>
+      
+    
+  </dl>
 
 
 
@@ -195,17 +217,12 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#name%3AString%7CNil-instance-method" class="signature"><strong>#name</strong> : String | Nil</a>
+        <a href="#fetch_settings%3AHTTP%3A%3AClient%3A%3AResponse-instance-method" class="signature"><strong>#fetch_settings</strong> : HTTP::Client::Response</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#name%3D%28name%3AString%7CNil%29-instance-method" class="signature"><strong>#name=</strong>(name : String | Nil)</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#query_data%3AHash%28Symbol%2CFloat64%7CInt64%29-instance-method" class="signature"><strong>#query_data</strong> : Hash(Symbol, Float64 | Int64)</a>
+        <a href="#fetch_status%3AHTTP%3A%3AClient%3A%3AResponse-instance-method" class="signature"><strong>#fetch_status</strong> : HTTP::Client::Response</a>
         
       </li>
     
@@ -283,12 +300,12 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="name:String|Nil-instance-method">
+    <div class="entry-detail" id="fetch_settings:HTTP::Client::Response-instance-method">
       <div class="signature">
         
-        def <strong>name</strong> : String | Nil
+        def <strong>fetch_settings</strong> : HTTP::Client::Response
 
-        <a class="method-permalink" href="#name%3AString%7CNil-instance-method">#</a>
+        <a class="method-permalink" href="#fetch_settings%3AHTTP%3A%3AClient%3A%3AResponse-instance-method">#</a>
       </div>
       
       <br/>
@@ -297,26 +314,12 @@
       </div>
     </div>
   
-    <div class="entry-detail" id="name=(name:String|Nil)-instance-method">
+    <div class="entry-detail" id="fetch_status:HTTP::Client::Response-instance-method">
       <div class="signature">
         
-        def <strong>name=</strong>(name : String | Nil)
+        def <strong>fetch_status</strong> : HTTP::Client::Response
 
-        <a class="method-permalink" href="#name%3D%28name%3AString%7CNil%29-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="query_data:Hash(Symbol,Float64|Int64)-instance-method">
-      <div class="signature">
-        
-        def <strong>query_data</strong> : Hash(Symbol, Float64 | Int64)
-
-        <a class="method-permalink" href="#query_data%3AHash%28Symbol%2CFloat64%7CInt64%29-instance-method">#</a>
+        <a class="method-permalink" href="#fetch_status%3AHTTP%3A%3AClient%3A%3AResponse-instance-method">#</a>
       </div>
       
       <br/>
