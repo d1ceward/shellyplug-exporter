@@ -1,5 +1,5 @@
 name: shellyplug-exporter
-version: 1.11.1
+version: 1.11.2
 authors:
   - d1ceward <contact@d1ceward.com>
 description: Prometheus Exporter for Shelly plugs
