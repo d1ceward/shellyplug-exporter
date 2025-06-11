@@ -30,7 +30,7 @@ jobs:
           dockerRunArgs: --volume "${PWD}/repository:/repository"
           run: |
             apk update
-            apk add make g++ openssl-dev openssl-libs-static yaml-static zlib-static curl crystal shards
+            apk add make g++ openssl-dev openssl-libs-static yaml-static zlib-static pcre2-static gc-static curl crystal shards
 
             export CRYSTAL_DIR=/tmp/crystal
             export CRYSTAL_VERSION=$(cat /repository/.crystal-version)
