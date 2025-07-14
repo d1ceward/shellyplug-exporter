@@ -1,27 +1,11 @@
 module ShellyplugExporter
   # CLI class handles command line interface interactions for the exporter.
-  #
-  # ```
-  # ShellyplugExporter::CLI.new
-  # ```
   class CLI
-    # Configuration settings for the exporter.
-    property config : Config = Config.new
-
-    # Whether to run the exporter server.
+    property config_path : String? = nil
     property? run_server : Bool = false
 
-    # Initialize the CLI.
     def initialize : Nil
-      parser = option_parser
-      parser.parse
-
-      # If run_server flag is set, start the exporter server; otherwise, display help.
-      @run_server ? server_start : display_help(parser, 1)
-    end
-
-    # Starts the server process.
-    private def server_start : Nil
+      # Catch termination signals for graceful shutdown
       Process.on_terminate do |reason|
         next unless reason.aborted? || reason.interrupted? || reason.session_ended?
 
@@ -29,29 +13,37 @@ module ShellyplugExporter
         exit(0)
       end
 
-      ShellyplugExporter::Server.new(config).run
+      parser = option_parser
+      parser.parse
+
+      # If run_server flag is set, start the exporter server; otherwise, display help.
+      @run_server ? server_start : display_help(parser, 1)
     end
 
-    # Print the version number to the standard output and exits the program.
+    private def server_start : Nil
+      config = Config.load(config_path)
+      plugs = config.plugs.map { |plug_config| Plug.new(plug_config) }
+      port = exporter_port || config.exporter_port
+
+      Server.new(plugs, port).run
+    end
+
     private def display_version : Nil
       STDOUT.puts "version #{ShellyplugExporter::VERSION}"
       exit
     end
 
-    # Print the help message to the standard output for the CLI.
     private def display_help(parser : OptionParser, exit_code : Int32 = 0) : Nil
       STDOUT.puts(parser)
       exit(exit_code)
     end
 
-    # This method is used to handle missing options in the command line interface.
     private def missing_option(parser : OptionParser, flag : String) : Nil
       STDERR.puts("ERROR: #{flag} is missing something.")
       STDERR.puts(parser)
       exit(1)
     end
 
-    # This method is used to handle invalid options in the command line arguments.
     private def invalid_option(parser : OptionParser, flag : String) : Nil
       STDERR.puts("ERROR: #{flag} is not a valid option.")
       STDERR.puts(parser)
@@ -65,19 +57,12 @@ module ShellyplugExporter
         parser.on("run", "Run exporter server") do
           @run_server = true
 
-          parser.on("-p PORT", "--port=PORT", "Specifies exporter server port") do |port|
-            config.exporter_port = port.to_i
+          parser.on("-c FILE", "--config=FILE", "YAML config file for multiple plugs") do |file|
+            @config_path = file
           end
 
-          parser.on("--plug-host=HOST", "Specifies plug http host") { |host| config.plug_host = host }
-          parser.on("--plug-port=PORT", "Specifies plug http port") { |port|  config.plug_port = port.to_i }
-
-          parser.on("--plug-auth-username=USERNAME", "Specifies plug http auth username") do |username|
-            config.plug_auth_username = username
-          end
-
-          parser.on("--plug-auth-password=PASSWORD", "Specifies plug http auth password") do |password|
-            config.plug_auth_password = password
+          parser.on("-p PORT", "--port=PORT", "Exporter server port (overrides config)") do |port|
+            @exporter_port = port.to_i
           end
         end
 
