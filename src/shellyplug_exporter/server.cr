@@ -36,7 +36,7 @@ module ShellyplugExporter
     end
 
     private def build_prometheus_response(plug : Plug, data : Hash(Symbol, Float64 | Int64)) : String
-      plug_name = plug.name || plug.config.host
+      plug_name = plug.name.presence || plug.config.host.presence || "unknown"
       label = "{name=\"#{plug_name}\"}"
 
       String.build do |io|
@@ -71,15 +71,15 @@ module ShellyplugExporter
     private def health_handler(context : HTTP::Server::Context) : Nil
       # Check if any plug has a failed last request
       failed_request = @plugs.any? do |plug|
-        plug.config.last_request_succeded && !plug.config.last_request_succeded
+        plug.config.last_request_succeded == false
       end
 
       if failed_request
+        context.response.status_code = 503
+        context.response.print("ERROR: One or more plugs are not responding, logs may contain more details.")
+      else
         context.response.status_code = 200
         context.response.print("OK: Everything is fine")
-      else
-        context.response.status_code = 503
-        context.response.print("ERROR: The last plug request did not work")
       end
     end
 

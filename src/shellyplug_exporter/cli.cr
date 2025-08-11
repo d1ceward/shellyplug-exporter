@@ -2,25 +2,18 @@ module ShellyplugExporter
   # CLI class handles command line interface interactions for the exporter.
   class CLI
     property config_path : String? = nil
+    property exporter_port : Int32? = nil
     property? run_server : Bool = false
 
     def initialize : Nil
-      # Catch termination signals for graceful shutdown
-      Process.on_terminate do |reason|
-        next unless reason.aborted? || reason.interrupted? || reason.session_ended?
-
-        STDOUT.puts("terminating gracefully...")
-        exit(0)
-      end
-
-      parser = option_parser
+      parser = build_option_parser
       parser.parse
-
-      # If run_server flag is set, start the exporter server; otherwise, display help.
-      @run_server ? server_start : display_help(parser, 1)
+      run_server? ? start_server : show_help(parser, 1)
     end
 
-    private def server_start : Nil
+    private def start_server : Nil
+      setup_signal_handlers
+
       config = Config.load(config_path)
       plugs = config.plugs.map { |plug_config| Plug.new(plug_config) }
       port = exporter_port || config.exporter_port
@@ -28,32 +21,40 @@ module ShellyplugExporter
       Server.new(plugs, port).run
     end
 
-    private def display_version : Nil
+    private def setup_signal_handlers : Nil
+      Process.on_terminate do |reason|
+        if reason.aborted? || reason.interrupted? || reason.session_ended?
+          STDOUT.puts("terminating gracefully...")
+          exit(0)
+        end
+      end
+    end
+
+    private def show_version : Nil
       STDOUT.puts "version #{ShellyplugExporter::VERSION}"
       exit
     end
 
-    private def display_help(parser : OptionParser, exit_code : Int32 = 0) : Nil
+    private def show_help(parser : OptionParser, exit_code : Int32 = 0) : Nil
       STDOUT.puts(parser)
       exit(exit_code)
     end
 
-    private def missing_option(parser : OptionParser, flag : String) : Nil
+    private def handle_missing_option(parser : OptionParser, flag : String) : Nil
       STDERR.puts("ERROR: #{flag} is missing something.")
       STDERR.puts(parser)
       exit(1)
     end
 
-    private def invalid_option(parser : OptionParser, flag : String) : Nil
+    private def handle_invalid_option(parser : OptionParser, flag : String) : Nil
       STDERR.puts("ERROR: #{flag} is not a valid option.")
       STDERR.puts(parser)
       exit(1)
     end
 
-    private def option_parser : OptionParser
+    private def build_option_parser : OptionParser
       OptionParser.new do |parser|
         parser.banner = "Prometheus Exporter for Shelly plugs\nUsage: shellyplug-exporter [subcommand]"
-
         parser.on("run", "Run exporter server") do
           @run_server = true
 
@@ -66,10 +67,10 @@ module ShellyplugExporter
           end
         end
 
-        parser.on("-v", "--version", "Show version") { display_version }
-        parser.on("-h", "--help", "Show help") { display_help(parser) }
-        parser.missing_option { |flag| missing_option(parser, flag) }
-        parser.invalid_option { |flag| invalid_option(parser, flag) }
+        parser.on("-v", "--version", "Show version") { show_version }
+        parser.on("-h", "--help", "Show help") { show_help(parser) }
+        parser.missing_option { |flag| handle_missing_option(parser, flag) }
+        parser.invalid_option { |flag| handle_invalid_option(parser, flag) }
       end
     end
   end

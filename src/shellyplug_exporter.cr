@@ -3,6 +3,7 @@ require "option_parser"
 require "json"
 require "http/client"
 require "http/server"
+require "yaml"
 
 require "./version"
 require "./shellyplug_exporter/cli"

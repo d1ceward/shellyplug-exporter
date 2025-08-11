@@ -1,9 +1,9 @@
 module ShellyplugExporter
   # Represents the configuration for a single Shelly plug device.
   class PlugConfig
-    property name : String?
-    property host : String?
-    property port : Int32?
+    property name : String
+    property host : String
+    property port : Int32
     property auth_username : String?
     property auth_password : String?
     property last_request_succeded : Bool?

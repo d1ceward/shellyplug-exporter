@@ -1,14 +1,15 @@
 module ShellyplugExporter
   # Represents a Shelly plug device and provides methods to query data from it.
   class Plug
-    property name : String?
+  property name : String?
+  property config : PlugConfig
     @client : PlugClient
     @config : PlugConfig
 
     # Initialize with a PlugConfig
     def initialize(@config : PlugConfig)
       @client = PlugClient.new(@config)
-      @name = @config.name || fetch_name
+      @name = @config.name.presence || fetch_name
     end
 
     # Queries the plug for metrics data.
@@ -31,16 +32,20 @@ module ShellyplugExporter
       response = @client.fetch_settings
 
       if response.status_code == 200
+        @config.last_request_succeded = true
         settings = JSON.parse(response.body)
 
         settings["name"]?.try(&.as_s?)
       else
         Log.error { "Failed to fetch plug name for #{@config.host}, using default." }
+        @config.last_request_succeded = false
 
         nil
       end
     rescue ex
       Log.error { "Exception fetching plug name for #{@config.host}: #{ex.message}" }
+      @config.last_request_succeded = false
+
       nil
     end
 
