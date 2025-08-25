@@ -11,16 +11,30 @@ describe ShellyplugExporter::Plug do
       WebMock.stub(:get, "127.0.0.1:5001/settings")
              .to_return(body: "{\"name\": \"TestPlug\"}", status: 200)
 
-      config = ShellyplugExporter::Config.new
-      plug = ShellyplugExporter::Plug.new(config)
+      plug_config = ShellyplugExporter::PlugConfig.new(
+        name: "TestPlug",
+        host: "127.0.0.1",
+        port: 5001,
+        auth_username: "username",
+        auth_password: "password"
+      )
+      config = ShellyplugExporter::Config.new(5000, [plug_config])
+      plug = ShellyplugExporter::Plug.new(plug_config)
       plug.name.should eq("TestPlug")
     end
 
     it "sets name to nil when fetch_name fails (non-200)" do
       WebMock.stub(:get, "127.0.0.1:5001/settings").to_return(status: 500)
 
-      config = ShellyplugExporter::Config.new
-      plug = ShellyplugExporter::Plug.new(config)
+      plug_config = ShellyplugExporter::PlugConfig.new(
+        name: "",
+        host: "127.0.0.1",
+        port: 5001,
+        auth_username: "username",
+        auth_password: "password"
+      )
+      config = ShellyplugExporter::Config.new(5000, [plug_config])
+      plug = ShellyplugExporter::Plug.new(plug_config)
       plug.name.should be_nil
     end
   end
@@ -36,8 +50,15 @@ describe ShellyplugExporter::Plug do
     end
 
     it "should return an hash with correct values" do
-      config = ShellyplugExporter::Config.new
-      plug_instance = ShellyplugExporter::Plug.new(config)
+      plug_config = ShellyplugExporter::PlugConfig.new(
+        name: "TestPlug",
+        host: "127.0.0.1",
+        port: 5001,
+        auth_username: "username",
+        auth_password: "password"
+      )
+      config = ShellyplugExporter::Config.new(5000, [plug_config])
+      plug_instance = ShellyplugExporter::Plug.new(plug_config)
 
       plug_instance.query_data.should eq({
         :power => 71.71,
@@ -51,9 +72,15 @@ describe ShellyplugExporter::Plug do
     it "should return an hash with zero values when host is an invalid hostname" do
       WebMock.allow_net_connect = true
 
-      ENV["SHELLYPLUG_HOST"] = "this-is-a-nonexistant-domain"
-      config = ShellyplugExporter::Config.new
-      plug_instance = ShellyplugExporter::Plug.new(config)
+      plug_config = ShellyplugExporter::PlugConfig.new(
+        name: "TestPlug",
+        host: "this-is-a-nonexistant-domain",
+        port: 5001,
+        auth_username: "username",
+        auth_password: "password"
+      )
+      config = ShellyplugExporter::Config.new(5000, [plug_config])
+      plug_instance = ShellyplugExporter::Plug.new(plug_config)
 
       plug_instance.query_data.should eq({
         :power => 0.0,
@@ -67,9 +94,15 @@ describe ShellyplugExporter::Plug do
     it "should return an hash with zero values when host is an invalid ip" do
       WebMock.allow_net_connect = true
 
-      ENV["SHELLYPLUG_HOST"] = "255.255.255.255"
-      config = ShellyplugExporter::Config.new
-      plug_instance = ShellyplugExporter::Plug.new(config)
+      plug_config = ShellyplugExporter::PlugConfig.new(
+        name: "TestPlug",
+        host: "255.255.255.255",
+        port: 5001,
+        auth_username: "username",
+        auth_password: "password"
+      )
+      config = ShellyplugExporter::Config.new(5000, [plug_config])
+      plug_instance = ShellyplugExporter::Plug.new(plug_config)
 
       plug_instance.query_data.should eq({
         :power => 0.0,
@@ -83,9 +116,15 @@ describe ShellyplugExporter::Plug do
     it "should return an hash with zero values when port is invalid" do
       WebMock.allow_net_connect = true
 
-      ENV["SHELLYPLUG_PORT"] = "5003"
-      config = ShellyplugExporter::Config.new
-      plug_instance = ShellyplugExporter::Plug.new(config)
+      plug_config = ShellyplugExporter::PlugConfig.new(
+        name: "TestPlug",
+        host: "127.0.0.1",
+        port: 5003,
+        auth_username: "username",
+        auth_password: "password"
+      )
+      config = ShellyplugExporter::Config.new(5000, [plug_config])
+      plug_instance = ShellyplugExporter::Plug.new(plug_config)
 
       plug_instance.query_data.should eq({
         :power => 0.0,
@@ -97,9 +136,15 @@ describe ShellyplugExporter::Plug do
     end
 
     it "should return an hash with zero values when authentication informations are invalid" do
-      ENV["SHELLYPLUG_AUTH_PASSWORD"] = "onlymeknowthis"
-      config = ShellyplugExporter::Config.new
-      plug_instance = ShellyplugExporter::Plug.new(config)
+      plug_config = ShellyplugExporter::PlugConfig.new(
+        name: "TestPlug",
+        host: "127.0.0.1",
+        port: 5001,
+        auth_username: "username",
+        auth_password: "onlymeknowthis"
+      )
+      config = ShellyplugExporter::Config.new(5000, [plug_config])
+      plug_instance = ShellyplugExporter::Plug.new(plug_config)
 
       plug_instance.query_data.should eq({
         :power => 0.0,

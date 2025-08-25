@@ -15,8 +15,16 @@ describe ShellyplugExporter::Server do
   end
 
   it "responds with prometheus metrics on /metrics" do
-    config = ShellyplugExporter::Config.new
-    server = ShellyplugExporter::Server.new(config)
+    plug_config = ShellyplugExporter::PlugConfig.new(
+      "testplug",
+      "127.0.0.1",
+      5001,
+      "username",
+      "password"
+    )
+    config = ShellyplugExporter::Config.new(5000, [plug_config])
+    plug = ShellyplugExporter::Plug.new(plug_config)
+    server = ShellyplugExporter::Server.new([plug], config.exporter_port)
 
     spawn { server.run }
 
@@ -32,9 +40,17 @@ describe ShellyplugExporter::Server do
   end
 
   it "responds with 200 OK on /health if last_request_succeded is true" do
-    config = ShellyplugExporter::Config.new
-    config.last_request_succeded = true
-    server = ShellyplugExporter::Server.new(config)
+    plug_config = ShellyplugExporter::PlugConfig.new(
+      "testplug",
+      "127.0.0.1",
+      5001,
+      "username",
+      "password",
+      true
+    )
+    config = ShellyplugExporter::Config.new(5000, [plug_config])
+    plug = ShellyplugExporter::Plug.new(plug_config)
+    server = ShellyplugExporter::Server.new([plug], config.exporter_port)
 
     spawn { server.run }
 
@@ -49,9 +65,17 @@ describe ShellyplugExporter::Server do
   end
 
   it "responds with 503 on /health if last_request_succeded is false" do
-    config = ShellyplugExporter::Config.new
-    config.last_request_succeded = false
-    server = ShellyplugExporter::Server.new(config)
+    plug_config = ShellyplugExporter::PlugConfig.new(
+      "testplug",
+      "127.0.0.1",
+      5001,
+      "username",
+      "password",
+      false
+    )
+    config = ShellyplugExporter::Config.new(5000, [plug_config])
+    plug = ShellyplugExporter::Plug.new(plug_config)
+    server = ShellyplugExporter::Server.new([plug], config.exporter_port)
 
     spawn { server.run }
 
@@ -66,8 +90,16 @@ describe ShellyplugExporter::Server do
   end
 
   it "responds with 404 on unknown endpoint" do
-    config = ShellyplugExporter::Config.new
-    server = ShellyplugExporter::Server.new(config)
+    plug_config = ShellyplugExporter::PlugConfig.new(
+      "testplug",
+      "127.0.0.1",
+      5001,
+      "username",
+      "password"
+    )
+    config = ShellyplugExporter::Config.new(5000, [plug_config])
+    plug = ShellyplugExporter::Plug.new(plug_config)
+    server = ShellyplugExporter::Server.new([plug], config.exporter_port)
 
     spawn { server.run }
 
