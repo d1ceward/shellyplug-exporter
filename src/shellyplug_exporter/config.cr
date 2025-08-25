@@ -18,8 +18,8 @@ module ShellyplugExporter
         exit(1)
       end
 
-      exporter_port = data["exporter_port"]?.try(&.as_i) || env_exporter_port
-      plugs_nodes = parse_plugs(data["plugs"]?.try(&.as_a))
+      exporter_port = data["exporter_port"]?.try(&.as_i?) || env_exporter_port
+      plugs_nodes = parse_plugs(data["plugs"]?.try(&.as_a?))
 
       new(exporter_port, plugs_nodes)
     rescue ex : IO::Error | File::NotFoundError
@@ -51,10 +51,19 @@ module ShellyplugExporter
       return [] of PlugConfig unless plugs_node
 
       plugs_node.map do |plug|
+        name = plug["name"]?.try(&.as_s?)
+        host = plug["host"]?.try(&.as_s?)
+        port = plug["port"]?.try(&.as_i?)
+
+        unless name && host && port
+          STDERR.puts("Plug config missing required fields: name, host, or port.")
+          exit(1)
+        end
+
         PlugConfig.new(
-          plug["name"].as_s,
-          plug["host"].as_s,
-          plug["port"].as_i,
+          name,
+          host,
+          port,
           plug["auth_username"]?.try(&.as_s?),
           plug["auth_password"]?.try(&.as_s?)
         )
