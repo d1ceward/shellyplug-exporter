@@ -24,6 +24,14 @@ describe ShellyplugExporter::Plug do
     end
   end
 
+  describe "#config property" do
+    it "returns the config object passed to Plug" do
+      config = build_plug_config(name: "MyPlug")
+      plug = ShellyplugExporter::Plug.new(config)
+      plug.config.should eq(config)
+    end
+  end
+
   describe "#query_data" do
     before_each do
       reset_webmock_and_env

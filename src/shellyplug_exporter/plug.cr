@@ -1,10 +1,9 @@
 module ShellyplugExporter
   # Represents a Shelly plug device and provides methods to query data from it.
   class Plug
-  property name : String?
-  property config : PlugConfig
-    @client : PlugClient
-    @config : PlugConfig
+    property name : String?
+    property config : PlugConfig
+    property client : PlugClient
 
     # Initialize with a PlugConfig
     def initialize(@config : PlugConfig)
