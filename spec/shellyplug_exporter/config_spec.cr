@@ -1,7 +1,9 @@
 require "../spec_helper"
 
+include TestHelpers
+
 describe ShellyplugExporter::Config do
-  before_each { DummyConfig.fill_env }
+  before_each { reset_webmock_and_env }
 
   describe "#exporter_port" do
     it "should return correct value from env" do
