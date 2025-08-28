@@ -8,7 +8,7 @@ describe ShellyplugExporter::PlugConfig do
     config.port.should eq 80
     config.auth_username.should be_nil
     config.auth_password.should be_nil
-    config.last_request_succeded.should be_nil
+    config.last_request_succeeded.should be_nil
   end
 
   it "initializes with all fields" do
@@ -18,7 +18,7 @@ describe ShellyplugExporter::PlugConfig do
     config.port.should eq 8080
     config.auth_username.should eq "user"
     config.auth_password.should eq "pass"
-    config.last_request_succeded.should eq true
+    config.last_request_succeeded.should eq true
   end
 
   it "allows updating properties" do
@@ -28,12 +28,12 @@ describe ShellyplugExporter::PlugConfig do
     config.port = 8082
     config.auth_username = "admin"
     config.auth_password = "secret"
-    config.last_request_succeded = false
+    config.last_request_succeeded = false
     config.name.should eq "plug3-renamed"
     config.host.should eq "192.168.1.44"
     config.port.should eq 8082
     config.auth_username.should eq "admin"
     config.auth_password.should eq "secret"
-    config.last_request_succeded.should eq false
+    config.last_request_succeeded.should eq false
   end
 end

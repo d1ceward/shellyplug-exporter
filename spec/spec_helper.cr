@@ -25,7 +25,7 @@ module TestHelpers
     port : Int32 = 5001,
     auth_username : String = "username",
     auth_password : String = "password",
-    last_request_succeded = nil
+    last_request_succeeded = nil
   )
     ShellyplugExporter::PlugConfig.new(
       name: name,
@@ -33,13 +33,13 @@ module TestHelpers
       port: port,
       auth_username: auth_username,
       auth_password: auth_password,
-      last_request_succeded: last_request_succeded
+      last_request_succeeded: last_request_succeeded
     )
   end
 
   # Helper to create Server and Config
-  def build_server(last_request_succeded = nil)
-    plug_config = build_plug_config(last_request_succeded: last_request_succeded)
+  def build_server(last_request_succeeded = nil)
+    plug_config = build_plug_config(last_request_succeeded: last_request_succeeded)
     config = ShellyplugExporter::Config.new(5000, [plug_config])
     plug = ShellyplugExporter::Plug.new(plug_config)
     server = ShellyplugExporter::Server.new([plug], config.exporter_port)

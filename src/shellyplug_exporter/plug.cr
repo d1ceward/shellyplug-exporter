@@ -31,26 +31,26 @@ module ShellyplugExporter
       response = @client.fetch_settings
 
       if response.status_code == 200
-        @config.last_request_succeded = true
+        @config.last_request_succeeded = true
         settings = JSON.parse(response.body)
 
         settings["name"]?.try(&.as_s?)
       else
         Log.error { "Failed to fetch plug name for #{@config.host}, using default." }
-        @config.last_request_succeded = false
+        @config.last_request_succeeded = false
 
         nil
       end
     rescue ex
       Log.error { "Exception fetching plug name for #{@config.host}: #{ex.message}" }
-      @config.last_request_succeded = false
+      @config.last_request_succeeded = false
 
       nil
     end
 
     private def parse_response(response : HTTP::Client::Response) : JSON::Any
       if response.status_code == 200
-        @config.last_request_succeded = true
+        @config.last_request_succeeded = true
         return JSON.parse(response.body)
       end
 
@@ -60,7 +60,7 @@ module ShellyplugExporter
         Log.error { "Invalid response from #{@config.host}, check plug status." }
       end
 
-      @config.last_request_succeded = false
+      @config.last_request_succeeded = false
       JSON.parse("{}")
     end
   end

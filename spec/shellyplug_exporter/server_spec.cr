@@ -36,7 +36,7 @@ describe ShellyplugExporter::Server do
     response.body.should contain "# HELP shellyplug_power"
   end
 
-  it "responds with 200 OK on /health if last_request_succeded is true" do
+  it "responds with 200 OK on /health if last_request_succeeded is true" do
     result = build_server(true)
     server = result[:server]
     config = result[:config]
@@ -47,7 +47,7 @@ describe ShellyplugExporter::Server do
     response.body.should contain "OK"
   end
 
-  it "responds with 503 on /health if last_request_succeded is false" do
+  it "responds with 503 on /health if last_request_succeeded is false" do
     result = build_server(false)
     server = result[:server]
     config = result[:config]

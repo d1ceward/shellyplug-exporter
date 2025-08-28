@@ -71,7 +71,7 @@ module ShellyplugExporter
     private def health_handler(context : HTTP::Server::Context) : Nil
       # Check if any plug has a failed last request
       failed_request = @plugs.any? do |plug|
-        plug.config.last_request_succeded == false
+        plug.config.last_request_succeeded == false
       end
 
       if failed_request
