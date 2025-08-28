@@ -1,22 +1,23 @@
 module ShellyplugExporter
-  # HTTP server formatting and returning metrics
+  # HTTP server for Prometheus metrics for one or more Shelly plugs.
   class Server
     @server : HTTP::Server
+    @plugs : Array(Plug)
+    @exporter_port : Int32
 
-    def initialize(@config : Config)
-      @plug_instance = Plug.new(@config)
-
+    def initialize(plugs : Array(Plug), exporter_port : Int32)
+      @plugs = plugs
+      @exporter_port = exporter_port
       @server = HTTP::Server.new do |context|
         context.response.content_type = "text/plain"
         route(context)
       end
 
-      @server.bind_tcp("0.0.0.0", @config.exporter_port)
+      @server.bind_tcp("0.0.0.0", exporter_port)
     end
 
-    # Start a server for prometheus to retrieve metrics
     def run : Nil
-      Log.info { "Metrics server listening on http://0.0.0.0:#{@config.exporter_port}." }
+      Log.info { "Metrics server listening on http://0.0.0.0:#{@exporter_port}." }
       @server.listen
     end
 
@@ -34,8 +35,8 @@ module ShellyplugExporter
       end
     end
 
-    private def build_prometheus_response(data : Hash(Symbol, Float64 | Int64)) : String
-      plug_name = @plug_instance.name || "unknown"
+    private def build_prometheus_response(plug : Plug, data : Hash(Symbol, Float64 | Int64)) : String
+      plug_name = plug.name.presence || plug.config.host.presence || "unknown"
       label = "{name=\"#{plug_name}\"}"
 
       String.build do |io|
@@ -55,18 +56,30 @@ module ShellyplugExporter
       end
     end
 
+    private def build_prometheus_response_all : String
+      @plugs.map do |plug|
+        data = plug.query_data
+        build_prometheus_response(plug, data)
+      end.join("\n")
+    end
+
     private def metrics_handler(context : HTTP::Server::Context) : Nil
       context.response.status_code = 200
-      context.response.print(build_prometheus_response(@plug_instance.query_data))
+      context.response.print(build_prometheus_response_all)
     end
 
     private def health_handler(context : HTTP::Server::Context) : Nil
-      if @config.last_request_succeded.nil? || @config.last_request_succeded
+      # Check if any plug has a failed last request
+      failed_request = @plugs.any? do |plug|
+        plug.config.last_request_succeeded == false
+      end
+
+      if failed_request
+        context.response.status_code = 503
+        context.response.print("ERROR: One or more plugs are not responding, logs may contain more details.")
+      else
         context.response.status_code = 200
         context.response.print("OK: Everything is fine")
-      else
-        context.response.status_code = 503
-        context.response.print("ERROR: The last plug request did not work")
       end
     end
 

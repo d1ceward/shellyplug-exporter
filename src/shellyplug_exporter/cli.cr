@@ -1,90 +1,76 @@
 module ShellyplugExporter
   # CLI class handles command line interface interactions for the exporter.
-  #
-  # ```
-  # ShellyplugExporter::CLI.new
-  # ```
   class CLI
-    # Configuration settings for the exporter.
-    property config : Config = Config.new
-
-    # Whether to run the exporter server.
+    property config_path : String? = nil
+    property exporter_port : Int32? = nil
     property? run_server : Bool = false
 
-    # Initialize the CLI.
     def initialize : Nil
-      parser = option_parser
+      parser = build_option_parser
       parser.parse
-
-      # If run_server flag is set, start the exporter server; otherwise, display help.
-      @run_server ? server_start : display_help(parser, 1)
+      run_server? ? start_server : show_help(parser, 1)
     end
 
-    # Starts the server process.
-    private def server_start : Nil
+    private def start_server : Nil
+      setup_signal_handlers
+
+      config = Config.load(config_path)
+      plugs = config.plugs.map { |plug_config| Plug.new(plug_config) }
+      port = exporter_port || config.exporter_port
+
+      Server.new(plugs, port).run
+    end
+
+    private def setup_signal_handlers : Nil
       Process.on_terminate do |reason|
-        next unless reason.aborted? || reason.interrupted? || reason.session_ended?
-
-        STDOUT.puts("terminating gracefully...")
-        exit(0)
+        if reason.aborted? || reason.interrupted? || reason.session_ended?
+          STDOUT.puts("terminating gracefully...")
+          exit(0)
+        end
       end
-
-      ShellyplugExporter::Server.new(config).run
     end
 
-    # Print the version number to the standard output and exits the program.
-    private def display_version : Nil
+    private def show_version : Nil
       STDOUT.puts "version #{ShellyplugExporter::VERSION}"
       exit
     end
 
-    # Print the help message to the standard output for the CLI.
-    private def display_help(parser : OptionParser, exit_code : Int32 = 0) : Nil
+    private def show_help(parser : OptionParser, exit_code : Int32 = 0) : Nil
       STDOUT.puts(parser)
       exit(exit_code)
     end
 
-    # This method is used to handle missing options in the command line interface.
-    private def missing_option(parser : OptionParser, flag : String) : Nil
+    private def handle_missing_option(parser : OptionParser, flag : String) : Nil
       STDERR.puts("ERROR: #{flag} is missing something.")
       STDERR.puts(parser)
       exit(1)
     end
 
-    # This method is used to handle invalid options in the command line arguments.
-    private def invalid_option(parser : OptionParser, flag : String) : Nil
+    private def handle_invalid_option(parser : OptionParser, flag : String) : Nil
       STDERR.puts("ERROR: #{flag} is not a valid option.")
       STDERR.puts(parser)
       exit(1)
     end
 
-    private def option_parser : OptionParser
+    private def build_option_parser : OptionParser
       OptionParser.new do |parser|
         parser.banner = "Prometheus Exporter for Shelly plugs\nUsage: shellyplug-exporter [subcommand]"
-
         parser.on("run", "Run exporter server") do
           @run_server = true
 
-          parser.on("-p PORT", "--port=PORT", "Specifies exporter server port") do |port|
-            config.exporter_port = port.to_i
+          parser.on("-c FILE", "--config=FILE", "YAML config file for multiple plugs") do |file|
+            @config_path = file
           end
 
-          parser.on("--plug-host=HOST", "Specifies plug http host") { |host| config.plug_host = host }
-          parser.on("--plug-port=PORT", "Specifies plug http port") { |port|  config.plug_port = port.to_i }
-
-          parser.on("--plug-auth-username=USERNAME", "Specifies plug http auth username") do |username|
-            config.plug_auth_username = username
-          end
-
-          parser.on("--plug-auth-password=PASSWORD", "Specifies plug http auth password") do |password|
-            config.plug_auth_password = password
+          parser.on("-p PORT", "--port=PORT", "Exporter server port (overrides config)") do |port|
+            @exporter_port = port.to_i
           end
         end
 
-        parser.on("-v", "--version", "Show version") { display_version }
-        parser.on("-h", "--help", "Show help") { display_help(parser) }
-        parser.missing_option { |flag| missing_option(parser, flag) }
-        parser.invalid_option { |flag| invalid_option(parser, flag) }
+        parser.on("-v", "--version", "Show version") { show_version }
+        parser.on("-h", "--help", "Show help") { show_help(parser) }
+        parser.missing_option { |flag| handle_missing_option(parser, flag) }
+        parser.invalid_option { |flag| handle_invalid_option(parser, flag) }
       end
     end
   end
