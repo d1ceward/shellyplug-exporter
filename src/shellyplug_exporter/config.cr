@@ -44,7 +44,7 @@ module ShellyplugExporter
     end
 
     private def self.env_exporter_port : Int32
-      ENV.fetch("EXPORTER_PORT", "3000").to_i
+      ENV.fetch("EXPORTER_PORT", "5000").to_i
     end
 
     private def self.parse_plugs(plugs_node) : Array(PlugConfig)

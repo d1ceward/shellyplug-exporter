@@ -42,9 +42,9 @@ plugs:
     auth_password: pass2
 ```
 
-### Legacy: Environment Variables and CLI Flags
+### Legacy: Environment Variables
 
-You can still use environment variables or CLI flags for single plug setups:
+You can still use environment variables for single plug setups:
 
 - `SHELLYPLUG_HOST` (required)
 - `SHELLYPLUG_PORT` (optional, default 80)
@@ -54,12 +54,7 @@ You can still use environment variables or CLI flags for single plug setups:
 Example:
 
 ```shell
-shellyplug-exporter run \
-  --plug-host=shelly-plug-hostname-or-ip \
-  --plug-port=80 \
-  --plug-auth-username=username-for-http-auth \
-  --plug-auth-password=password-for-http-auth \
-  --port 5000
+shellyplug-exporter run --port 5000
 ```
 
 ### Docker (with config.yaml)
@@ -88,7 +83,7 @@ services:
     command: shellyplug-exporter run --config /config.yaml
 ```
 
-### Docker (with Environment Variables and CLI Flags)
+### Docker (with Environment Variables)
 
 With `docker run` command :
 ```shell
