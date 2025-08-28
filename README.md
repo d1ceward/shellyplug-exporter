@@ -2,7 +2,8 @@
 
 # shellyplug-exporter (v1.11.3)
 ![GitHub Workflow Status (main)](https://github.com/d1ceward/shellyplug-exporter/actions/workflows/main.yml/badge.svg?branch=master)
-[![Docker Pulls](https://img.shields.io/docker/pulls/d1ceward/shellyplug-exporter.svg)](https://hub.docker.com/r/d1ceward/shellyplug-exporter)
+[![Docker Pulls](https://img.shields.io/docker/pulls/d1ceward/shellyplug-exporter.svg?logo=docker)](https://hub.docker.com/r/d1ceward/shellyplug-exporter)
+[![GHCR](https://img.shields.io/badge/GHCR-Available-blue?logo=github)](https://github.com/users/d1ceward/packages/container/package/shellyplug-exporter)
 [![GitHub issues](https://img.shields.io/github/issues/d1ceward/shellyplug-exporter)](https://github.com/d1ceward/shellyplug-exporter/issues)
 [![GitHub license](https://img.shields.io/github/license/d1ceward/shellyplug-exporter)](https://github.com/d1ceward/shellyplug-exporter/blob/master/LICENSE)
 
@@ -13,12 +14,81 @@ Prometheus exporter for Shelly plugs model S written in Crystal.
 
 ## Installation and Usage
 
-The `SHELLYPLUG_HOST` environment variable is required to retrieve information from the plug, `SHELLYPLUG_PORT` is optional (default 80).
-Authentication variables `SHELLYPLUG_AUTH_USERNAME` and `SHELLYPLUG_AUTH_PASSWORD` depend on whether http authentication is enabled on the plug.
+### Recommended: YAML Configuration
 
-The `shellyplug-exporter` listens on HTTP port 5000 by default. See the environment variable `EXPORTER_PORT` to change this behavior.
+It is recommended to use a `config.yaml` file to manage one or more Shelly plugs. This approach is more flexible and easier to maintain than environment variables or CLI flags.
 
-### Docker
+1. Create a `config.yaml` file in your project root (see example below).
+2. Start the exporter using:
+
+```shell
+shellyplug-exporter run --config config.yaml
+```
+
+#### Example config.yaml
+
+```yaml
+exporter_port: 5000
+plugs:
+  - name: plug1
+    host: 192.168.33.2
+    port: 80
+    auth_username: user1
+    auth_password: pass1
+  - name: plug2
+    host: 192.168.33.3
+    port: 80
+    auth_username: user2
+    auth_password: pass2
+```
+
+### Legacy: Environment Variables and CLI Flags
+
+You can still use environment variables or CLI flags for single plug setups:
+
+- `SHELLYPLUG_HOST` (required)
+- `SHELLYPLUG_PORT` (optional, default 80)
+- `SHELLYPLUG_AUTH_USERNAME` and `SHELLYPLUG_AUTH_PASSWORD` (if HTTP auth enabled)
+- `EXPORTER_PORT` (default 5000)
+
+Example:
+
+```shell
+shellyplug-exporter run \
+  --plug-host=shelly-plug-hostname-or-ip \
+  --plug-port=80 \
+  --plug-auth-username=username-for-http-auth \
+  --plug-auth-password=password-for-http-auth \
+  --port 5000
+```
+
+### Docker (with config.yaml)
+
+To use a custom `config.yaml` file with Docker, mount it as a volume:
+
+```shell
+docker run -d \
+  -p 8080:5000 \
+  -v $(pwd)/config.yaml:/config.yaml \
+  ghcr.io/d1ceward/shellyplug-exporter:latest \
+  shellyplug-exporter run --config /config.yaml
+```
+
+Or with docker-compose:
+
+```yaml
+services:
+  plug_exporter:
+    image: ghcr.io/d1ceward/shellyplug-exporter:latest
+    restart: unless-stopped
+    ports:
+      - 8080:5000
+    volumes:
+      - ./config.yaml:/config.yaml
+    command: shellyplug-exporter run --config /config.yaml
+```
+
+### Docker (with Environment Variables and CLI Flags)
 
 With `docker run` command :
 ```shell
@@ -63,12 +133,7 @@ chmod +x shellyplug-exporter
 
 Execution example :
 ```shell
-shellyplug-exporter run \
-  --plug-host=shelly-plug-hostname-or-ip \
-  --plug-port=80 \
-  --plug-auth-username=username-for-http-auth \
-  --plug-auth-password=password-for-http-auth \
-  --port 5000
+shellyplug-exporter run --port 5000
 ```
 
 Documentation available here : https://d1ceward.github.io/shellyplug-exporter/
@@ -84,6 +149,13 @@ shellyplug_overpower   | Overpower drawn in watts             | Gauge   |
 shellyplug_total       | Total power consumed in watt-minute  | Counter |
 shellyplug_temperature | Plug temperature in celsius          | Gauge   |
 shellyplug_uptime      | Plug uptime in seconds               | Gauge   |
+
+When using multiple plugs via YAML, metrics are exposed for each plug with the plug name as a label:
+
+```
+shellyplug_power{plug="plug1"} 12.3
+shellyplug_power{plug="plug2"} 8.7
+```
 
 ## Contributing
 
