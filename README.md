@@ -154,4 +154,4 @@ See: [d1ceward.github.io/shellyplug-exporter](https://d1ceward.github.io/shellyp
 
 ## Contributors
 
-- [d1ceward](https://github.com/d1ceward) – creator and
+- [d1ceward](https://github.com/d1ceward) – creator and maintainer
