@@ -6,7 +6,10 @@ INFO_FILE="/run/shellyplug-exporter.info"
 PORT="5000"
 
 if [ -f "$INFO_FILE" ]; then
-  PORT=$(grep '^EXPORTER_PORT=' "$INFO_FILE" | cut -d'=' -f2)
+  EXTRACTED_PORT=$(grep '^EXPORTER_PORT=' "$INFO_FILE" | cut -d'=' -f2)
+  if [ -n "$EXTRACTED_PORT" ]; then
+    PORT="$EXTRACTED_PORT"
+  fi
 fi
 
 curl -fs "http://localhost:${PORT}/health" || exit 1
