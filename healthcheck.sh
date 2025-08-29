@@ -12,4 +12,4 @@ if [ -f "$INFO_FILE" ]; then
   fi
 fi
 
-curl -fs --max-time 5 "http://localhost:${PORT}/health" || exit 1
+curl -fs --max-time 4 "http://localhost:${PORT}/health" || exit 1
