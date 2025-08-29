@@ -18,6 +18,13 @@ module ShellyplugExporter
       plugs = config.plugs.map { |plug_config| Plug.new(plug_config) }
       port = exporter_port || config.exporter_port
 
+      # Write only exporter port to a known file for healthcheck
+      begin
+        File.write("/tmp/shellyplug-exporter.info", "EXPORTER_PORT=#{port}\n")
+      rescue ex
+        STDERR.puts "Warning: Could not write /tmp/shellyplug-exporter.info: #{ex.message}"
+      end
+
       Server.new(plugs, port).run
     end
 
