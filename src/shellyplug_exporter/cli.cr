@@ -22,7 +22,7 @@ module ShellyplugExporter
       begin
         File.write("/tmp/shellyplug-exporter.info", "EXPORTER_PORT=#{port}\n")
       rescue ex
-        STDERR.puts "Warning: Could not write /run/shellyplug-exporter.info: #{ex.message}"
+        STDERR.puts "Warning: Could not write /tmp/shellyplug-exporter.info: #{ex.message}"
       end
 
       Server.new(plugs, port).run
