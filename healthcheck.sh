@@ -2,7 +2,7 @@
 # Docker healthcheck for shellyplug-exporter
 # Reads exporter port from /run/shellyplug-exporter.info if present, else defaults to 5000
 
-INFO_FILE="/run/shellyplug-exporter.info"
+INFO_FILE="/tmp/shellyplug-exporter.info"
 PORT="5000"
 
 if [ -f "$INFO_FILE" ]; then
