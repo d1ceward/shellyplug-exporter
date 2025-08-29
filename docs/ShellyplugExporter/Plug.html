@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.15.1">
-<meta name="crystal_docs.project_version" content="1.11.3">
+<meta name="generator" content="Crystal Docs 1.16.3">
+<meta name="crystal_docs.project_version" content="2.0.0">
 <meta name="crystal_docs.project_name" content="shellyplug-exporter">
 
 
@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="shellyplug-exporter">
-  <title>ShellyplugExporter::Plug - shellyplug-exporter 1.11.3</title>
+  <title>ShellyplugExporter::Plug - shellyplug-exporter 2.0.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -45,7 +45,7 @@
       </h1>
 
       <span class="project-version">
-        1.11.3
+        2.0.0
       </span>
     </div>
   </div>
@@ -79,6 +79,11 @@
   
   <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/PlugClient" data-name="shellyplugexporter::plugclient">
       <a href="../ShellyplugExporter/PlugClient.html">PlugClient</a>
+      
+    </li>
+  
+  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/PlugConfig" data-name="shellyplugexporter::plugconfig">
+      <a href="../ShellyplugExporter/PlugConfig.html">PlugConfig</a>
       
     </li>
   
@@ -122,9 +127,7 @@
     Overview
   </h2>
 
-  <p>Plug class represents a Shelly plug device and provides methods to query data from it.</p>
-<pre><code class="language-crystal">config <span class="o">=</span> <span class="t">ShellyplugExporter</span><span class="t">::</span><span class="t">Config</span>.new
-<span class="t">ShellyplugExporter</span><span class="t">::</span><span class="t">Plug</span>.new(config)</code></pre>
+  <p>Represents a Shelly plug device and provides methods to query data from it.</p>
 
 
 
@@ -172,7 +175,9 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new%28config%3AConfig%29-class-method" class="signature"><strong>.new</strong>(config : Config)</a>
+        <a href="#new%28config%3APlugConfig%29-class-method" class="signature"><strong>.new</strong>(config : PlugConfig)</a>
+        
+          <div class="summary"><p>Initialize with a PlugConfig</p></div>
         
       </li>
     
@@ -195,6 +200,26 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
+        <a href="#client%3APlugClient-instance-method" class="signature"><strong>#client</strong> : PlugClient</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#client%3D%28client%3APlugClient%29-instance-method" class="signature"><strong>#client=</strong>(client : PlugClient)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#config%3APlugConfig-instance-method" class="signature"><strong>#config</strong> : PlugConfig</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#config%3D%28config%3APlugConfig%29-instance-method" class="signature"><strong>#config=</strong>(config : PlugConfig)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#name%3AString%7CNil-instance-method" class="signature"><strong>#name</strong> : String | Nil</a>
         
       </li>
@@ -206,6 +231,8 @@
     
       <li class="entry-summary">
         <a href="#query_data%3AHash%28Symbol%2CFloat64%7CInt64%29-instance-method" class="signature"><strong>#query_data</strong> : Hash(Symbol, Float64 | Int64)</a>
+        
+          <div class="summary"><p>Queries the plug for metrics data.</p></div>
         
       </li>
     
@@ -253,13 +280,18 @@
     Constructor Detail
   </h2>
   
-    <div class="entry-detail" id="new(config:Config)-class-method">
+    <div class="entry-detail" id="new(config:PlugConfig)-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>(config : <a href="../ShellyplugExporter/Config.html">Config</a>)
+        def self.<strong>new</strong>(config : <a href="../ShellyplugExporter/PlugConfig.html">PlugConfig</a>)
 
-        <a class="method-permalink" href="#new%28config%3AConfig%29-class-method">#</a>
+        <a class="method-permalink" href="#new%28config%3APlugConfig%29-class-method">#</a>
       </div>
+      
+        <div class="doc">
+          
+          <p>Initialize with a PlugConfig</p>
+        </div>
       
       <br/>
       <div>
@@ -282,6 +314,62 @@
 </a>
     Instance Method Detail
   </h2>
+  
+    <div class="entry-detail" id="client:PlugClient-instance-method">
+      <div class="signature">
+        
+        def <strong>client</strong> : <a href="../ShellyplugExporter/PlugClient.html">PlugClient</a>
+
+        <a class="method-permalink" href="#client%3APlugClient-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="client=(client:PlugClient)-instance-method">
+      <div class="signature">
+        
+        def <strong>client=</strong>(client : <a href="../ShellyplugExporter/PlugClient.html">PlugClient</a>)
+
+        <a class="method-permalink" href="#client%3D%28client%3APlugClient%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="config:PlugConfig-instance-method">
+      <div class="signature">
+        
+        def <strong>config</strong> : <a href="../ShellyplugExporter/PlugConfig.html">PlugConfig</a>
+
+        <a class="method-permalink" href="#config%3APlugConfig-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="config=(config:PlugConfig)-instance-method">
+      <div class="signature">
+        
+        def <strong>config=</strong>(config : <a href="../ShellyplugExporter/PlugConfig.html">PlugConfig</a>)
+
+        <a class="method-permalink" href="#config%3D%28config%3APlugConfig%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
   
     <div class="entry-detail" id="name:String|Nil-instance-method">
       <div class="signature">
@@ -318,6 +406,11 @@
 
         <a class="method-permalink" href="#query_data%3AHash%28Symbol%2CFloat64%7CInt64%29-instance-method">#</a>
       </div>
+      
+        <div class="doc">
+          
+          <p>Queries the plug for metrics data.</p>
+        </div>
       
       <br/>
       <div>

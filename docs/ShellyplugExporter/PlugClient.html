@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.15.1">
-<meta name="crystal_docs.project_version" content="1.11.3">
+<meta name="generator" content="Crystal Docs 1.16.3">
+<meta name="crystal_docs.project_version" content="2.0.0">
 <meta name="crystal_docs.project_name" content="shellyplug-exporter">
 
 
@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="shellyplug-exporter">
-  <title>ShellyplugExporter::PlugClient - shellyplug-exporter 1.11.3</title>
+  <title>ShellyplugExporter::PlugClient - shellyplug-exporter 2.0.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -45,7 +45,7 @@
       </h1>
 
       <span class="project-version">
-        1.11.3
+        2.0.0
       </span>
     </div>
   </div>
@@ -79,6 +79,11 @@
   
   <li class=" current" data-id="shellyplug-exporter/ShellyplugExporter/PlugClient" data-name="shellyplugexporter::plugclient">
       <a href="../ShellyplugExporter/PlugClient.html">PlugClient</a>
+      
+    </li>
+  
+  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/PlugConfig" data-name="shellyplugexporter::plugconfig">
+      <a href="../ShellyplugExporter/PlugConfig.html">PlugConfig</a>
       
     </li>
   
@@ -122,7 +127,7 @@
     Overview
   </h2>
 
-  <p>Handles HTTP communication with the Shelly plug device.</p>
+  <p>Handles HTTP communication with a single Shelly plug device.</p>
 
 
 
@@ -194,7 +199,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new%28config%3AConfig%29-class-method" class="signature"><strong>.new</strong>(config : Config)</a>
+        <a href="#new%28config%3APlugConfig%29-class-method" class="signature"><strong>.new</strong>(config : PlugConfig)</a>
         
       </li>
     
@@ -219,10 +224,14 @@
       <li class="entry-summary">
         <a href="#fetch_settings%3AHTTP%3A%3AClient%3A%3AResponse-instance-method" class="signature"><strong>#fetch_settings</strong> : HTTP::Client::Response</a>
         
+          <div class="summary"><p>Fetches the settings from the plug.</p></div>
+        
       </li>
     
       <li class="entry-summary">
         <a href="#fetch_status%3AHTTP%3A%3AClient%3A%3AResponse-instance-method" class="signature"><strong>#fetch_status</strong> : HTTP::Client::Response</a>
+        
+          <div class="summary"><p>Fetches the status from the plug.</p></div>
         
       </li>
     
@@ -270,12 +279,12 @@
     Constructor Detail
   </h2>
   
-    <div class="entry-detail" id="new(config:Config)-class-method">
+    <div class="entry-detail" id="new(config:PlugConfig)-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>(config : <a href="../ShellyplugExporter/Config.html">Config</a>)
+        def self.<strong>new</strong>(config : <a href="../ShellyplugExporter/PlugConfig.html">PlugConfig</a>)
 
-        <a class="method-permalink" href="#new%28config%3AConfig%29-class-method">#</a>
+        <a class="method-permalink" href="#new%28config%3APlugConfig%29-class-method">#</a>
       </div>
       
       <br/>
@@ -308,6 +317,11 @@
         <a class="method-permalink" href="#fetch_settings%3AHTTP%3A%3AClient%3A%3AResponse-instance-method">#</a>
       </div>
       
+        <div class="doc">
+          
+          <p>Fetches the settings from the plug.</p>
+        </div>
+      
       <br/>
       <div>
         
@@ -321,6 +335,11 @@
 
         <a class="method-permalink" href="#fetch_status%3AHTTP%3A%3AClient%3A%3AResponse-instance-method">#</a>
       </div>
+      
+        <div class="doc">
+          
+          <p>Fetches the status from the plug.</p>
+        </div>
       
       <br/>
       <div>

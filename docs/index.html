@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.15.1">
-<meta name="crystal_docs.project_version" content="1.11.3">
+<meta name="generator" content="Crystal Docs 1.16.3">
+<meta name="crystal_docs.project_version" content="2.0.0">
 <meta name="crystal_docs.project_name" content="shellyplug-exporter">
 
 
@@ -14,7 +14,7 @@
 <script type="text/javascript" src="js/doc.js"></script>
 
   <meta name="repository-name" content="shellyplug-exporter">
-  <title>shellyplug-exporter 1.11.3</title>
+  <title>shellyplug-exporter 2.0.0</title>
   <script type="text/javascript">
   CrystalDocs.base_path = "";
   </script>
@@ -45,7 +45,7 @@
       </h1>
 
       <span class="project-version">
-        1.11.3
+        2.0.0
       </span>
     </div>
   </div>
@@ -82,6 +82,11 @@
       
     </li>
   
+  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/PlugConfig" data-name="shellyplugexporter::plugconfig">
+      <a href="ShellyplugExporter/PlugConfig.html">PlugConfig</a>
+      
+    </li>
+  
   <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/Server" data-name="shellyplugexporter::server">
       <a href="ShellyplugExporter/Server.html">Server</a>
       
@@ -100,123 +105,159 @@
 
 <div class="main-content">
 <p><img src=".github/images/shelly_plug_s.png" alt="" /></p>
-<h1><a id="shellyplug-exporter-v1.11.3" class="anchor" href="#shellyplug-exporter-v1.11.3">
+<h1><a id="shellyplug-exporter-v2.0.0" class="anchor" href="#shellyplug-exporter-v2.0.0">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
-</a>shellyplug-exporter (v1.11.3)</h1>
+</a>shellyplug-exporter (v2.0.0)</h1>
 <p><img src="https://github.com/d1ceward/shellyplug-exporter/actions/workflows/main.yml/badge.svg?branch=master" alt="GitHub Workflow Status (main)" />
-<a href="https://hub.docker.com/r/d1ceward/shellyplug-exporter"><img src="https://img.shields.io/docker/pulls/d1ceward/shellyplug-exporter.svg" alt="Docker Pulls" /></a>
+<a href="https://hub.docker.com/r/d1ceward/shellyplug-exporter"><img src="https://img.shields.io/docker/pulls/d1ceward/shellyplug-exporter.svg?logo=docker" alt="Docker Pulls" /></a>
+<a href="https://github.com/users/d1ceward/packages/container/package/shellyplug-exporter"><img src="https://img.shields.io/badge/GHCR-Available-blue?logo=github" alt="GHCR" /></a>
 <a href="https://github.com/d1ceward/shellyplug-exporter/issues"><img src="https://img.shields.io/github/issues/d1ceward/shellyplug-exporter" alt="GitHub issues" /></a>
 <a href="https://github.com/d1ceward/shellyplug-exporter/blob/master/LICENSE"><img src="https://img.shields.io/github/license/d1ceward/shellyplug-exporter" alt="GitHub license" /></a></p>
-<p>Prometheus exporter for Shelly plugs model S written in Crystal.</p>
+<p><strong>Prometheus exporter for Shelly Plug S, written in Crystal.</strong></p>
 <blockquote>
-<p><strong>Note</strong> It uses the api provided by the plug, it does not use the MQTT protocol</p>
+<p><strong>Note</strong> Uses the plug’s HTTP API (not MQTT).</p>
 </blockquote>
-<p>:rocket: Suggestions for new improvements are welcome in the issue tracker.</p>
-<h2><a id="installation-and-usage" class="anchor" href="#installation-and-usage">
+<p>:rocket: Feature requests and suggestions are welcome, open an issue!</p>
+<h2><a id="quick-start" class="anchor" href="#quick-start">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
-</a>Installation and Usage</h2>
-<p>The <code>SHELLYPLUG_HOST</code> environment variable is required to retrieve information from the plug, <code>SHELLYPLUG_PORT</code> is optional (default 80).
-Authentication variables <code>SHELLYPLUG_AUTH_USERNAME</code> and <code>SHELLYPLUG_AUTH_PASSWORD</code> depend on whether http authentication is enabled on the plug.</p>
-<p>The <code>shellyplug-exporter</code> listens on HTTP port 5000 by default. See the environment variable <code>EXPORTER_PORT</code> to change this behavior.</p>
-<h3><a id="docker" class="anchor" href="#docker">
+</a>Quick Start</h2>
+<h3><a id="1.-yaml-configuration-recommended" class="anchor" href="#1.-yaml-configuration-recommended">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
-</a>Docker</h3>
-<p>With <code>docker run</code> command :</p>
+</a>1. YAML Configuration (Recommended)</h3>
+<p>Manage multiple plugs easily with a <code>config.yaml</code> file.</p>
+<p><strong>Create <code>config.yaml</code>:</strong></p>
+<pre><code class="language-yaml">exporter_port: 5000
+plugs:
+  - name: plug1
+    host: 192.168.33.2
+    port: 80
+    auth_username: user1
+    auth_password: pass1
+  - name: plug2
+    host: 192.168.33.3
+    port: 80
+    auth_username: user2
+    auth_password: pass2</code></pre>
+<p><strong>Run the exporter:</strong></p>
+<pre><code class="language-shell">shellyplug-exporter run --config config.yaml</code></pre>
+<h3><a id="2.-environment-variables-legacy-single-plug" class="anchor" href="#2.-environment-variables-legacy-single-plug">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>2. Environment Variables (Legacy, Single Plug)</h3>
+<p>Set variables for a single plug:</p>
+<ul>
+<li><code>SHELLYPLUG_HOST</code> (required)</li>
+<li><code>SHELLYPLUG_PORT</code> (default: 80)</li>
+<li><code>SHELLYPLUG_AUTH_USERNAME</code> / <code>SHELLYPLUG_AUTH_PASSWORD</code> (if needed)</li>
+<li><code>EXPORTER_PORT</code> (default: 5000)</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code class="language-shell">shellyplug-exporter run --port 5000</code></pre>
+<hr />
+<h3><a id="3.-docker-usage" class="anchor" href="#3.-docker-usage">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>3. Docker Usage</h3>
+<p><strong>With <code>config.yaml</code>:</strong></p>
+<pre><code class="language-shell">docker run -d \
+  -p 8080:5000 \
+  -v $(pwd)/config.yaml:/config.yaml \
+  ghcr.io/d1ceward/shellyplug-exporter:latest \
+  shellyplug-exporter run --config /config.yaml</code></pre>
+<p><strong>docker-compose:</strong></p>
+<pre><code class="language-yaml">services:
+  plug_exporter:
+    image: ghcr.io/d1ceward/shellyplug-exporter:latest
+    restart: unless-stopped
+    ports:
+      - 8080:5000
+    volumes:
+      - ./config.yaml:/config.yaml
+    command: shellyplug-exporter run --config /config.yaml</code></pre>
+<p><strong>With environment variables:</strong></p>
 <pre><code class="language-shell">docker run -d \
   -p 8080:5000 \
   -e SHELLYPLUG_HOST=&quot;shelly-plug-hostname-or-ip&quot; \
   -e SHELLYPLUG_PORT=&quot;80&quot; \
-  -e SHELLYPLUG_AUTH_USERNAME=&quot;username-for-http-auth&quot; \
-  -e SHELLYPLUG_AUTH_PASSWORD=&quot;password-for-http-auth&quot; \
+  -e SHELLYPLUG_AUTH_USERNAME=&quot;username&quot; \
+  -e SHELLYPLUG_AUTH_PASSWORD=&quot;password&quot; \
   -e EXPORTER_PORT=5000 \
-  ghcr.io/d1ceward/shellyplug-exporter:latest # Or with Docker Hub: d1ceward/shellyplug-exporter:latest</code></pre>
-<p>With docker-compose file :</p>
-<pre><code class="language-yaml">---
-services:
-  plug_exporter:
-    image: ghcr.io/d1ceward/shellyplug-exporter:latest # Or with Docker Hub: d1ceward/shellyplug-exporter:latest
-    restart: unless-stopped
-    ports:
-      - 8080:5000
-    environment:
-      SHELLYPLUG_HOST: shelly-plug-hostname-or-ip
-      SHELLYPLUG_PORT: 80
-      SHELLYPLUG_AUTH_USERNAME: username-for-http-auth
-      SHELLYPLUG_AUTH_PASSWORD: password-for-http-auth
-      EXPORTER_PORT: 5000</code></pre>
-<h3><a id="linux" class="anchor" href="#linux">
+  ghcr.io/d1ceward/shellyplug-exporter:latest</code></pre>
+<h3><a id="4.-linux-binary" class="anchor" href="#4.-linux-binary">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
-</a>Linux</h3>
-<p>Download the executable file :</p>
-<pre><code class="language-shell">wget --no-verbose -O shellyplug-exporter https://github.com/d1ceward/shellyplug-exporter/releases/download/v1.11.3/shellyplug-exporter-linux-amd64</code></pre>
-<p>Modify the executable's permissions :</p>
-<pre><code class="language-shell">chmod +x shellyplug-exporter</code></pre>
-<p>Execution example :</p>
-<pre><code class="language-shell">shellyplug-exporter run \
-  --plug-host=shelly-plug-hostname-or-ip \
-  --plug-port=80 \
-  --plug-auth-username=username-for-http-auth \
-  --plug-auth-password=password-for-http-auth \
-  --port 5000</code></pre>
-<p>Documentation available here : https://d1ceward.github.io/shellyplug-exporter/</p>
+</a>4. Linux Binary</h3>
+<p><strong>Download:</strong></p>
+<pre><code class="language-shell">wget --no-verbose -O shellyplug-exporter https://github.com/d1ceward/shellyplug-exporter/releases/download/v2.0.0/shellyplug-exporter-linux-amd64
+chmod +x shellyplug-exporter</code></pre>
+<p><strong>Run:</strong></p>
+<pre><code class="language-shell">shellyplug-exporter run --port 5000</code></pre>
 <h2><a id="metrics" class="anchor" href="#metrics">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Metrics</h2>
-<p>Base path: <code>/metrics</code></p>
-<p>Name                   | Description                          | Type    |
------------------------|--------------------------------------|---------|
-shellyplug_power       | Current power drawn in watts         | Gauge   |
-shellyplug_overpower   | Overpower drawn in watts             | Gauge   |
-shellyplug_total_power | Total power consumed in watt-minute  | Counter |
-shellyplug_temperature | Plug temperature in celsius          | Gauge   |
-shellyplug_uptime      | Plug uptime in seconds               | Gauge   |</p>
+<p><strong>Endpoint:</strong> <code>/metrics</code></p>
+<p>| Name                   | Description                          | Type    |
+|------------------------|--------------------------------------|---------|
+| shellyplug_power       | Current power drawn (watts)          | Gauge   |
+| shellyplug_overpower   | Overpower drawn (watts)              | Gauge   |
+| shellyplug_total       | Total power consumed (watt-minutes)  | Counter |
+| shellyplug_temperature | Plug temperature (°C)                | Gauge   |
+| shellyplug_uptime      | Plug uptime (seconds)                | Gauge   |</p>
+<p><strong>Multiple plugs:</strong>
+Metrics include a <code>plug</code> label:</p>
+<pre><code class="language-crystal">shellyplug_power{plug<span class="o">=</span><span class="s">&quot;plug1&quot;</span>} <span class="n">12.3</span>
+shellyplug_power{plug<span class="o">=</span><span class="s">&quot;plug2&quot;</span>} <span class="n">8.7</span></code></pre>
 <h2><a id="contributing" class="anchor" href="#contributing">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Contributing</h2>
-<p>Bug reports and pull requests are welcome on GitHub at https://github.com/d1ceward/shellyplug-exporter. By contributing you agree to abide by the Code of Merit.</p>
+<p>Bug reports and pull requests are welcome!
+By contributing, you agree to the Code of Merit.</p>
 <ol>
-<li>Fork it (<a href="https://github.com/d1ceward/shellyplug-exporter/fork">https://github.com/d1ceward/shellyplug-exporter/fork</a>)</li>
-<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
-<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
-<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
-<li>Create a new Pull Request</li>
+<li>Fork: <a href="https://github.com/d1ceward/shellyplug-exporter/fork">github.com/d1ceward/shellyplug-exporter</a></li>
+<li>Create a branch: <code>git checkout -b my-new-feature</code></li>
+<li>Commit: <code>git commit -am 'Add some feature'</code></li>
+<li>Push: <code>git push origin my-new-feature</code></li>
+<li>Open a Pull Request</li>
 </ol>
-<h2><a id="development-building-and-running" class="anchor" href="#development-building-and-running">
+<h2><a id="development" class="anchor" href="#development">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
-</a>Development building and running</h2>
+</a>Development</h2>
 <ol>
-<li>Install corresponding version of Crystal lang (cf: <code>.crystal-version</code> file)</li>
-<li>Install Crystal dependencies with <code>shards install</code></li>
-<li>Build with <code>shards build</code></li>
+<li>Install Crystal (see <code>.crystal-version</code>)</li>
+<li>Install dependencies: <code>shards install</code></li>
+<li>Build: <code>shards build</code></li>
+<li>Binary: <code>bin/shellyplug-exporter</code></li>
 </ol>
-<p>The newly created binary should be at <code>bin/shellyplug-exporter</code></p>
-<h3><a id="running-tests" class="anchor" href="#running-tests">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>Running tests</h3>
+<p><strong>Run tests:</strong></p>
 <pre><code class="language-shell">crystal spec</code></pre>
+<h2><a id="documentation" class="anchor" href="#documentation">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Documentation</h2>
+<p>See: <a href="https://d1ceward.github.io/shellyplug-exporter/">d1ceward.github.io/shellyplug-exporter</a></p>
 <h2><a id="contributors" class="anchor" href="#contributors">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Contributors</h2>
 <ul>
-<li><a href="https://github.com/d1ceward">d1ceward</a> - creator and maintainer</li>
+<li><a href="https://github.com/d1ceward">d1ceward</a> – creator and maintainer</li>
 </ul>
 </div>
 </body>

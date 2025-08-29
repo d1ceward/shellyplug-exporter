@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.15.1">
-<meta name="crystal_docs.project_version" content="1.11.3">
+<meta name="generator" content="Crystal Docs 1.16.3">
+<meta name="crystal_docs.project_version" content="2.0.0">
 <meta name="crystal_docs.project_name" content="shellyplug-exporter">
 
 
@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="shellyplug-exporter">
-  <title>ShellyplugExporter::Config - shellyplug-exporter 1.11.3</title>
+  <title>ShellyplugExporter::Config - shellyplug-exporter 2.0.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -45,7 +45,7 @@
       </h1>
 
       <span class="project-version">
-        1.11.3
+        2.0.0
       </span>
     </div>
   </div>
@@ -79,6 +79,11 @@
   
   <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/PlugClient" data-name="shellyplugexporter::plugclient">
       <a href="../ShellyplugExporter/PlugClient.html">PlugClient</a>
+      
+    </li>
+  
+  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/PlugConfig" data-name="shellyplugexporter::plugconfig">
+      <a href="../ShellyplugExporter/PlugConfig.html">PlugConfig</a>
       
     </li>
   
@@ -122,10 +127,7 @@
     Overview
   </h2>
 
-  <p>A configuration entry for the program.</p>
-<p>Config can be loaded from environment variables and adjusted.</p>
-<pre><code class="language-crystal">config <span class="o">=</span> <span class="t">ShellyplugExporter</span><span class="t">::</span><span class="t">Config</span>.new
-config.exporter_port <span class="o">=</span> my_exporter_port</code></pre>
+  <p>Represents the exporter configuration, supporting multiple plugs.</p>
 
 
 
@@ -173,9 +175,14 @@ config.exporter_port <span class="o">=</span> my_exporter_port</code></pre>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new-class-method" class="signature"><strong>.new</strong></a>
+        <a href="#load%28yaml_path%3AString%7CNil%3Dnil%29%3Aself-class-method" class="signature"><strong>.load</strong>(yaml_path : String | Nil = <span class="n">nil</span>) : <span class="k">self</span></a>
         
-          <div class="summary"><p>Creates a new instance of <code><a href="../ShellyplugExporter/Config.html">ShellyplugExporter::Config</a></code> based on environment variables.</p></div>
+          <div class="summary"><p>Loads configuration from a YAML file or environment variables.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new%28exporter_port%3AInt32%2Cplugs%3AArray%28PlugConfig%29%29-class-method" class="signature"><strong>.new</strong>(exporter_port : Int32, plugs : Array(PlugConfig))</a>
         
       </li>
     
@@ -200,84 +207,20 @@ config.exporter_port <span class="o">=</span> my_exporter_port</code></pre>
       <li class="entry-summary">
         <a href="#exporter_port%3AInt32-instance-method" class="signature"><strong>#exporter_port</strong> : Int32</a>
         
-          <div class="summary"><p>Port through which the web server of the exporter will be accessible.</p></div>
-        
       </li>
     
       <li class="entry-summary">
         <a href="#exporter_port%3D%28exporter_port%3AInt32%29-instance-method" class="signature"><strong>#exporter_port=</strong>(exporter_port : Int32)</a>
         
-          <div class="summary"><p>Port through which the web server of the exporter will be accessible.</p></div>
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#plugs%3AArray%28PlugConfig%29-instance-method" class="signature"><strong>#plugs</strong> : Array(PlugConfig)</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#last_request_succeded%3ABool%7CNil-instance-method" class="signature"><strong>#last_request_succeded</strong> : Bool | Nil</a>
-        
-          <div class="summary"><p>Boolean representing if last request of the plug was successful.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#last_request_succeded%3D%28last_request_succeded%3ABool%7CNil%29-instance-method" class="signature"><strong>#last_request_succeded=</strong>(last_request_succeded : Bool | Nil)</a>
-        
-          <div class="summary"><p>Boolean representing if last request of the plug was successful.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#plug_auth_password%3AString%7CNil-instance-method" class="signature"><strong>#plug_auth_password</strong> : String | Nil</a>
-        
-          <div class="summary"><p>Password for authentication of the plug (can be configured in the plug).</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#plug_auth_password%3D%28plug_auth_password%3AString%7CNil%29-instance-method" class="signature"><strong>#plug_auth_password=</strong>(plug_auth_password : String | Nil)</a>
-        
-          <div class="summary"><p>Password for authentication of the plug (can be configured in the plug).</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#plug_auth_username%3AString%7CNil-instance-method" class="signature"><strong>#plug_auth_username</strong> : String | Nil</a>
-        
-          <div class="summary"><p>Username for authentication of the plug (can be configured in the plug).</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#plug_auth_username%3D%28plug_auth_username%3AString%7CNil%29-instance-method" class="signature"><strong>#plug_auth_username=</strong>(plug_auth_username : String | Nil)</a>
-        
-          <div class="summary"><p>Username for authentication of the plug (can be configured in the plug).</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#plug_host%3AString-instance-method" class="signature"><strong>#plug_host</strong> : String</a>
-        
-          <div class="summary"><p>Hostname or ip address of the plug.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#plug_host%3D%28plug_host%3AString%29-instance-method" class="signature"><strong>#plug_host=</strong>(plug_host : String)</a>
-        
-          <div class="summary"><p>Hostname or ip address of the plug.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#plug_port%3AInt32-instance-method" class="signature"><strong>#plug_port</strong> : Int32</a>
-        
-          <div class="summary"><p>Port of the plug api.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#plug_port%3D%28plug_port%3AInt32%29-instance-method" class="signature"><strong>#plug_port=</strong>(plug_port : Int32)</a>
-        
-          <div class="summary"><p>Port of the plug api.</p></div>
+        <a href="#plugs%3D%28plugs%3AArray%28PlugConfig%29%29-instance-method" class="signature"><strong>#plugs=</strong>(plugs : Array(PlugConfig))</a>
         
       </li>
     
@@ -325,18 +268,32 @@ config.exporter_port <span class="o">=</span> my_exporter_port</code></pre>
     Constructor Detail
   </h2>
   
-    <div class="entry-detail" id="new-class-method">
+    <div class="entry-detail" id="load(yaml_path:String|Nil=nil):self-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>
+        def self.<strong>load</strong>(yaml_path : String | Nil = <span class="n">nil</span>) : <span class="k">self</span>
 
-        <a class="method-permalink" href="#new-class-method">#</a>
+        <a class="method-permalink" href="#load%28yaml_path%3AString%7CNil%3Dnil%29%3Aself-class-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Creates a new instance of <code><a href="../ShellyplugExporter/Config.html">ShellyplugExporter::Config</a></code> based on environment variables.</p>
+          <p>Loads configuration from a YAML file or environment variables.</p>
         </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new(exporter_port:Int32,plugs:Array(PlugConfig))-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(exporter_port : Int32, plugs : Array(<a href="../ShellyplugExporter/PlugConfig.html">PlugConfig</a>))
+
+        <a class="method-permalink" href="#new%28exporter_port%3AInt32%2Cplugs%3AArray%28PlugConfig%29%29-class-method">#</a>
+      </div>
       
       <br/>
       <div>
@@ -368,11 +325,6 @@ config.exporter_port <span class="o">=</span> my_exporter_port</code></pre>
         <a class="method-permalink" href="#exporter_port%3AInt32-instance-method">#</a>
       </div>
       
-        <div class="doc">
-          
-          <p>Port through which the web server of the exporter will be accessible.</p>
-        </div>
-      
       <br/>
       <div>
         
@@ -387,10 +339,19 @@ config.exporter_port <span class="o">=</span> my_exporter_port</code></pre>
         <a class="method-permalink" href="#exporter_port%3D%28exporter_port%3AInt32%29-instance-method">#</a>
       </div>
       
-        <div class="doc">
-          
-          <p>Port through which the web server of the exporter will be accessible.</p>
-        </div>
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="plugs:Array(PlugConfig)-instance-method">
+      <div class="signature">
+        
+        def <strong>plugs</strong> : Array(<a href="../ShellyplugExporter/PlugConfig.html">PlugConfig</a>)
+
+        <a class="method-permalink" href="#plugs%3AArray%28PlugConfig%29-instance-method">#</a>
+      </div>
       
       <br/>
       <div>
@@ -398,189 +359,13 @@ config.exporter_port <span class="o">=</span> my_exporter_port</code></pre>
       </div>
     </div>
   
-    <div class="entry-detail" id="last_request_succeded:Bool|Nil-instance-method">
+    <div class="entry-detail" id="plugs=(plugs:Array(PlugConfig))-instance-method">
       <div class="signature">
         
-        def <strong>last_request_succeded</strong> : Bool | Nil
+        def <strong>plugs=</strong>(plugs : Array(<a href="../ShellyplugExporter/PlugConfig.html">PlugConfig</a>))
 
-        <a class="method-permalink" href="#last_request_succeded%3ABool%7CNil-instance-method">#</a>
+        <a class="method-permalink" href="#plugs%3D%28plugs%3AArray%28PlugConfig%29%29-instance-method">#</a>
       </div>
-      
-        <div class="doc">
-          
-          <p>Boolean representing if last request of the plug was successful.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="last_request_succeded=(last_request_succeded:Bool|Nil)-instance-method">
-      <div class="signature">
-        
-        def <strong>last_request_succeded=</strong>(last_request_succeded : Bool | Nil)
-
-        <a class="method-permalink" href="#last_request_succeded%3D%28last_request_succeded%3ABool%7CNil%29-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Boolean representing if last request of the plug was successful.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="plug_auth_password:String|Nil-instance-method">
-      <div class="signature">
-        
-        def <strong>plug_auth_password</strong> : String | Nil
-
-        <a class="method-permalink" href="#plug_auth_password%3AString%7CNil-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Password for authentication of the plug (can be configured in the plug).</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="plug_auth_password=(plug_auth_password:String|Nil)-instance-method">
-      <div class="signature">
-        
-        def <strong>plug_auth_password=</strong>(plug_auth_password : String | Nil)
-
-        <a class="method-permalink" href="#plug_auth_password%3D%28plug_auth_password%3AString%7CNil%29-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Password for authentication of the plug (can be configured in the plug).</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="plug_auth_username:String|Nil-instance-method">
-      <div class="signature">
-        
-        def <strong>plug_auth_username</strong> : String | Nil
-
-        <a class="method-permalink" href="#plug_auth_username%3AString%7CNil-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Username for authentication of the plug (can be configured in the plug).</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="plug_auth_username=(plug_auth_username:String|Nil)-instance-method">
-      <div class="signature">
-        
-        def <strong>plug_auth_username=</strong>(plug_auth_username : String | Nil)
-
-        <a class="method-permalink" href="#plug_auth_username%3D%28plug_auth_username%3AString%7CNil%29-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Username for authentication of the plug (can be configured in the plug).</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="plug_host:String-instance-method">
-      <div class="signature">
-        
-        def <strong>plug_host</strong> : String
-
-        <a class="method-permalink" href="#plug_host%3AString-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Hostname or ip address of the plug.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="plug_host=(plug_host:String)-instance-method">
-      <div class="signature">
-        
-        def <strong>plug_host=</strong>(plug_host : String)
-
-        <a class="method-permalink" href="#plug_host%3D%28plug_host%3AString%29-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Hostname or ip address of the plug.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="plug_port:Int32-instance-method">
-      <div class="signature">
-        
-        def <strong>plug_port</strong> : Int32
-
-        <a class="method-permalink" href="#plug_port%3AInt32-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Port of the plug api.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="plug_port=(plug_port:Int32)-instance-method">
-      <div class="signature">
-        
-        def <strong>plug_port=</strong>(plug_port : Int32)
-
-        <a class="method-permalink" href="#plug_port%3D%28plug_port%3AInt32%29-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Port of the plug api.</p>
-        </div>
       
       <br/>
       <div>
