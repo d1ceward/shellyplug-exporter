@@ -20,7 +20,7 @@ module ShellyplugExporter
 
       # Write only exporter port to a known file for healthcheck
       begin
-        File.write("/run/shellyplug-exporter.info", "EXPORTER_PORT=#{port}\n")
+        File.write("/tmp/shellyplug-exporter.info", "EXPORTER_PORT=#{port}\n")
       rescue ex
         STDERR.puts "Warning: Could not write /run/shellyplug-exporter.info: #{ex.message}"
       end
