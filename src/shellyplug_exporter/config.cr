@@ -18,8 +18,9 @@ module ShellyplugExporter
 
       abort_with_error("YAML config file #{yaml_path} is empty or invalid.") unless data.raw
 
-      exporter_port = data["exporter_port"]?.try(&.as_i?) ||
-              data["exporter_port"]?.try(&.as_s?).try(&.to_i?) ||
+      port_value = data["exporter_port"]?
+      exporter_port = port_value.try(&.as_i?) ||
+              port_value.try(&.as_s?).try(&.to_i?) ||
               env_exporter_port
       plugs_nodes = parse_plugs(data["plugs"]?.try(&.as_a?))
       new(exporter_port, plugs_nodes)
