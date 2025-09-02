@@ -202,7 +202,8 @@ describe ShellyplugExporter::Config do
       path = "spec/fixtures/interpolation_env_required.yaml"
       output = IO::Memory.new
       status = Process.run(
-        ["crystal", "eval", "require \"./src/shellyplug_exporter\"; ShellyplugExporter::Config.load(\"#{path}\")"],
+        "crystal eval 'require \"./src/shellyplug_exporter\"; ShellyplugExporter::Config.load(\"#{path}\")'",
+        shell: true,
         output: output,
         error: output
       )
