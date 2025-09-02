@@ -96,7 +96,7 @@ module ShellyplugExporter
       remainder : String
     ) : String
       return value || remainder if operator == ":-"
-      return (value && !value.empty?) ? value : remainder if operator == "-"
+      return value ? value : remainder if operator == "-"
       return require_env_var(value, variable, remainder) if operator == ":?"
       return require_env_var_nonempty(value, variable, remainder) if operator == "?"
 
