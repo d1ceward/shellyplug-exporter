@@ -1,5 +1,5 @@
 require "spec"
 require "webmock"
 require "../src/shellyplug_exporter"
-require "./helpers/test_helper"
-require "./helpers/cli_helper"
+require "./support/test_helpers"
+require "./support/cli_helper"

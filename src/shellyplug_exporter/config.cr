@@ -77,31 +77,39 @@ module ShellyplugExporter
 
     # Helper to handle environment variable interpolation logic
     private def self.interpolate_env_var(expression : String, fallback : String) : String
-      if matches = /^([A-Za-z_][A-Za-z0-9_]*)(:?[-?])?(.*)?$/.match(expression)
-        variable = matches[1]
-        operator = matches[2]? || ""
-        remainder = matches[3]? || ""
-        value = ENV[variable]?
+      matches = /^([A-Za-z_][A-Za-z0-9_]*)(:?[-?])?(.*)?$/.match(expression)
+      return fallback unless matches
 
-        case operator
-        when ":-"
-          value || remainder
-        when "-"
-          (value && !value.empty?) ? value : remainder
-        when ":?"
-          value || abort_with_error("Environment variable #{variable} is required: #{remainder}")
-        when "?"
-          if value && !value.empty?
-            value
-          else
-            abort_with_error("Environment variable #{variable} is required: #{remainder}")
-          end
-        else
-          value || ""
-        end
-      else
-        fallback
-      end
+      variable = matches[1]
+      operator = matches[2]? || ""
+      remainder = matches[3]? || ""
+      value = ENV[variable]?
+
+      handle_env_operator(operator, value, variable, remainder)
+    end
+
+    private def self.handle_env_operator(
+      operator : String,
+      value : String?,
+      variable : String,
+      remainder : String
+    ) : String
+      return value || remainder if operator == ":-"
+      return (value && !value.empty?) ? value : remainder if operator == "-"
+      return require_env_var(value, variable, remainder) if operator == ":?"
+      return require_env_var_nonempty(value, variable, remainder) if operator == "?"
+
+      value || ""
+    end
+
+    private def self.require_env_var(value : String?, variable : String, remainder : String) : String
+      return value if value
+      abort_with_error("Environment variable #{variable} is required: #{remainder}")
+    end
+
+    private def self.require_env_var_nonempty(value : String?, variable : String, remainder : String) : String
+      return value if value && !value.empty?
+      abort_with_error("Environment variable #{variable} is required: #{remainder}")
     end
 
     # Helper to print error and exit
