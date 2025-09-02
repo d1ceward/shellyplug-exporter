@@ -15,11 +15,10 @@
 
 ## Quick Start
 
-### 1. YAML Configuration (Recommended)
+###  Step 1. Configure Your Plugs
 
-Manage multiple plugs easily with a `config.yaml` file.
+Create a config.yaml to manage one or more plugs:
 
-**Create `config.yaml`:**
 ```yaml
 exporter_port: 5000
 plugs:
@@ -35,31 +34,12 @@ plugs:
     auth_password: pass2
 ```
 
-**Run the exporter:**
-```shell
-shellyplug-exporter run --config config.yaml
-```
+### Step 2. Run exporter
 
-### 2. Environment Variables (Legacy, Single Plug)
+#### With docker
 
-Set variables for a single plug:
-
-- `SHELLYPLUG_HOST` (required)
-- `SHELLYPLUG_PORT` (default: 80)
-- `SHELLYPLUG_AUTH_USERNAME` / `SHELLYPLUG_AUTH_PASSWORD` (if needed)
-- `EXPORTER_PORT` (default: 5000)
-
-**Example:**
-```shell
-shellyplug-exporter run --port 5000
-```
-
----
-
-### 3. Docker Usage
-
-**With `config.yaml`:**
-```shell
+Directly using your config file:
+```bash
 docker run -d \
   -p 8080:5000 \
   -v $(pwd)/config.yaml:/config.yaml \
@@ -67,7 +47,7 @@ docker run -d \
   shellyplug-exporter run --config /config.yaml
 ```
 
-**docker-compose:**
+Or with docker-compose:
 ```yaml
 services:
   plug_exporter:
@@ -80,31 +60,33 @@ services:
     command: shellyplug-exporter run --config /config.yaml
 ```
 
-**With environment variables:**
-```shell
+#### With binary
+
+Using your config file:
+```bash
+shellyplug-exporter run --config config.yaml
+```
+
+### Legacy environment variables (Single Plug, Not recommended)
+
+If you want to run with environment variables (for a single plug), you can use the following variables:
+- `SHELLYPLUG_HOST` (required): IP address or hostname of the Shelly Plug S
+- `SHELLYPLUG_PORT` (optional, default: 80): Port of the Shelly Plug S
+- `SHELLYPLUG_AUTH_USERNAME` (optional): Username for HTTP Basic Auth
+- `SHELLYPLUG_AUTH_PASSWORD` (optional): Password for HTTP Basic Auth
+- `EXPORTER_PORT` (optional, default: 5000): Port for the exporter to listen on
+
+Example with docker:
+```bash
 docker run -d \
   -p 8080:5000 \
-  -e SHELLYPLUG_HOST="shelly-plug-hostname-or-ip" \
+  -e SHELLYPLUG_HOST="192.168.33.2" \
   -e SHELLYPLUG_PORT="80" \
-  -e SHELLYPLUG_AUTH_USERNAME="username" \
-  -e SHELLYPLUG_AUTH_PASSWORD="password" \
+  -e SHELLYPLUG_AUTH_USERNAME="user1" \
+  -e SHELLYPLUG_AUTH_PASSWORD="pass1" \
   -e EXPORTER_PORT=5000 \
   ghcr.io/d1ceward/shellyplug-exporter:latest
 ```
-
-### 4. Linux Binary
-
-**Download:**
-```shell
-wget --no-verbose -O shellyplug-exporter https://github.com/d1ceward/shellyplug-exporter/releases/download/v2.0.1/shellyplug-exporter-linux-amd64
-chmod +x shellyplug-exporter
-```
-
-**Run:**
-```shell
-shellyplug-exporter run --port 5000
-```
-
 
 ## Metrics
 

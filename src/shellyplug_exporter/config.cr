@@ -12,22 +12,21 @@ module ShellyplugExporter
     end
 
     private def self.load_from_yaml(yaml_path : String) : self
-      data = YAML.parse(File.read(yaml_path))
-      unless data.raw
-        STDERR.puts("YAML config file #{yaml_path} is empty or invalid.")
-        exit(1)
-      end
+      raw_content = File.read(yaml_path)
+      interpolated_content = interpolate_env(raw_content)
+      data = YAML.parse(interpolated_content)
 
-      exporter_port = data["exporter_port"]?.try(&.as_i?) || env_exporter_port
+      abort_with_error("YAML config file #{yaml_path} is empty or invalid.") unless data.raw
+
+      exporter_port = data["exporter_port"]?.try(&.as_i?) ||
+              data["exporter_port"]?.try(&.as_s?).try(&.to_i?) ||
+              env_exporter_port
       plugs_nodes = parse_plugs(data["plugs"]?.try(&.as_a?))
-
       new(exporter_port, plugs_nodes)
     rescue ex : IO::Error | File::NotFoundError
-      STDERR.puts("YAML config file #{yaml_path} not found: #{ex.message}")
-      exit(1)
+      abort_with_error("YAML config file #{yaml_path} not found: #{ex.message}")
     rescue ex : YAML::ParseException
-      STDERR.puts("Failed to parse YAML config file #{yaml_path}: #{ex.message}")
-      exit(1)
+      abort_with_error("Failed to parse YAML config file #{yaml_path}: #{ex.message}")
     end
 
     private def self.load_from_env : self
@@ -56,8 +55,7 @@ module ShellyplugExporter
         port = plug["port"]?.try(&.as_i?)
 
         unless name && host && port
-          STDERR.puts("Plug config missing required fields: name, host, or port.")
-          exit(1)
+          abort_with_error("Plug config missing required fields: name, host, or port.")
         end
 
         PlugConfig.new(
@@ -68,6 +66,48 @@ module ShellyplugExporter
           plug["auth_password"]?.try(&.as_s?)
         )
       end
+    end
+
+    # Interpolates environment variables in the YAML content
+    private def self.interpolate_env(content : String) : String
+      content.gsub(/\$\{([^}]+)\}/) do |match|
+        interpolate_env_var($1, match)
+      end
+    end
+
+    # Helper to handle environment variable interpolation logic
+    private def self.interpolate_env_var(expression : String, fallback : String) : String
+      if matches = /^([A-Za-z_][A-Za-z0-9_]*)(:?[-?])?(.*)?$/.match(expression)
+        variable = matches[1]
+        operator = matches[2]? || ""
+        remainder = matches[3]? || ""
+        value = ENV[variable]?
+
+        case operator
+        when ":-"
+          value || remainder
+        when "-"
+          (value && !value.empty?) ? value : remainder
+        when ":?"
+          value || abort_with_error("Environment variable #{variable} is required: #{remainder}")
+        when "?"
+          if value && !value.empty?
+            value
+          else
+            abort_with_error("Environment variable #{variable} is required: #{remainder}")
+          end
+        else
+          value || ""
+        end
+      else
+        fallback
+      end
+    end
+
+    # Helper to print error and exit
+    private def self.abort_with_error(message : String) : NoReturn
+      STDERR.puts(message)
+      exit(1)
     end
   end
 end

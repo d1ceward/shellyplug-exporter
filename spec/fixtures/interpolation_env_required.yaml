@@ -1,0 +1,5 @@
+exporter_port: "${EXPORTER_PORT:?required}"
+plugs:
+  - name: "p"
+    host: "h"
+    port: 1

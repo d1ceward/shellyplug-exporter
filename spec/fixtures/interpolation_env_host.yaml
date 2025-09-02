@@ -1,0 +1,5 @@
+exporter_port: 1
+plugs:
+  - name: "p"
+    host: "${SHELLYPLUG_HOST}"
+    port: 2
