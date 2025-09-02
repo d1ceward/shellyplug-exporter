@@ -1,0 +1,5 @@
+exporter_port: "${EXPORTER_PORT-8888}"
+plugs:
+  - name: "TestPlug"
+    host: "${SHELLYPLUG_HOST-foobar}"
+    port: 80

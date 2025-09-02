@@ -178,6 +178,50 @@ describe ShellyplugExporter::Config do
   end
 
   describe "Config.load YAML variable interpolation" do
+    it "uses default for ${EXPORTER_PORT:-9999} if set but empty" do
+      ENV["EXPORTER_PORT"] = ""
+
+      path = "spec/fixtures/interpolation_env_default.yaml"
+      config = ShellyplugExporter::Config.load(path)
+
+      config.exporter_port.should eq(9999)
+    end
+
+    it "uses empty string for ${EXPORTER_PORT-8888} if set but empty" do
+      ENV["EXPORTER_PORT"] = ""
+
+      path = "spec/fixtures/interpolation_env_dash.yaml"
+      config = ShellyplugExporter::Config.load(path)
+
+      config.exporter_port.should eq(5000) # Assuming empty string to_i is 0
+    end
+
+    it "prints error and exits for ${EXPORTER_PORT:?required} if set but empty" do
+      ENV["EXPORTER_PORT"] = ""
+
+      path = "spec/fixtures/interpolation_env_required.yaml"
+      output = IO::Memory.new
+      status = Process.run(
+        "crystal eval 'require \"./src/shellyplug_exporter\"; ShellyplugExporter::Config.load(\"#{path}\")'",
+        shell: true,
+        output: output,
+        error: output
+      )
+      output.rewind
+
+      output.gets_to_end.should contain("Environment variable EXPORTER_PORT is required")
+      status.exit_code.should eq(1)
+    end
+
+    it "does not print error for ${EXPORTER_PORT?required} if set but empty" do
+      ENV["EXPORTER_PORT"] = ""
+
+      path = "spec/fixtures/interpolation_env_required_question.yaml"
+      # Should not raise error, should use empty string
+      config = ShellyplugExporter::Config.load(path)
+
+      config.exporter_port.should eq(5000) # Assuming empty string to_i is 0
+    end
     it "interpolates ${EXPORTER_PORT} from env" do
       ENV["EXPORTER_PORT"] = "12345"
 
@@ -196,10 +240,45 @@ describe ShellyplugExporter::Config do
       config.exporter_port.should eq(9999)
     end
 
+    it "uses default for ${EXPORTER_PORT-8888} if not set" do
+      ENV.delete("EXPORTER_PORT")
+
+      path = "spec/fixtures/interpolation_env_dash.yaml"
+      config = ShellyplugExporter::Config.load(path)
+
+      config.exporter_port.should eq(8888)
+    end
+
+    it "uses value for ${EXPORTER_PORT-8888} if set" do
+      ENV["EXPORTER_PORT"] = "7777"
+
+      path = "spec/fixtures/interpolation_env_dash.yaml"
+      config = ShellyplugExporter::Config.load(path)
+
+      config.exporter_port.should eq(7777)
+    end
+
     it "prints error and exits for ${EXPORTER_PORT:?required}" do
       ENV.delete("EXPORTER_PORT")
 
       path = "spec/fixtures/interpolation_env_required.yaml"
+      output = IO::Memory.new
+      status = Process.run(
+        "crystal eval 'require \"./src/shellyplug_exporter\"; ShellyplugExporter::Config.load(\"#{path}\")'",
+        shell: true,
+        output: output,
+        error: output
+      )
+      output.rewind
+
+      output.gets_to_end.should contain("Environment variable EXPORTER_PORT is required")
+      status.exit_code.should eq(1)
+    end
+
+    it "prints error and exits for ${EXPORTER_PORT?required}" do
+      ENV.delete("EXPORTER_PORT")
+
+      path = "spec/fixtures/interpolation_env_required_question.yaml"
       output = IO::Memory.new
       status = Process.run(
         "crystal eval 'require \"./src/shellyplug_exporter\"; ShellyplugExporter::Config.load(\"#{path}\")'",
@@ -220,6 +299,24 @@ describe ShellyplugExporter::Config do
       config = ShellyplugExporter::Config.load(path)
 
       config.plugs.first.host.should eq("myhost")
+    end
+
+    it "uses default for ${SHELLYPLUG_HOST-foobar} if not set" do
+      ENV.delete("SHELLYPLUG_HOST")
+
+      path = "spec/fixtures/interpolation_env_host_dash.yaml"
+      config = ShellyplugExporter::Config.load(path)
+
+      config.plugs.first.host.should eq("foobar")
+    end
+
+    it "uses value for ${SHELLYPLUG_HOST-foobar} if set" do
+      ENV["SHELLYPLUG_HOST"] = "envhost"
+
+      path = "spec/fixtures/interpolation_env_host_dash.yaml"
+      config = ShellyplugExporter::Config.load(path)
+
+      config.plugs.first.host.should eq("envhost")
     end
   end
 end

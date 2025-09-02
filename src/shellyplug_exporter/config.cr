@@ -44,7 +44,7 @@ module ShellyplugExporter
     end
 
     private def self.env_exporter_port : Int32
-      ENV.fetch("EXPORTER_PORT", "5000").to_i
+      ENV["EXPORTER_PORT"]?.try(&.to_i?) || 5000
     end
 
     private def self.parse_plugs(plugs_node) : Array(PlugConfig)
@@ -78,7 +78,7 @@ module ShellyplugExporter
 
     # Helper to handle environment variable interpolation logic
     private def self.interpolate_env_var(expression : String, fallback : String) : String
-      matches = /^([A-Za-z_][A-Za-z0-9_]*)(:-|\-|:\?|[?])?(.*)?$/.match(expression)
+      matches = /^([A-Za-z_][A-Za-z0-9_]*)(:-|\-|:\?|\?)?(.*)?$/.match(expression)
       return fallback unless matches
 
       variable = matches[1]
@@ -95,21 +95,21 @@ module ShellyplugExporter
       variable : String,
       remainder : String
     ) : String
-      return value || remainder if operator == ":-"
-      return value ? value : remainder if operator == "-"
-      return require_env_var(value, variable, remainder) if operator == ":?"
-      return require_env_var_nonempty(value, variable, remainder) if operator == "?"
+      return value || remainder if operator == "-"
+      return (value && !value.empty?) ? value : remainder if operator == ":-"
+      return require_env_var_nonempty(value, variable, remainder) if operator == ":?"
+      return require_env_var(value, variable, remainder) if operator == "?"
 
       value || ""
     end
 
-    private def self.require_env_var(value : String?, variable : String, remainder : String) : String
-      return value if value
+    private def self.require_env_var_nonempty(value : String?, variable : String, remainder : String) : String
+      return value if value && !value.empty?
       abort_with_error("Environment variable #{variable} is required: #{remainder}")
     end
 
-    private def self.require_env_var_nonempty(value : String?, variable : String, remainder : String) : String
-      return value if value && !value.empty?
+    private def self.require_env_var(value : String?, variable : String, remainder : String) : String
+      return value if value
       abort_with_error("Environment variable #{variable} is required: #{remainder}")
     end
 
