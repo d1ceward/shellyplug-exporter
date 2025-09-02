@@ -78,7 +78,7 @@ module ShellyplugExporter
 
     # Helper to handle environment variable interpolation logic
     private def self.interpolate_env_var(expression : String, fallback : String) : String
-      matches = /^([A-Za-z_][A-Za-z0-9_]*)(:?[-?])?(.*)?$/.match(expression)
+      matches = /^([A-Za-z_][A-Za-z0-9_]*)(:-|\-|:\?|[?])?(.*)?$/.match(expression)
       return fallback unless matches
 
       variable = matches[1]
