@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Crystal Docs 1.16.3">
-<meta name="crystal_docs.project_version" content="2.0.1">
+<meta name="crystal_docs.project_version" content="2.1.0">
 <meta name="crystal_docs.project_name" content="shellyplug-exporter">
 
 
@@ -14,7 +14,7 @@
 <script type="text/javascript" src="js/doc.js"></script>
 
   <meta name="repository-name" content="shellyplug-exporter">
-  <title>shellyplug-exporter 2.0.1</title>
+  <title>shellyplug-exporter 2.1.0</title>
   <script type="text/javascript">
   CrystalDocs.base_path = "";
   </script>
@@ -45,7 +45,7 @@
       </h1>
 
       <span class="project-version">
-        2.0.1
+        2.1.0
       </span>
     </div>
   </div>
@@ -105,11 +105,11 @@
 
 <div class="main-content">
 <p><img src=".github/images/shelly_plug_s.png" alt="" /></p>
-<h1><a id="shellyplug-exporter-v2.0.1" class="anchor" href="#shellyplug-exporter-v2.0.1">
+<h1><a id="shellyplug-exporter-v2.1.0" class="anchor" href="#shellyplug-exporter-v2.1.0">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
-</a>shellyplug-exporter (v2.0.1)</h1>
+</a>shellyplug-exporter (v2.1.0)</h1>
 <p><img src="https://github.com/d1ceward/shellyplug-exporter/actions/workflows/main.yml/badge.svg?branch=master" alt="GitHub Workflow Status (main)" />
 <a href="https://hub.docker.com/r/d1ceward/shellyplug-exporter"><img src="https://img.shields.io/docker/pulls/d1ceward/shellyplug-exporter.svg?logo=docker" alt="Docker Pulls" /></a>
 <a href="https://github.com/users/d1ceward/packages/container/package/shellyplug-exporter"><img src="https://img.shields.io/badge/GHCR-Available-blue?logo=github" alt="GHCR" /></a>
@@ -125,13 +125,12 @@
     <use href="#octicon-link"/>
   </svg>
 </a>Quick Start</h2>
-<h3><a id="1.-yaml-configuration-recommended" class="anchor" href="#1.-yaml-configuration-recommended">
+<h3><a id="step-1.-configure-your-plugs" class="anchor" href="#step-1.-configure-your-plugs">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
-</a>1. YAML Configuration (Recommended)</h3>
-<p>Manage multiple plugs easily with a <code>config.yaml</code> file.</p>
-<p><strong>Create <code>config.yaml</code>:</strong></p>
+</a>Step 1. Configure Your Plugs</h3>
+<p>Create a config.yaml to manage one or more plugs:</p>
 <pre><code class="language-yaml">exporter_port: 5000
 plugs:
   - name: plug1
@@ -144,35 +143,23 @@ plugs:
     port: 80
     auth_username: user2
     auth_password: pass2</code></pre>
-<p><strong>Run the exporter:</strong></p>
-<pre><code class="language-shell">shellyplug-exporter run --config config.yaml</code></pre>
-<h3><a id="2.-environment-variables-legacy-single-plug" class="anchor" href="#2.-environment-variables-legacy-single-plug">
+<h3><a id="step-2.-run-exporter" class="anchor" href="#step-2.-run-exporter">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
-</a>2. Environment Variables (Legacy, Single Plug)</h3>
-<p>Set variables for a single plug:</p>
-<ul>
-<li><code>SHELLYPLUG_HOST</code> (required)</li>
-<li><code>SHELLYPLUG_PORT</code> (default: 80)</li>
-<li><code>SHELLYPLUG_AUTH_USERNAME</code> / <code>SHELLYPLUG_AUTH_PASSWORD</code> (if needed)</li>
-<li><code>EXPORTER_PORT</code> (default: 5000)</li>
-</ul>
-<p><strong>Example:</strong></p>
-<pre><code class="language-shell">shellyplug-exporter run --port 5000</code></pre>
-<hr />
-<h3><a id="3.-docker-usage" class="anchor" href="#3.-docker-usage">
+</a>Step 2. Run exporter</h3>
+<h4><a id="with-docker" class="anchor" href="#with-docker">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
-</a>3. Docker Usage</h3>
-<p><strong>With <code>config.yaml</code>:</strong></p>
-<pre><code class="language-shell">docker run -d \
+</a>With docker</h4>
+<p>Directly using your config file:</p>
+<pre><code class="language-bash">docker run -d \
   -p 8080:5000 \
   -v $(pwd)/config.yaml:/config.yaml \
   ghcr.io/d1ceward/shellyplug-exporter:latest \
   shellyplug-exporter run --config /config.yaml</code></pre>
-<p><strong>docker-compose:</strong></p>
+<p>Or with docker-compose:</p>
 <pre><code class="language-yaml">services:
   plug_exporter:
     image: ghcr.io/d1ceward/shellyplug-exporter:latest
@@ -182,25 +169,35 @@ plugs:
     volumes:
       - ./config.yaml:/config.yaml
     command: shellyplug-exporter run --config /config.yaml</code></pre>
-<p><strong>With environment variables:</strong></p>
-<pre><code class="language-shell">docker run -d \
-  -p 8080:5000 \
-  -e SHELLYPLUG_HOST=&quot;shelly-plug-hostname-or-ip&quot; \
-  -e SHELLYPLUG_PORT=&quot;80&quot; \
-  -e SHELLYPLUG_AUTH_USERNAME=&quot;username&quot; \
-  -e SHELLYPLUG_AUTH_PASSWORD=&quot;password&quot; \
-  -e EXPORTER_PORT=5000 \
-  ghcr.io/d1ceward/shellyplug-exporter:latest</code></pre>
-<h3><a id="4.-linux-binary" class="anchor" href="#4.-linux-binary">
+<h4><a id="with-binary" class="anchor" href="#with-binary">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
-</a>4. Linux Binary</h3>
-<p><strong>Download:</strong></p>
-<pre><code class="language-shell">wget --no-verbose -O shellyplug-exporter https://github.com/d1ceward/shellyplug-exporter/releases/download/v2.0.1/shellyplug-exporter-linux-amd64
-chmod +x shellyplug-exporter</code></pre>
-<p><strong>Run:</strong></p>
-<pre><code class="language-shell">shellyplug-exporter run --port 5000</code></pre>
+</a>With binary</h4>
+<p>Using your config file:</p>
+<pre><code class="language-bash">shellyplug-exporter run --config config.yaml</code></pre>
+<h3><a id="legacy-environment-variables-single-plug-not-recommended" class="anchor" href="#legacy-environment-variables-single-plug-not-recommended">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Legacy environment variables (Single Plug, Not recommended)</h3>
+<p>If you want to run with environment variables (for a single plug), you can use the following variables:</p>
+<ul>
+<li><code>SHELLYPLUG_HOST</code> (required): IP address or hostname of the Shelly Plug S</li>
+<li><code>SHELLYPLUG_PORT</code> (optional, default: 80): Port of the Shelly Plug S</li>
+<li><code>SHELLYPLUG_AUTH_USERNAME</code> (optional): Username for HTTP Basic Auth</li>
+<li><code>SHELLYPLUG_AUTH_PASSWORD</code> (optional): Password for HTTP Basic Auth</li>
+<li><code>EXPORTER_PORT</code> (optional, default: 5000): Port for the exporter to listen on</li>
+</ul>
+<p>Example with docker:</p>
+<pre><code class="language-bash">docker run -d \
+  -p 8080:5000 \
+  -e SHELLYPLUG_HOST=&quot;192.168.33.2&quot; \
+  -e SHELLYPLUG_PORT=&quot;80&quot; \
+  -e SHELLYPLUG_AUTH_USERNAME=&quot;user1&quot; \
+  -e SHELLYPLUG_AUTH_PASSWORD=&quot;pass1&quot; \
+  -e EXPORTER_PORT=5000 \
+  ghcr.io/d1ceward/shellyplug-exporter:latest</code></pre>
 <h2><a id="metrics" class="anchor" href="#metrics">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>

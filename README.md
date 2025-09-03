@@ -1,6 +1,6 @@
 ![](.github/images/shelly_plug_s.png)
 
-# shellyplug-exporter (v2.0.1)
+# shellyplug-exporter (v2.1.0)
 
 ![GitHub Workflow Status (main)](https://github.com/d1ceward/shellyplug-exporter/actions/workflows/main.yml/badge.svg?branch=master)
 [![Docker Pulls](https://img.shields.io/docker/pulls/d1ceward/shellyplug-exporter.svg?logo=docker)](https://hub.docker.com/r/d1ceward/shellyplug-exporter)
