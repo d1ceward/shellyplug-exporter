@@ -220,7 +220,7 @@ describe ShellyplugExporter::Config do
       # Should not raise error, should use empty string
       config = ShellyplugExporter::Config.load(path)
 
-      config.exporter_port.should eq(5000) # Assuming empty string to_i is 0
+      config.exporter_port.should eq(5000) # Fallback to 5000 is used when string conversion fails (empty string to_i raises exception in Crystal)
     end
     it "interpolates ${EXPORTER_PORT} from env" do
       ENV["EXPORTER_PORT"] = "12345"
