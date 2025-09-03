@@ -1,0 +1,5 @@
+exporter_port: 5000
+plugs:
+  - name: "TestPlug"
+    host: "${SHELLYPLUG_HOST-foobar}"
+    port: 80

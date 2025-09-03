@@ -1,0 +1,5 @@
+exporter_port: "${EXPORTER_PORT?required}"
+plugs:
+  - name: "TestPlug"
+    host: "localhost"
+    port: 80
