@@ -64,7 +64,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v6
       - name: Create draft release with binaries
         uses: d1ceward/release-upload-action@v4
         with:
