@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.16.3">
-<meta name="crystal_docs.project_version" content="2.1.0">
+<meta name="generator" content="Crystal Docs 1.17.1">
+<meta name="crystal_docs.project_version" content="2.2.0">
 <meta name="crystal_docs.project_name" content="shellyplug-exporter">
 
 
@@ -14,7 +14,7 @@
 <script type="text/javascript" src="js/doc.js"></script>
 
   <meta name="repository-name" content="shellyplug-exporter">
-  <title>shellyplug-exporter 2.1.0</title>
+  <title>shellyplug-exporter 2.2.0</title>
   <script type="text/javascript">
   CrystalDocs.base_path = "";
   </script>
@@ -45,7 +45,7 @@
       </h1>
 
       <span class="project-version">
-        2.1.0
+        2.2.0
       </span>
     </div>
   </div>
@@ -72,6 +72,51 @@
       
     </li>
   
+  <li class="parent " data-id="shellyplug-exporter/ShellyplugExporter/Gen" data-name="shellyplugexporter::gen">
+      <a href="ShellyplugExporter/Gen.html">Gen</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="shellyplug-exporter/ShellyplugExporter/Gen/Helper" data-name="shellyplugexporter::gen::helper">
+      <a href="ShellyplugExporter/Gen/Helper.html">Helper</a>
+      
+        <ul>
+  
+  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/Gen/Helper/DigestAuthHelper" data-name="shellyplugexporter::gen::helper::digestauthhelper">
+      <a href="ShellyplugExporter/Gen/Helper/DigestAuthHelper.html">DigestAuthHelper</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/Gen/PlugClientGen1" data-name="shellyplugexporter::gen::plugclientgen1">
+      <a href="ShellyplugExporter/Gen/PlugClientGen1.html">PlugClientGen1</a>
+      
+    </li>
+  
+  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/Gen/PlugClientGen2" data-name="shellyplugexporter::gen::plugclientgen2">
+      <a href="ShellyplugExporter/Gen/PlugClientGen2.html">PlugClientGen2</a>
+      
+    </li>
+  
+  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/Gen/PlugGen1" data-name="shellyplugexporter::gen::pluggen1">
+      <a href="ShellyplugExporter/Gen/PlugGen1.html">PlugGen1</a>
+      
+    </li>
+  
+  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/Gen/PlugGen2" data-name="shellyplugexporter::gen::pluggen2">
+      <a href="ShellyplugExporter/Gen/PlugGen2.html">PlugGen2</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/Plug" data-name="shellyplugexporter::plug">
       <a href="ShellyplugExporter/Plug.html">Plug</a>
       
@@ -84,6 +129,11 @@
   
   <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/PlugConfig" data-name="shellyplugexporter::plugconfig">
       <a href="ShellyplugExporter/PlugConfig.html">PlugConfig</a>
+      
+    </li>
+  
+  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/PlugGeneration" data-name="shellyplugexporter::pluggeneration">
+      <a href="ShellyplugExporter/PlugGeneration.html">PlugGeneration</a>
       
     </li>
   
@@ -105,19 +155,19 @@
 
 <div class="main-content">
 <p><img src=".github/images/shelly_plug_s.png" alt="" /></p>
-<h1><a id="shellyplug-exporter-v2.1.0" class="anchor" href="#shellyplug-exporter-v2.1.0">
+<h1><a id="shellyplug-exporter-v2.2.0" class="anchor" href="#shellyplug-exporter-v2.2.0">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
-</a>shellyplug-exporter (v2.1.0)</h1>
+</a>shellyplug-exporter (v2.2.0)</h1>
 <p><img src="https://github.com/d1ceward/shellyplug-exporter/actions/workflows/main.yml/badge.svg?branch=master" alt="GitHub Workflow Status (main)" />
 <a href="https://hub.docker.com/r/d1ceward/shellyplug-exporter"><img src="https://img.shields.io/docker/pulls/d1ceward/shellyplug-exporter.svg?logo=docker" alt="Docker Pulls" /></a>
 <a href="https://github.com/users/d1ceward/packages/container/package/shellyplug-exporter"><img src="https://img.shields.io/badge/GHCR-Available-blue?logo=github" alt="GHCR" /></a>
 <a href="https://github.com/d1ceward/shellyplug-exporter/issues"><img src="https://img.shields.io/github/issues/d1ceward/shellyplug-exporter" alt="GitHub issues" /></a>
 <a href="https://github.com/d1ceward/shellyplug-exporter/blob/master/LICENSE"><img src="https://img.shields.io/github/license/d1ceward/shellyplug-exporter" alt="GitHub license" /></a></p>
-<p><strong>Prometheus exporter for Shelly Plug S, written in Crystal.</strong></p>
+<p><strong>Prometheus exporter for Shelly Plug S (Gen1) and Shelly Plus Plug S (Gen2), written in Crystal.</strong></p>
 <blockquote>
-<p><strong>Note</strong> Uses the plug’s HTTP API (not MQTT).</p>
+<p><strong>Note</strong> Uses the plug’s HTTP/RPC API (not MQTT).</p>
 </blockquote>
 <p>:rocket: Feature requests and suggestions are welcome, open an issue!</p>
 <h2><a id="quick-start" class="anchor" href="#quick-start">
@@ -136,11 +186,13 @@ plugs:
   - name: plug1
     host: 192.168.33.2
     port: 80
+    generation: 1
     auth_username: user1
     auth_password: pass1
   - name: plug2
     host: 192.168.33.3
     port: 80
+    generation: 2
     auth_username: user2
     auth_password: pass2</code></pre>
 <h3><a id="step-2.-run-exporter" class="anchor" href="#step-2.-run-exporter">
@@ -204,13 +256,14 @@ plugs:
   </svg>
 </a>Metrics</h2>
 <p><strong>Endpoint:</strong> <code>/metrics</code></p>
-<p>| Name                   | Description                          | Type    |
-|------------------------|--------------------------------------|---------|
-| shellyplug_power       | Current power drawn (watts)          | Gauge   |
-| shellyplug_overpower   | Overpower drawn (watts)              | Gauge   |
-| shellyplug_total       | Total power consumed (watt-minutes)  | Counter |
-| shellyplug_temperature | Plug temperature (°C)                | Gauge   |
-| shellyplug_uptime      | Plug uptime (seconds)                | Gauge   |</p>
+<p>| Name                       | Description                          | Type    | Gen1 | Gen2 |
+|----------------------------|--------------------------------------|---------|------|------|
+| shellyplug_power           | Current power drawn (watts)          | Gauge   |  ✓   |  ✓   |
+| shellyplug_overpower       | Overpower drawn (watts)              | Gauge   |  ✓   |  x   |
+| shellyplug_total           | Total power consumed (watt-minutes)  | Counter |  ✓   |  ✓   |
+| shellyplug_temperature     | Plug temperature (°C)                | Gauge   |  ✓   |  ✓   |
+| shellyplug_overtemperature | Plug overtemperature status (0 or 1) | Gauge   |  ✓   |  x   |
+| shellyplug_uptime          | Plug uptime (seconds)                | Gauge   |  ✓   |  ✓   |</p>
 <p><strong>Multiple plugs:</strong>
 Metrics include a <code>plug</code> label:</p>
 <pre><code class="language-crystal">shellyplug_power{plug<span class="o">=</span><span class="s">&quot;plug1&quot;</span>} <span class="n">12.3</span>
