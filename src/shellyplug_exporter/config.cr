@@ -37,6 +37,7 @@ module ShellyplugExporter
           "", # Use empty string for name
           ENV.fetch("SHELLYPLUG_HOST", "192.168.33.1"),
           ENV.fetch("SHELLYPLUG_PORT", "80").to_i,
+          PlugGeneration::Gen1,
           ENV["SHELLYPLUG_AUTH_USERNAME"]?,
           ENV["SHELLYPLUG_AUTH_PASSWORD"]?
         )]
@@ -59,10 +60,21 @@ module ShellyplugExporter
           abort_with_error("Plug config missing required fields: name, host, or port.")
         end
 
+
+        # Parse generation (gen) if present, default to Gen1
+        gen_str = plug["gen"]?.try(&.as_s?)
+        generation = case gen_str.try(&.downcase)
+        when "2", "gen2"
+          PlugGeneration::Gen2
+        else
+          PlugGeneration::Gen1
+        end
+
         PlugConfig.new(
           name,
           host,
           port,
+          generation,
           plug["auth_username"]?.try(&.as_s?),
           plug["auth_password"]?.try(&.as_s?)
         )

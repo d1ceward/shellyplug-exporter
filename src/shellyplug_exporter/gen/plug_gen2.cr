@@ -1,0 +1,19 @@
+module ShellyplugExporter::Gen
+  class PlugGen2
+    def self.query_data(data)
+      switch0 = data["switch:0"]?
+      {
+        :power => switch0.try(&.["apower"]?).try(&.as_f?) || 0_f64,
+        :overpower => 0_f64, # Not present in Gen2, set to 0
+        :total => switch0.try(&.["aenergy"]?).try(&.["total"]?).try(&.as_f?).try(&.*(60)).try(&.to_i64) || 0_i64, # kWh to Wh-min
+        :temperature => switch0.try(&.["temperature"]?).try(&.["tC"]?).try(&.as_f?) || 0_f64,
+        :overtemperature => 0_i64, # Not present in Gen2, set to 0
+        :uptime => data["sys"]?.try(&.["uptime"]?).try(&.as_i64?) || 0_i64
+      }
+    end
+
+    def self.extract_name(config)
+      config["sys"]?.try(&.[]("device")).try(&.[]("name")).try(&.as_s?)
+    end
+  end
+end

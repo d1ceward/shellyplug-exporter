@@ -103,6 +103,7 @@ describe ShellyplugExporter::Config do
         "TestPlug",
         "127.0.0.1",
         5001,
+        ShellyplugExporter::PlugGeneration::Gen1,
         ENV["SHELLYPLUG_AUTH_USERNAME"]
       )
       instance = ShellyplugExporter::Config.new(5000, [plug_config])
@@ -126,6 +127,7 @@ describe ShellyplugExporter::Config do
         "TestPlug",
         "127.0.0.1",
         5001,
+        ShellyplugExporter::PlugGeneration::Gen1,
         ENV["SHELLYPLUG_AUTH_USERNAME"]
       )
       instance = ShellyplugExporter::Config.new(5000, [plug_config])
@@ -143,6 +145,7 @@ describe ShellyplugExporter::Config do
         "TestPlug",
         "127.0.0.1",
         5001,
+        ShellyplugExporter::PlugGeneration::Gen1,
         nil,
         ENV["SHELLYPLUG_AUTH_PASSWORD"]
       )
@@ -167,6 +170,7 @@ describe ShellyplugExporter::Config do
         "TestPlug",
         "127.0.0.1",
         5001,
+        ShellyplugExporter::PlugGeneration::Gen1,
         nil,
         ENV["SHELLYPLUG_AUTH_PASSWORD"]
 )
