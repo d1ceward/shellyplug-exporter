@@ -17,9 +17,9 @@ module ShellyplugExporter::Gen
       username = config.auth_username
       password = config.auth_password
       if username && password
-        responce = client.get(endpoint)
+        response = client.get(endpoint)
 
-        if responce.status_code == 401 && (www_auth = responce.headers["WWW-Authenticate"]?)
+        if response.status_code == 401 && (www_auth = response.headers["WWW-Authenticate"]?)
           auth_header = ShellyplugExporter::Gen::Helper::DigestAuthHelper.digest_authorization(
             username,
             password,
@@ -33,10 +33,10 @@ module ShellyplugExporter::Gen
             request.headers["Authorization"] = auth_header
           end
 
-          responce = client.get(endpoint)
+          response = client.get(endpoint)
         end
 
-        responce
+        response
       else
         client.get(endpoint)
       end

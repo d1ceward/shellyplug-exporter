@@ -49,6 +49,9 @@ module ShellyplugExporter
       when PlugGeneration::Gen2
         Gen::PlugGen2.query_data(data)
       else
+        log_and_set_failure(
+          "Unknown plug generation '#{@config.generation}' for #{@config.host}, returning empty data."
+        )
         {} of Symbol => (Float64 | Int64)
       end
     end

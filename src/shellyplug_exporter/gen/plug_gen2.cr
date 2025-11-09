@@ -5,7 +5,7 @@ module ShellyplugExporter::Gen
       {
         :power => switch0.try(&.["apower"]?).try(&.as_f?) || 0_f64,
         :overpower => 0_f64, # Not present in Gen2, set to 0
-        :total => switch0.try(&.["aenergy"]?).try(&.["total"]?).try(&.as_f?).try(&.*(60)).try(&.to_i64) || 0_i64, # kWh to Wh-min
+        :total => switch0.try(&.["aenergy"]?).try(&.["total"]?).try(&.as_f?).try(&.*(60)).try(&.to_i64) || 0_i64, # Gen2 provides energy in Wh; convert to Wh-min (watt-minutes) for consistency with Gen1
         :temperature => switch0.try(&.["temperature"]?).try(&.["tC"]?).try(&.as_f?) || 0_f64,
         :overtemperature => 0_i64, # Not present in Gen2, set to 0
         :uptime => data["sys"]?.try(&.["uptime"]?).try(&.as_i64?) || 0_i64
@@ -13,7 +13,7 @@ module ShellyplugExporter::Gen
     end
 
     def self.extract_name(config)
-      config["sys"]?.try(&.[]("device")).try(&.[]("name")).try(&.as_s?)
+      config["sys"]?.try(&.["device"]?).try(&.["name"]?).try(&.as_s?)
     end
   end
 end
