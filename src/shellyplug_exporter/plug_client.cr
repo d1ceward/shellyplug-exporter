@@ -33,7 +33,7 @@ module ShellyplugExporter
       end
     end
 
-    private def with_client(&block)
+    private def with_client(&)
       client = HTTP::Client.new(@config.host, @config.port)
       yield client
     end
