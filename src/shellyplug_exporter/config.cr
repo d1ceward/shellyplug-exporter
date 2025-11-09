@@ -60,21 +60,11 @@ module ShellyplugExporter
           abort_with_error("Plug config missing required fields: name, host, or port.")
         end
 
-
-        # Parse generation (gen) if present, default to Gen1
-        gen_str = plug["gen"]?.try(&.as_s?)
-        generation = case gen_str.try(&.downcase)
-        when "2", "gen2"
-          PlugGeneration::Gen2
-        else
-          PlugGeneration::Gen1
-        end
-
         PlugConfig.new(
           name,
           host,
           port,
-          generation,
+          determine_generation(plug["generation"]?.try(&.as_i?)),
           plug["auth_username"]?.try(&.as_s?),
           plug["auth_password"]?.try(&.as_s?)
         )
@@ -129,6 +119,17 @@ module ShellyplugExporter
     private def self.abort_with_error(message : String) : NoReturn
       STDERR.puts(message)
       exit(1)
+    end
+
+    private def self.determine_generation(generation : Int32?) : PlugGeneration
+      case generation
+      when 1
+        PlugGeneration::Gen1
+      when 2
+        PlugGeneration::Gen2
+      else
+        PlugGeneration::Gen1
+      end
     end
   end
 end

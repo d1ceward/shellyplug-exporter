@@ -26,13 +26,13 @@ plugs:
   - name: plug1
     host: 192.168.33.2
     port: 80
-    gen: 1
+    generation: 1
     auth_username: user1
     auth_password: pass1
   - name: plug2
     host: 192.168.33.3
     port: 80
-    gen: 2
+    generation: 2
     auth_username: user2
     auth_password: pass2
 ```

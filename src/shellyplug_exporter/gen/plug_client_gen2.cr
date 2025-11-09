@@ -3,20 +3,43 @@ module ShellyplugExporter::Gen
     RPC_STATUS_ENDPOINT = "/rpc/Shelly.GetStatus"
     RPC_CONFIG_ENDPOINT = "/rpc/Shelly.GetConfig"
 
-    def self.fetch_status(client, config)
+    def self.fetch_status(client, config : ShellyplugExporter::PlugConfig) : HTTP::Client::Response
       request(client, config, RPC_STATUS_ENDPOINT)
     end
 
-    def self.fetch_settings(client, config)
+    def self.fetch_settings(client, config : ShellyplugExporter::PlugConfig) : HTTP::Client::Response
       request(client, config, RPC_CONFIG_ENDPOINT)
     end
 
-    def self.request(client, config, endpoint)
+    def self.request(client, config : ShellyplugExporter::PlugConfig, endpoint) : HTTP::Client::Response
       client.connect_timeout = 4.seconds
-      if config.auth_username && config.auth_password
-        client.basic_auth(config.auth_username, config.auth_password)
+
+      username = config.auth_username
+      password = config.auth_password
+      if username && password
+        responce = client.get(endpoint)
+
+        if responce.status_code == 401 && (www_auth = responce.headers["WWW-Authenticate"]?)
+          auth_header = ShellyplugExporter::Gen::Helper::DigestAuthHelper.digest_authorization(
+            username,
+            password,
+            "GET",
+            endpoint,
+            www_auth
+          )
+
+          # Use a one-time before_request hook for this request only
+          client.before_request do |request|
+            request.headers["Authorization"] = auth_header
+          end
+
+          responce = client.get(endpoint)
+        end
+
+        responce
+      else
+        client.get(endpoint)
       end
-      client.get(endpoint)
     rescue IO::TimeoutError | Socket::Addrinfo::Error | Socket::ConnectError
       HTTP::Client::Response.new(408)
     end
