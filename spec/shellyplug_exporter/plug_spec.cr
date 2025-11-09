@@ -48,6 +48,7 @@ describe ShellyplugExporter::Plug do
         :overpower => 3.50,
         :total => 785892,
         :temperature => 28.6,
+        :overtemperature => 1,
         :uptime => 627711
       })
     end
@@ -60,6 +61,7 @@ describe ShellyplugExporter::Plug do
         :overpower => 0.0,
         :total => 0,
         :temperature => 0.0,
+        :overtemperature => 0,
         :uptime => 0
       })
     end
@@ -72,6 +74,7 @@ describe ShellyplugExporter::Plug do
         :overpower => 0.0,
         :total => 0,
         :temperature => 0.0,
+        :overtemperature => 0,
         :uptime => 0
       })
     end
@@ -84,6 +87,7 @@ describe ShellyplugExporter::Plug do
         :overpower => 0.0,
         :total => 0,
         :temperature => 0.0,
+        :overtemperature => 0,
         :uptime => 0
       })
     end
@@ -95,6 +99,7 @@ describe ShellyplugExporter::Plug do
         :overpower => 0.0,
         :total => 0,
         :temperature => 0.0,
+        :overtemperature => 0,
         :uptime => 0
       })
     end

@@ -12,7 +12,15 @@ describe ShellyplugExporter::PlugConfig do
   end
 
   it "initializes with all fields" do
-    config = ShellyplugExporter::PlugConfig.new("plug2", "192.168.1.3", 8080, "user", "pass", true)
+    config = ShellyplugExporter::PlugConfig.new(
+      "plug2",
+      "192.168.1.3",
+      8080,
+      ShellyplugExporter::PlugGeneration::Gen1,
+      "user",
+      "pass",
+      true
+    )
     config.name.should eq "plug2"
     config.host.should eq "192.168.1.3"
     config.port.should eq 8080

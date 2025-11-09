@@ -47,7 +47,7 @@
     }
   ],
   "temperature": 28.6,
-  "overtemperature": false,
+  "overtemperature": true,
   "tmp": {
     "tC": 28.6,
     "tF": 83.48,

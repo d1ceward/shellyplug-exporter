@@ -8,8 +8,9 @@
 [![GitHub issues](https://img.shields.io/github/issues/d1ceward/shellyplug-exporter)](https://github.com/d1ceward/shellyplug-exporter/issues)
 [![GitHub license](https://img.shields.io/github/license/d1ceward/shellyplug-exporter)](https://github.com/d1ceward/shellyplug-exporter/blob/master/LICENSE)
 
-**Prometheus exporter for Shelly Plug S, written in Crystal.**
-> **Note** Uses the plug’s HTTP API (not MQTT).
+
+**Prometheus exporter for Shelly Plug S (Gen1) and Shelly Plus Plug S (Gen2), written in Crystal.**
+> **Note** Uses the plug’s HTTP/RPC API (not MQTT).
 
 :rocket: Feature requests and suggestions are welcome, open an issue!
 
@@ -25,11 +26,13 @@ plugs:
   - name: plug1
     host: 192.168.33.2
     port: 80
+    generation: 1
     auth_username: user1
     auth_password: pass1
   - name: plug2
     host: 192.168.33.3
     port: 80
+    generation: 2
     auth_username: user2
     auth_password: pass2
 ```
@@ -92,13 +95,14 @@ docker run -d \
 
 **Endpoint:** `/metrics`
 
-| Name                   | Description                          | Type    |
-|------------------------|--------------------------------------|---------|
-| shellyplug_power       | Current power drawn (watts)          | Gauge   |
-| shellyplug_overpower   | Overpower drawn (watts)              | Gauge   |
-| shellyplug_total       | Total power consumed (watt-minutes)  | Counter |
-| shellyplug_temperature | Plug temperature (°C)                | Gauge   |
-| shellyplug_uptime      | Plug uptime (seconds)                | Gauge   |
+| Name                       | Description                          | Type    | Gen1 | Gen2 |
+|----------------------------|--------------------------------------|---------|------|------|
+| shellyplug_power           | Current power drawn (watts)          | Gauge   |  ✓   |  ✓   |
+| shellyplug_overpower       | Overpower drawn (watts)              | Gauge   |  ✓   |  x   |
+| shellyplug_total           | Total power consumed (watt-minutes)  | Counter |  ✓   |  ✓   |
+| shellyplug_temperature     | Plug temperature (°C)                | Gauge   |  ✓   |  ✓   |
+| shellyplug_overtemperature | Plug overtemperature status (0 or 1) | Gauge   |  ✓   |  x   |
+| shellyplug_uptime          | Plug uptime (seconds)                | Gauge   |  ✓   |  ✓   |
 
 **Multiple plugs:**
 Metrics include a `plug` label:
