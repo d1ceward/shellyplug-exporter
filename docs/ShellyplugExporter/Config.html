@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.17.1">
-<meta name="crystal_docs.project_version" content="2.2.0">
+<meta name="generator" content="Crystal Docs 1.18.2">
+<meta name="crystal_docs.project_version" content="3.0.0">
 <meta name="crystal_docs.project_name" content="shellyplug-exporter">
 
 
@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="shellyplug-exporter">
-  <title>ShellyplugExporter::Config - shellyplug-exporter 2.2.0</title>
+  <title>ShellyplugExporter::Config - shellyplug-exporter 3.0.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -45,7 +45,7 @@
       </h1>
 
       <span class="project-version">
-        2.2.0
+        3.0.0
       </span>
     </div>
   </div>
@@ -211,6 +211,25 @@
 
 
 
+  
+    <h2>
+      <a id="constant-summary" class="anchor" href="#constant-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Constant Summary
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="DEFAULT_CONFIG_PATH">
+        <strong>DEFAULT_CONFIG_PATH</strong> = <code><span class="s">&quot;/config.yaml&quot;</span></code>
+      </dt>
+      
+    
+  </dl>
+
 
 
   
@@ -227,7 +246,7 @@
       <li class="entry-summary">
         <a href="#load%28yaml_path%3AString%7CNil%3Dnil%29%3Aself-class-method" class="signature"><strong>.load</strong>(yaml_path : String | Nil = <span class="n">nil</span>) : <span class="k">self</span></a>
         
-          <div class="summary"><p>Loads configuration from a YAML file or environment variables.</p></div>
+          <div class="summary"><p>Loads configuration from a YAML file, auto-detected default path, or environment variables.</p></div>
         
       </li>
     
@@ -240,6 +259,28 @@
 
 
   
+  <h2>
+    <a id="class-method-summary" class="anchor" href="#class-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#default_config_path%3AString-class-method" class="signature"><strong>.default_config_path</strong> : String</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#default_config_path%3D%28default_config_path%3AString%29-class-method" class="signature"><strong>.default_config_path=</strong>(default_config_path : String)</a>
+        
+      </li>
+    
+  </ul>
+
 
   
 
@@ -328,7 +369,7 @@
       
         <div class="doc">
           
-          <p>Loads configuration from a YAML file or environment variables.</p>
+          <p>Loads configuration from a YAML file, auto-detected default path, or environment variables.</p>
         </div>
       
       <br/>
@@ -354,6 +395,44 @@
 
 
   
+  <h2>
+    <a id="class-method-detail" class="anchor" href="#class-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="default_config_path:String-class-method">
+      <div class="signature">
+        
+        def self.<strong>default_config_path</strong> : String
+
+        <a class="method-permalink" href="#default_config_path%3AString-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="default_config_path=(default_config_path:String)-class-method">
+      <div class="signature">
+        
+        def self.<strong>default_config_path=</strong>(default_config_path : String)
+
+        <a class="method-permalink" href="#default_config_path%3D%28default_config_path%3AString%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+
 
   
 

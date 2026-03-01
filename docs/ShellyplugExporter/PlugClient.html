@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.17.1">
-<meta name="crystal_docs.project_version" content="2.2.0">
+<meta name="generator" content="Crystal Docs 1.18.2">
+<meta name="crystal_docs.project_version" content="3.0.0">
 <meta name="crystal_docs.project_name" content="shellyplug-exporter">
 
 
@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="shellyplug-exporter">
-  <title>ShellyplugExporter::PlugClient - shellyplug-exporter 2.2.0</title>
+  <title>ShellyplugExporter::PlugClient - shellyplug-exporter 3.0.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -45,7 +45,7 @@
       </h1>
 
       <span class="project-version">
-        2.2.0
+        3.0.0
       </span>
     </div>
   </div>
@@ -211,6 +211,25 @@
 
 
 
+  
+    <h2>
+      <a id="constant-summary" class="anchor" href="#constant-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Constant Summary
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="SHELLY_ENDPOINT">
+        <strong>SHELLY_ENDPOINT</strong> = <code><span class="s">&quot;/shelly&quot;</span></code>
+      </dt>
+      
+    
+  </dl>
+
 
 
   
@@ -246,6 +265,13 @@
     Instance Method Summary
   </h2>
   <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#detect_generation%3APlugGeneration-instance-method" class="signature"><strong>#detect_generation</strong> : PlugGeneration</a>
+        
+          <div class="summary"><p>Detects the plug generation by probing the /shelly endpoint.</p></div>
+        
+      </li>
     
       <li class="entry-summary">
         <a href="#fetch_settings%3AHTTP%3A%3AClient%3A%3AResponse-instance-method" class="signature"><strong>#fetch_settings</strong> : HTTP::Client::Response</a>
@@ -334,6 +360,27 @@
 </a>
     Instance Method Detail
   </h2>
+  
+    <div class="entry-detail" id="detect_generation:PlugGeneration-instance-method">
+      <div class="signature">
+        
+        def <strong>detect_generation</strong> : <a href="../ShellyplugExporter/PlugGeneration.html">PlugGeneration</a>
+
+        <a class="method-permalink" href="#detect_generation%3APlugGeneration-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Detects the plug generation by probing the /shelly endpoint.
+Gen2 devices include a &quot;gen&quot; field in their response.
+Returns the detected PlugGeneration, defaulting to Gen1 on failure.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
   
     <div class="entry-detail" id="fetch_settings:HTTP::Client::Response-instance-method">
       <div class="signature">
