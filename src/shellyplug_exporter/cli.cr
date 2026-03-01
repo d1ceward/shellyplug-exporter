@@ -33,7 +33,7 @@ module ShellyplugExporter
       config = Config.load(config_path)
       port = exporter_port || config.exporter_port
 
-      response = HTTP::Client.get("http://localhost:#{port}/health")
+      response = HTTP::Client.get("http://127.0.0.1:#{port}/health")
 
       if response.status_code == 200
         exit(0)
