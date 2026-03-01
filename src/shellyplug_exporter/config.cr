@@ -3,6 +3,8 @@ module ShellyplugExporter
   class Config
     DEFAULT_CONFIG_PATH = "/config.yaml"
 
+    class_property default_config_path : String = DEFAULT_CONFIG_PATH
+
     property exporter_port : Int32
     property plugs : Array(PlugConfig)
 
@@ -12,8 +14,8 @@ module ShellyplugExporter
     def self.load(yaml_path : String? = nil) : self
       if yaml_path
         load_from_yaml(yaml_path)
-      elsif File.exists?(DEFAULT_CONFIG_PATH)
-        load_from_yaml(DEFAULT_CONFIG_PATH)
+      elsif File.exists?(@@default_config_path)
+        load_from_yaml(@@default_config_path)
       else
         load_from_env
       end

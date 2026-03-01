@@ -77,31 +77,27 @@ module ShellyplugExporter
       exit(1)
     end
 
+    private def register_shared_options(parser : OptionParser) : Nil
+      parser.on("-c FILE", "--config=FILE", "YAML config file for multiple plugs") do |file|
+        @config_path = file
+      end
+
+      parser.on("-p PORT", "--port=PORT", "Exporter server port (overrides config)") do |port|
+        @exporter_port = port.to_i
+      end
+    end
+
     private def build_option_parser : OptionParser
       OptionParser.new do |parser|
         parser.banner = "Prometheus Exporter for Shelly plugs\nUsage: shellyplug-exporter [subcommand]"
         parser.on("run", "Run exporter server") do
           @run_server = true
-
-          parser.on("-c FILE", "--config=FILE", "YAML config file for multiple plugs") do |file|
-            @config_path = file
-          end
-
-          parser.on("-p PORT", "--port=PORT", "Exporter server port (overrides config)") do |port|
-            @exporter_port = port.to_i
-          end
+          register_shared_options(parser)
         end
 
         parser.on("healthcheck", "Check health of running exporter") do
           @run_healthcheck = true
-
-          parser.on("-c FILE", "--config=FILE", "YAML config file for multiple plugs") do |file|
-            @config_path = file
-          end
-
-          parser.on("-p PORT", "--port=PORT", "Exporter server port (overrides config)") do |port|
-            @exporter_port = port.to_i
-          end
+          register_shared_options(parser)
         end
 
         parser.on("-v", "--version", "Show version") { show_version }

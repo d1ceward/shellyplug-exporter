@@ -1,0 +1,5 @@
+exporter_port: 9876
+plugs:
+  - name: "auto_detected_plug"
+    host: "10.0.0.1"
+    port: 80

@@ -181,6 +181,46 @@ describe ShellyplugExporter::Config do
     end
   end
 
+  describe "Config.load auto-detection of default config path" do
+    it "loads from default config path when file exists and no yaml_path given" do
+      ShellyplugExporter::Config.default_config_path = "spec/fixtures/auto_detect_config.yaml"
+
+      config = ShellyplugExporter::Config.load(nil)
+
+      config.exporter_port.should eq(9876)
+      config.plugs.size.should eq(1)
+      config.plugs.first.name.should eq("auto_detected_plug")
+      config.plugs.first.host.should eq("10.0.0.1")
+    ensure
+      ShellyplugExporter::Config.default_config_path = ShellyplugExporter::Config::DEFAULT_CONFIG_PATH
+    end
+
+    it "falls back to env when default config path does not exist and no yaml_path given" do
+      ENV["EXPORTER_PORT"] = "4242"
+      ENV["SHELLYPLUG_HOST"] = "192.168.1.100"
+      ShellyplugExporter::Config.default_config_path = "/nonexistent/path/config.yaml"
+
+      config = ShellyplugExporter::Config.load(nil)
+
+      config.exporter_port.should eq(4242)
+      config.plugs.first.host.should eq("192.168.1.100")
+    ensure
+      ShellyplugExporter::Config.default_config_path = ShellyplugExporter::Config::DEFAULT_CONFIG_PATH
+    end
+
+    it "prefers explicit yaml_path over default config path" do
+      ENV.delete("EXPORTER_PORT")
+      ShellyplugExporter::Config.default_config_path = "spec/fixtures/auto_detect_config.yaml"
+
+      config = ShellyplugExporter::Config.load("spec/fixtures/interpolation_env_default.yaml")
+
+      # interpolation_env_default.yaml uses ${EXPORTER_PORT:-9999}, with env deleted should be 9999
+      config.exporter_port.should eq(9999)
+    ensure
+      ShellyplugExporter::Config.default_config_path = ShellyplugExporter::Config::DEFAULT_CONFIG_PATH
+    end
+  end
+
   describe "Config.load YAML variable interpolation" do
     it "uses default for ${EXPORTER_PORT:-9999} if set but empty" do
       ENV["EXPORTER_PORT"] = ""
