@@ -30,4 +30,16 @@ describe ShellyplugExporter::CLI do
     status.exit_code.should eq(1)
     output.should contain("not a valid option")
   end
+
+  it "shows help mentioning healthcheck subcommand" do
+    status, output = CLIHelper.run_cli("-h")
+    status.exit_code.should eq(0)
+    output.should contain("healthcheck")
+  end
+
+  it "shows help mentioning run subcommand" do
+    status, output = CLIHelper.run_cli("-h")
+    status.exit_code.should eq(0)
+    output.should contain("run")
+  end
 end

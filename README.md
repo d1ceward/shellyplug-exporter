@@ -41,13 +41,12 @@ plugs:
 
 #### With docker
 
-Directly using your config file:
+The container automatically loads `/config.yaml` if present, just mount your config file:
 ```bash
 docker run -d \
   -p 8080:5000 \
   -v $(pwd)/config.yaml:/config.yaml \
-  ghcr.io/d1ceward/shellyplug-exporter:latest \
-  shellyplug-exporter run --config /config.yaml
+  ghcr.io/d1ceward/shellyplug-exporter:latest
 ```
 
 Or with docker-compose:
@@ -60,8 +59,9 @@ services:
       - 8080:5000
     volumes:
       - ./config.yaml:/config.yaml
-    command: shellyplug-exporter run --config /config.yaml
 ```
+
+> **Note:** The built-in healthcheck (`/health` endpoint) is included in the Docker image, no extra setup needed.
 
 #### With binary
 

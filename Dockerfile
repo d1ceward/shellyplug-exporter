@@ -11,15 +11,14 @@ RUN export BINARY_PLATFORM="$(echo $TARGETPLATFORM | sed "s#/#-#g")" && \
 
 FROM alpine:latest
 
-RUN apk --no-cache add curl
-
 WORKDIR /
 
 COPY ./LICENSE .
 COPY --from=builder ./shellyplug-exporter .
-COPY ./healthcheck.sh /healthcheck.sh
-RUN chmod +x /shellyplug-exporter /healthcheck.sh
+RUN chmod +x /shellyplug-exporter
 
-HEALTHCHECK --interval=30s --timeout=5s CMD /healthcheck.sh
+HEALTHCHECK --interval=30s --timeout=5s CMD ["/shellyplug-exporter", "healthcheck"]
 
-ENTRYPOINT ["/shellyplug-exporter", "run"]
+ENTRYPOINT ["/shellyplug-exporter"]
+
+CMD ["run"]

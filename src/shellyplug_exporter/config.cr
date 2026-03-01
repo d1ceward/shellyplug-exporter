@@ -1,14 +1,22 @@
 module ShellyplugExporter
   # Represents the exporter configuration, supporting multiple plugs.
   class Config
+    DEFAULT_CONFIG_PATH = "/config.yaml"
+
     property exporter_port : Int32
     property plugs : Array(PlugConfig)
 
     def initialize(@exporter_port : Int32, @plugs : Array(PlugConfig)); end
 
-    # Loads configuration from a YAML file or environment variables.
+    # Loads configuration from a YAML file, auto-detected default path, or environment variables.
     def self.load(yaml_path : String? = nil) : self
-      yaml_path ? load_from_yaml(yaml_path) : load_from_env
+      if yaml_path
+        load_from_yaml(yaml_path)
+      elsif File.exists?(DEFAULT_CONFIG_PATH)
+        load_from_yaml(DEFAULT_CONFIG_PATH)
+      else
+        load_from_env
+      end
     end
 
     private def self.load_from_yaml(yaml_path : String) : self

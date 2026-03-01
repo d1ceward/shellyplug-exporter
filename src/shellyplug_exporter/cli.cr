@@ -4,11 +4,19 @@ module ShellyplugExporter
     property config_path : String? = nil
     property exporter_port : Int32? = nil
     property? run_server : Bool = false
+    property? run_healthcheck : Bool = false
 
     def initialize : Nil
       parser = build_option_parser
       parser.parse
-      run_server? ? start_server : show_help(parser, 1)
+
+      if run_healthcheck?
+        perform_healthcheck
+      elsif run_server?
+        start_server
+      else
+        show_help(parser, 1)
+      end
     end
 
     private def start_server : Nil
@@ -18,14 +26,24 @@ module ShellyplugExporter
       plugs = config.plugs.map { |plug_config| Plug.new(plug_config) }
       port = exporter_port || config.exporter_port
 
-      # Write only exporter port to a known file for healthcheck
-      begin
-        File.write("/tmp/shellyplug-exporter.info", "EXPORTER_PORT=#{port}\n")
-      rescue ex
-        STDERR.puts "Warning: Could not write /tmp/shellyplug-exporter.info: #{ex.message}"
-      end
-
       Server.new(plugs, port).run
+    end
+
+    private def perform_healthcheck : Nil
+      config = Config.load(config_path)
+      port = exporter_port || config.exporter_port
+
+      response = HTTP::Client.get("http://localhost:#{port}/health")
+
+      if response.status_code == 200
+        exit(0)
+      else
+        STDERR.puts(response.body)
+        exit(1)
+      end
+    rescue ex : Socket::ConnectError | IO::TimeoutError
+      STDERR.puts("Healthcheck failed: #{ex.message}")
+      exit(1)
     end
 
     private def setup_signal_handlers : Nil
@@ -64,6 +82,18 @@ module ShellyplugExporter
         parser.banner = "Prometheus Exporter for Shelly plugs\nUsage: shellyplug-exporter [subcommand]"
         parser.on("run", "Run exporter server") do
           @run_server = true
+
+          parser.on("-c FILE", "--config=FILE", "YAML config file for multiple plugs") do |file|
+            @config_path = file
+          end
+
+          parser.on("-p PORT", "--port=PORT", "Exporter server port (overrides config)") do |port|
+            @exporter_port = port.to_i
+          end
+        end
+
+        parser.on("healthcheck", "Check health of running exporter") do
+          @run_healthcheck = true
 
           parser.on("-c FILE", "--config=FILE", "YAML config file for multiple plugs") do |file|
             @config_path = file
