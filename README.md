@@ -26,16 +26,16 @@ plugs:
   - name: plug1
     host: 192.168.33.2
     port: 80
-    generation: 1
     auth_username: user1
     auth_password: pass1
   - name: plug2
     host: 192.168.33.3
     port: 80
-    generation: 2
     auth_username: user2
     auth_password: pass2
 ```
+
+> **Note:** The plug generation (Gen1 / Gen2) is automatically detected at startup by probing each plug's `/shelly` endpoint. No manual configuration is needed.
 
 ### Step 2. Run exporter
 
@@ -98,11 +98,13 @@ docker run -d \
 | Name                       | Description                          | Type    | Gen1 | Gen2 |
 |----------------------------|--------------------------------------|---------|------|------|
 | shellyplug_power           | Current power drawn (watts)          | Gauge   |  ✓   |  ✓   |
-| shellyplug_overpower       | Overpower drawn (watts)              | Gauge   |  ✓   |  x   |
+| shellyplug_overpower       | Overpower drawn (watts)              | Gauge   |  ✓   |  -   |
 | shellyplug_total           | Total power consumed (watt-minutes)  | Counter |  ✓   |  ✓   |
 | shellyplug_temperature     | Plug temperature (°C)                | Gauge   |  ✓   |  ✓   |
-| shellyplug_overtemperature | Plug overtemperature status (0 or 1) | Gauge   |  ✓   |  x   |
+| shellyplug_overtemperature | Plug overtemperature status (0 or 1) | Gauge   |  ✓   |  -   |
 | shellyplug_uptime          | Plug uptime (seconds)                | Gauge   |  ✓   |  ✓   |
+
+> **Note:** Metrics not supported by a plug's generation (marked `-`) are omitted from the output rather than reported as zero.
 
 **Multiple plugs:**
 Metrics include a `plug` label:

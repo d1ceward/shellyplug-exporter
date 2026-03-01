@@ -1,0 +1,13 @@
+{
+  "name": "Gen2TestPlug",
+  "id": "shellyplusplugs-aabbccddeeff",
+  "mac": "AABBCCDDEEFF",
+  "slot": 0,
+  "model": "SNPL-00112EU",
+  "gen": 2,
+  "fw_id": "20230913-112003/v1.14.1-gcb84623",
+  "ver": "1.14.1",
+  "app": "PlusPlugS",
+  "auth_en": false,
+  "auth_domain": null
+}

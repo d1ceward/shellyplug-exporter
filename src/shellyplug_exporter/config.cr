@@ -47,9 +47,8 @@ module ShellyplugExporter
           "", # Use empty string for name
           ENV.fetch("SHELLYPLUG_HOST", "192.168.33.1"),
           ENV.fetch("SHELLYPLUG_PORT", "80").to_i,
-          PlugGeneration::Gen1,
-          ENV["SHELLYPLUG_AUTH_USERNAME"]?,
-          ENV["SHELLYPLUG_AUTH_PASSWORD"]?
+          auth_username: ENV["SHELLYPLUG_AUTH_USERNAME"]?,
+          auth_password: ENV["SHELLYPLUG_AUTH_PASSWORD"]?
         )]
       )
     end
@@ -74,9 +73,8 @@ module ShellyplugExporter
           name,
           host,
           port,
-          determine_generation(plug["generation"]?.try(&.as_i?)),
-          plug["auth_username"]?.try(&.as_s?),
-          plug["auth_password"]?.try(&.as_s?)
+          auth_username: plug["auth_username"]?.try(&.as_s?),
+          auth_password: plug["auth_password"]?.try(&.as_s?)
         )
       end
     end
@@ -131,15 +129,6 @@ module ShellyplugExporter
       exit(1)
     end
 
-    private def self.determine_generation(generation : Int32?) : PlugGeneration
-      case generation
-      when 1
-        PlugGeneration::Gen1
-      when 2
-        PlugGeneration::Gen2
-      else
-        PlugGeneration::Gen1
-      end
-    end
+
   end
 end
