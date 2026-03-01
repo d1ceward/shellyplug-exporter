@@ -49,6 +49,8 @@ module ShellyplugExporter
         }
 
         metrics.each do |key, meta|
+          next unless data.has_key?(key)
+
           io << "# HELP shellyplug_#{key} #{meta[:help]}\n"
           io << "# TYPE shellyplug_#{key} #{meta[:type]}\n"
           io << "shellyplug_#{key}#{label} #{data[key]}\n"

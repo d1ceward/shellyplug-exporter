@@ -103,8 +103,7 @@ describe ShellyplugExporter::Config do
         "TestPlug",
         "127.0.0.1",
         5001,
-        ShellyplugExporter::PlugGeneration::Gen1,
-        ENV["SHELLYPLUG_AUTH_USERNAME"]
+        auth_username: ENV["SHELLYPLUG_AUTH_USERNAME"]
       )
       instance = ShellyplugExporter::Config.new(5000, [plug_config])
 
@@ -127,8 +126,7 @@ describe ShellyplugExporter::Config do
         "TestPlug",
         "127.0.0.1",
         5001,
-        ShellyplugExporter::PlugGeneration::Gen1,
-        ENV["SHELLYPLUG_AUTH_USERNAME"]
+        auth_username: ENV["SHELLYPLUG_AUTH_USERNAME"]
       )
       instance = ShellyplugExporter::Config.new(5000, [plug_config])
       instance.plugs.first.auth_username = "Hellwalker"
@@ -145,9 +143,7 @@ describe ShellyplugExporter::Config do
         "TestPlug",
         "127.0.0.1",
         5001,
-        ShellyplugExporter::PlugGeneration::Gen1,
-        nil,
-        ENV["SHELLYPLUG_AUTH_PASSWORD"]
+        auth_password: ENV["SHELLYPLUG_AUTH_PASSWORD"]
       )
       instance = ShellyplugExporter::Config.new(5000, [plug_config])
 
@@ -170,9 +166,7 @@ describe ShellyplugExporter::Config do
         "TestPlug",
         "127.0.0.1",
         5001,
-        ShellyplugExporter::PlugGeneration::Gen1,
-        nil,
-        ENV["SHELLYPLUG_AUTH_PASSWORD"]
+        auth_password: ENV["SHELLYPLUG_AUTH_PASSWORD"]
 )
       instance = ShellyplugExporter::Config.new(5000, [plug_config])
       instance.plugs.first.auth_password = "FBISurveillanceVan"

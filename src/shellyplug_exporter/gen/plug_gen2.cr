@@ -4,10 +4,8 @@ module ShellyplugExporter::Gen
       switch0 = data["switch:0"]?
       {
         :power => switch0.try(&.["apower"]?).try(&.as_f?) || 0_f64,
-        :overpower => 0_f64, # Not present in Gen2, set to 0
-        :total => switch0.try(&.["aenergy"]?).try(&.["total"]?).try(&.as_f?).try(&.*(60)).try(&.to_i64) || 0_i64, # Gen2 provides energy in Wh; convert to Wh-min (watt-minutes) for consistency with Gen1
+        :total => switch0.try(&.["aenergy"]?).try(&.["total"]?).try(&.as_f?).try(&.*(60)).try(&.to_i64) || 0_i64, # Gen2 provides energy in Wh; convert to watt-minutes for consistency with Gen1
         :temperature => switch0.try(&.["temperature"]?).try(&.["tC"]?).try(&.as_f?) || 0_f64,
-        :overtemperature => 0_i64, # Not present in Gen2, set to 0
         :uptime => data["sys"]?.try(&.["uptime"]?).try(&.as_i64?) || 0_i64
       }
     end

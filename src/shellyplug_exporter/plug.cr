@@ -7,6 +7,7 @@ module ShellyplugExporter
 
     def initialize(@config : PlugConfig)
       @client = PlugClient.new(@config)
+      @config.generation = @client.detect_generation
       @name = @config.name.presence || fetch_name
     end
 
@@ -44,23 +45,18 @@ module ShellyplugExporter
 
     private def query_data_by_generation(data : JSON::Any) : Hash(Symbol, Float64 | Int64)
       case @config.generation
-      when PlugGeneration::Gen1
+      in PlugGeneration::Gen1
         Gen::PlugGen1.query_data(data)
-      when PlugGeneration::Gen2
+      in PlugGeneration::Gen2
         Gen::PlugGen2.query_data(data)
-      else
-        log_and_set_failure(
-          "Unknown plug generation '#{@config.generation}' for #{@config.host}, returning empty data."
-        )
-        {} of Symbol => (Float64 | Int64)
       end
     end
 
     private def extract_name_by_generation(config_json : JSON::Any) : String?
       case @config.generation
-      when PlugGeneration::Gen1
+      in PlugGeneration::Gen1
         Gen::PlugGen1.extract_name(config_json)
-      when PlugGeneration::Gen2
+      in PlugGeneration::Gen2
         Gen::PlugGen2.extract_name(config_json)
       end
     end

@@ -1,0 +1,92 @@
+{
+  "ble": {},
+  "cloud": {
+    "enable": false,
+    "server": "shelly-13-eu.shelly.cloud:6022/jrpc"
+  },
+  "mqtt": {
+    "enable": false,
+    "server": "",
+    "client_id": "shellyplusplugs-aabbccddeeff",
+    "user": "",
+    "topic_prefix": "shellyplusplugs-aabbccddeeff"
+  },
+  "switch:0": {
+    "id": 0,
+    "name": null,
+    "in_mode": "momentary",
+    "initial_state": "on",
+    "auto_on": false,
+    "auto_on_delay": 0,
+    "auto_off": false,
+    "auto_off_delay": 0,
+    "power_limit": 2500,
+    "voltage_limit": 280,
+    "autorecover_voltage_errors": false,
+    "current_limit": 10
+  },
+  "sys": {
+    "device": {
+      "name": "Gen2TestPlug",
+      "mac": "AABBCCDDEEFF",
+      "fw_id": "20230913-112003/v1.14.1-gcb84623",
+      "discoverable": true,
+      "eco_mode": false
+    },
+    "location": {
+      "tz": "Europe/Berlin",
+      "lat": 52.52,
+      "lon": 13.405
+    },
+    "debug": {
+      "level": 2,
+      "file_level": null,
+      "mqtt": {
+        "enable": false
+      },
+      "websocket": {
+        "enable": false
+      },
+      "udp": {
+        "addr": null
+      }
+    },
+    "ui_data": {},
+    "rpc_udp": {
+      "dst_addr": null,
+      "listen_port": null
+    },
+    "sntp": {
+      "server": "time.google.com"
+    },
+    "cfg_rev": 5
+  },
+  "wifi": {
+    "ap": {
+      "ssid": "ShellyPlusPlugS-AABBCCDDEEFF",
+      "is_open": true,
+      "enable": false,
+      "range_extender": {
+        "enable": false
+      }
+    },
+    "sta": {
+      "ssid": "Super-Wifi",
+      "is_open": false,
+      "enable": true,
+      "ipv4mode": "dhcp",
+      "ip": null
+    },
+    "sta1": {
+      "ssid": null,
+      "is_open": true,
+      "enable": false,
+      "ipv4mode": "dhcp",
+      "ip": null
+    },
+    "roam": {
+      "rssi_thr": -80,
+      "interval": 60
+    }
+  }
+}

@@ -8,7 +8,8 @@ describe ShellyplugExporter::Plug do
       reset_webmock_and_env
     end
 
-    it "sets name from fetch_name when response is 200" do
+    it "sets name from fetch_name when response is 200 (Gen1)" do
+      stub_shelly_gen1
       WebMock.stub(:get, "127.0.0.1:5001/settings")
              .to_return(body: "{\"name\": \"TestPlug\"}", status: 200)
 
@@ -16,7 +17,17 @@ describe ShellyplugExporter::Plug do
       plug.name.should eq("TestPlug")
     end
 
+    it "sets name from fetch_name when response is 200 (Gen2)" do
+      stub_shelly_gen2
+      WebMock.stub(:get, "127.0.0.1:5001/rpc/Shelly.GetConfig")
+             .to_return(body: File.read(Path[__DIR__, "../fixtures/valid_settings_gen2.json"]), status: 200)
+
+      plug = ShellyplugExporter::Plug.new(build_plug_config(name: ""))
+      plug.name.should eq("Gen2TestPlug")
+    end
+
     it "sets name to nil when fetch_name fails (non-200)" do
+      stub_shelly_gen1
       WebMock.stub(:get, "127.0.0.1:5001/settings").to_return(status: 500)
 
       plug = ShellyplugExporter::Plug.new(build_plug_config(name: ""))
@@ -26,15 +37,17 @@ describe ShellyplugExporter::Plug do
 
   describe "#config property" do
     it "returns the config object passed to Plug" do
+      stub_shelly_gen1
       config = build_plug_config(name: "MyPlug")
       plug = ShellyplugExporter::Plug.new(config)
       plug.config.should eq(config)
     end
   end
 
-  describe "#query_data" do
+  describe "#query_data (Gen1)" do
     before_each do
       reset_webmock_and_env
+      stub_shelly_gen1
       WebMock.stub(:get, "127.0.0.1:5001/status")
              .with(headers: { "Authorization" => "Basic #{Base64.strict_encode("username:password").chomp}" })
              .to_return(body: File.read(Path[__DIR__, "../fixtures/valid_status.json"]))
@@ -102,6 +115,88 @@ describe ShellyplugExporter::Plug do
         :overtemperature => 0,
         :uptime => 0
       })
+    end
+  end
+
+  describe "#query_data (Gen2)" do
+    before_each do
+      reset_webmock_and_env
+      stub_shelly_gen2
+      WebMock.stub(:get, "127.0.0.1:5001/rpc/Shelly.GetStatus")
+             .to_return(body: File.read(Path[__DIR__, "../fixtures/valid_status_gen2.json"]), status: 200)
+      WebMock.stub(:get, "127.0.0.1:5001/rpc/Shelly.GetConfig")
+             .to_return(body: File.read(Path[__DIR__, "../fixtures/valid_settings_gen2.json"]), status: 200)
+    end
+
+    it "returns a hash with correct values" do
+      plug = ShellyplugExporter::Plug.new(build_plug_config(name: ""))
+      plug.query_data.should eq({
+        :power => 45.3,
+        :total => 74073_i64,  # 1234.56 Wh * 60 = 74073.6, truncated to i64
+        :temperature => 32.4,
+        :uptime => 123456,
+      })
+    end
+
+    it "does not include overpower or overtemperature keys" do
+      plug = ShellyplugExporter::Plug.new(build_plug_config(name: ""))
+      data = plug.query_data
+      data.has_key?(:overpower).should be_false
+      data.has_key?(:overtemperature).should be_false
+    end
+  end
+
+  describe "auto-detection of generation" do
+    before_each do
+      reset_webmock_and_env
+    end
+
+    it "detects Gen1 from /shelly response" do
+      stub_shelly_gen1
+      WebMock.stub(:get, "127.0.0.1:5001/settings")
+             .to_return(body: "{\"name\": \"TestPlug\"}", status: 200)
+
+      config = build_plug_config
+      ShellyplugExporter::Plug.new(config)
+      config.generation.should eq(ShellyplugExporter::PlugGeneration::Gen1)
+    end
+
+    it "detects Gen2 from /shelly response" do
+      stub_shelly_gen2
+      WebMock.stub(:get, "127.0.0.1:5001/rpc/Shelly.GetConfig")
+             .to_return(body: File.read(Path[__DIR__, "../fixtures/valid_settings_gen2.json"]), status: 200)
+
+      config = build_plug_config(name: "")
+      ShellyplugExporter::Plug.new(config)
+      config.generation.should eq(ShellyplugExporter::PlugGeneration::Gen2)
+    end
+
+    it "defaults to Gen1 when /shelly returns non-200" do
+      WebMock.stub(:get, "127.0.0.1:5001/shelly").to_return(status: 500)
+      WebMock.stub(:get, "127.0.0.1:5001/settings")
+             .to_return(body: "{\"name\": \"TestPlug\"}", status: 200)
+
+      config = build_plug_config
+      ShellyplugExporter::Plug.new(config)
+      config.generation.should eq(ShellyplugExporter::PlugGeneration::Gen1)
+    end
+
+    it "defaults to Gen1 when /shelly returns malformed JSON" do
+      WebMock.stub(:get, "127.0.0.1:5001/shelly")
+             .to_return(body: "not json", status: 200)
+      WebMock.stub(:get, "127.0.0.1:5001/settings")
+             .to_return(body: "{\"name\": \"TestPlug\"}", status: 200)
+
+      config = build_plug_config
+      ShellyplugExporter::Plug.new(config)
+      config.generation.should eq(ShellyplugExporter::PlugGeneration::Gen1)
+    end
+
+    it "defaults to Gen1 when plug is unreachable" do
+      WebMock.allow_net_connect = true
+      config = build_plug_config(host: "this-is-a-nonexistant-domain")
+      ShellyplugExporter::Plug.new(config)
+      config.generation.should eq(ShellyplugExporter::PlugGeneration::Gen1)
     end
   end
 end
