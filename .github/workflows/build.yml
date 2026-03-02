@@ -52,7 +52,7 @@ jobs:
 
             mv shellyplug-exporter shellyplug-exporter-${{ matrix.binarySuffix }}
       - name: Upload binaries to action artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: shellyplug-exporter-${{ matrix.binarySuffix }}
           path: ./repository/shellyplug-exporter-${{ matrix.binarySuffix }}
