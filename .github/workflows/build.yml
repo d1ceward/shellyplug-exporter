@@ -66,7 +66,7 @@ jobs:
         uses: actions/checkout@v7
       - uses: actions/download-artifact@v8
       - name: Create draft release with binaries
-        uses: d1ceward/release-upload-action@v4
+        uses: d1ceward/release-upload-action@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           files: |
