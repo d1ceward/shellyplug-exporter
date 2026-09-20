@@ -26,12 +26,18 @@ module ShellyplugExporter
             PlugGeneration::Gen1
           end
         else
-          Log.warn { "Failed to detect generation for #{@config.host} (HTTP #{response.status_code}), defaulting to Gen1." }
+          Log.warn do
+            "Failed to detect generation for #{@config.host} " \
+            "(HTTP #{response.status_code}), defaulting to Gen1."
+          end
           PlugGeneration::Gen1
         end
       end
     rescue ex : IO::TimeoutError | Socket::Addrinfo::Error | Socket::ConnectError
-      Log.warn { "Could not reach #{@config.host} for generation detection: #{ex.message}. Defaulting to Gen1." }
+      Log.warn do
+        "Could not reach #{@config.host} for generation detection: " \
+        "#{ex.message}. Defaulting to Gen1."
+      end
       PlugGeneration::Gen1
     rescue ex : JSON::ParseException
       Log.warn { "Malformed JSON from #{@config.host}/shelly: #{ex.message}. Defaulting to Gen1." }

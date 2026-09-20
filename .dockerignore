@@ -19,7 +19,7 @@ SECURITY.md
 .git/
 .github/
 .gitignore
-.crystal-version
+.tool-versions
 src/
 lib/
 shard.yml

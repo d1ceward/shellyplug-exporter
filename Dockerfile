@@ -1,4 +1,4 @@
-FROM alpine:latest AS builder
+FROM alpine:3.24.1 AS builder
 
 ARG TARGETPLATFORM
 
@@ -9,15 +9,18 @@ COPY ./shellyplug-exporter-linux-arm64/shellyplug-exporter-linux-arm64 .
 RUN export BINARY_PLATFORM="$(echo $TARGETPLATFORM | sed "s#/#-#g")" && \
     mv "./shellyplug-exporter-${BINARY_PLATFORM}" ./shellyplug-exporter
 
-FROM alpine:latest
+FROM alpine:3.24.1
 
 WORKDIR /
 
 COPY ./LICENSE .
 COPY --from=builder ./shellyplug-exporter .
+
 RUN chmod +x /shellyplug-exporter
 
 HEALTHCHECK --interval=30s --timeout=5s CMD ["/shellyplug-exporter", "healthcheck"]
+
+USER nobody
 
 ENTRYPOINT ["/shellyplug-exporter"]
 

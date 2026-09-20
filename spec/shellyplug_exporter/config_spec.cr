@@ -231,7 +231,8 @@ describe ShellyplugExporter::Config do
       path = "spec/fixtures/interpolation_env_dash.yaml"
       config = ShellyplugExporter::Config.load(path)
 
-      config.exporter_port.should eq(5000) # Fallback to 5000 is used when string conversion fails (empty string raises exception in Crystal)
+      # Fallback to 5000 is used when string conversion fails (empty string raises exception in Crystal)
+      config.exporter_port.should eq(5000)
     end
 
     it "prints error and exits for ${EXPORTER_PORT:?required} if set but empty" do
@@ -258,7 +259,8 @@ describe ShellyplugExporter::Config do
       # Should not raise error, should use empty string
       config = ShellyplugExporter::Config.load(path)
 
-      config.exporter_port.should eq(5000) # Fallback to 5000 is used when string conversion fails (empty string to_i raises exception in Crystal)
+      # Fallback to 5000 is used when string conversion fails (empty string to_i raises exception in Crystal)
+      config.exporter_port.should eq(5000)
     end
     it "interpolates ${EXPORTER_PORT} from env" do
       ENV["EXPORTER_PORT"] = "12345"

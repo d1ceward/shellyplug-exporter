@@ -59,10 +59,10 @@ describe ShellyplugExporter::Plug do
       plug.query_data.should eq({
         :power => 71.71,
         :overpower => 3.50,
-        :total => 785892,
+        :total => 785_892,
         :temperature => 28.6,
         :overtemperature => 1,
-        :uptime => 627711
+        :uptime => 627_711
       })
     end
 
@@ -134,7 +134,7 @@ describe ShellyplugExporter::Plug do
         :power => 45.3,
         :total => 74073_i64,  # 1234.56 Wh * 60 = 74073.6, truncated to i64
         :temperature => 32.4,
-        :uptime => 123456,
+        :uptime => 123_456,
       })
     end
 
