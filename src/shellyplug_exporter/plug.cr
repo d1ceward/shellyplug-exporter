@@ -5,22 +5,56 @@ module ShellyplugExporter
     property config : PlugConfig
     property client : PlugClient
 
-    def initialize(@config : PlugConfig)
+    def initialize(@config : PlugConfig) : Nil
       @client = PlugClient.new(@config)
+      @name_resolved = false
       @config.generation = @client.detect_generation
-      @name = @config.name.presence || fetch_name
+
+      configured_name = @config.name.presence
+      if configured_name
+        @name = configured_name
+        @name_resolved = true
+      else
+        @name = fetch_name
+      end
     end
 
     def query_data : Hash(Symbol, Float64 | Int64)
       response = @client.fetch_status
+      response = redetect_and_retry || response unless response.status_code == 200
       data = parse_response(response)
+      resolve_name_if_pending
       query_data_by_generation(data)
+    end
+
+    # A plug that was unreachable at startup was assumed to be Gen1, and a plug
+    # can be swapped out for another generation at the same address. Both leave
+    # the exporter querying endpoints the device does not serve, so re-probe
+    # after a failed status fetch and retry once when the generation changed.
+    private def redetect_and_retry : HTTP::Client::Response?
+      detected = @client.detect_generation
+      return if detected == @config.generation
+
+      Log.info { "Generation for #{@config.host} is now #{detected}, retrying status fetch." }
+      @config.generation = detected
+      @name_resolved = false unless @config.name.presence
+
+      @client.fetch_status
+    end
+
+    # The name is only available once the plug answers, so keep trying until a
+    # settings fetch succeeds rather than reporting the host address forever.
+    private def resolve_name_if_pending : Nil
+      return if @name_resolved || !@config.last_request_succeeded
+
+      @name = fetch_name
     end
 
     private def fetch_name : String?
       response = @client.fetch_settings
       if response.status_code == 200
         @config.last_request_succeeded = true
+        @name_resolved = true
         config_json = JSON.parse(response.body)
         extract_name_by_generation(config_json)
       else

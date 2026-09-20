@@ -1,6 +1,6 @@
 module TestHelpers
   # Sets environment variables for dummy config
-  def fill_env
+  def fill_env : Nil
     ENV["EXPORTER_PORT"] = "5000"
     ENV["SHELLYPLUG_HOST"] = "127.0.0.1"
     ENV["SHELLYPLUG_PORT"] = "5001"
@@ -9,7 +9,7 @@ module TestHelpers
   end
 
   # Resets WebMock and fills environment variables
-  def reset_webmock_and_env
+  def reset_webmock_and_env : Nil
     WebMock.reset
     fill_env
   end
@@ -22,8 +22,8 @@ module TestHelpers
     generation : ShellyplugExporter::PlugGeneration = ShellyplugExporter::PlugGeneration::Gen1,
     auth_username : String = "username",
     auth_password : String = "password",
-    last_request_succeeded = nil
-  )
+    last_request_succeeded : Bool? = nil
+  ) : ShellyplugExporter::PlugConfig
     ShellyplugExporter::PlugConfig.new(
       name: name,
       host: host,
@@ -36,18 +36,20 @@ module TestHelpers
   end
 
   # Stubs the /shelly endpoint for auto-detection
-  def stub_shelly_gen1(host : String = "127.0.0.1", port : Int32 = 5001)
+  def stub_shelly_gen1(host : String = "127.0.0.1", port : Int32 = 5001) : WebMock::Stub
     WebMock.stub(:get, "#{host}:#{port}/shelly")
            .to_return(body: File.read(Path[__DIR__, "../fixtures/valid_shelly_gen1.json"]), status: 200)
   end
 
-  def stub_shelly_gen2(host : String = "127.0.0.1", port : Int32 = 5001)
+  def stub_shelly_gen2(host : String = "127.0.0.1", port : Int32 = 5001) : WebMock::Stub
     WebMock.stub(:get, "#{host}:#{port}/shelly")
            .to_return(body: File.read(Path[__DIR__, "../fixtures/valid_shelly_gen2.json"]), status: 200)
   end
 
   # Helper to create Server and Config
-  def build_server(last_request_succeeded = nil)
+  def build_server(
+    last_request_succeeded : Bool? = nil
+  ) : NamedTuple(server: ShellyplugExporter::Server, config: ShellyplugExporter::Config)
     plug_config = build_plug_config(last_request_succeeded: last_request_succeeded)
     config = ShellyplugExporter::Config.new(5000, [plug_config])
     stub_shelly_gen1

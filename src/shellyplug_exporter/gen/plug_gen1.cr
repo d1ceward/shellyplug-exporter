@@ -1,6 +1,6 @@
 module ShellyplugExporter::Gen
   class PlugGen1
-    def self.query_data(data)
+    def self.query_data(data : JSON::Any) : Hash(Symbol, Float64 | Int64)
       meter = data["meters"]?.try(&.[0])
       {
         :power => meter.try(&.["power"]?).try(&.as_f?) || 0_f64,
@@ -12,7 +12,7 @@ module ShellyplugExporter::Gen
       }
     end
 
-    def self.extract_name(config)
+    def self.extract_name(config : JSON::Any) : String?
       config["name"]?.try(&.as_s?)
     end
   end

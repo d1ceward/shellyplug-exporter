@@ -2,17 +2,18 @@ module ShellyplugExporter
   # Handles HTTP communication with a single Shelly plug device.
   class PlugClient
     SHELLY_ENDPOINT = "/shelly"
+    CONNECT_TIMEOUT = 4.seconds
+    READ_TIMEOUT    = 4.seconds
 
     @config : PlugConfig
 
-    def initialize(@config : PlugConfig); end
+    def initialize(@config : PlugConfig) : Nil; end
 
     # Detects the plug generation by probing the /shelly endpoint.
     # Gen2 devices include a "gen" field in their response.
     # Returns the detected PlugGeneration, defaulting to Gen1 on failure.
     def detect_generation : PlugGeneration
       with_client do |client|
-        client.connect_timeout = 4.seconds
         response = client.get(SHELLY_ENDPOINT)
 
         if response.status_code == 200
@@ -70,7 +71,11 @@ module ShellyplugExporter
 
     private def with_client(&)
       client = HTTP::Client.new(@config.host, @config.port)
+      client.connect_timeout = CONNECT_TIMEOUT
+      client.read_timeout = READ_TIMEOUT
       yield client
+    ensure
+      client.try(&.close)
     end
   end
 end

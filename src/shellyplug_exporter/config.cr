@@ -8,7 +8,7 @@ module ShellyplugExporter
     property exporter_port : Int32
     property plugs : Array(PlugConfig)
 
-    def initialize(@exporter_port : Int32, @plugs : Array(PlugConfig)); end
+    def initialize(@exporter_port : Int32, @plugs : Array(PlugConfig)) : Nil; end
 
     # Loads configuration from a YAML file, auto-detected default path, or environment variables.
     def self.load(yaml_path : String? = nil) : self
@@ -128,7 +128,5 @@ module ShellyplugExporter
       STDERR.puts(message)
       exit(1)
     end
-
-
   end
 end

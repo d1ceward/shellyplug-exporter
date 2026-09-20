@@ -4,10 +4,15 @@ module ShellyplugExporter::Gen::Helper
       Digest::SHA256.hexdigest("#{username}:#{realm}:#{password}")
     end
 
+    # Matches `key="quoted value"` and bare `key=value` pairs. A bare value must
+    # stop at the next comma or space, otherwise it swallows the parameters that
+    # follow it up to the next quote.
+    PARAM_PATTERN = /(\w+)\s*=\s*(?:"([^"]*)"|([^,\s]+))/
+
     def self.parse_www_authenticate(header : String) : Hash(String, String)
       params = {} of String => String
-      header.scan(/(\w+)="?([^"]+)"?/) do |match|
-        params[match[1]] = match[2]
+      header.scan(PARAM_PATTERN) do |match|
+        params[match[1]] = match[2]? || match[3]? || ""
       end
 
       params
@@ -23,7 +28,8 @@ module ShellyplugExporter::Gen::Helper
       params = parse_www_authenticate(www_auth)
       realm = params["realm"]
       nonce = params["nonce"]
-      qop = params["qop"]? || "auth"
+      # A server may advertise several schemes, such as `qop="auth,auth-int"`.
+      qop = (params["qop"]? || "auth").split(',').first.strip
       algorithm = params["algorithm"]? || "SHA-256"
       nc = "00000001"
       cnonce = Random::Secure.hex(8)

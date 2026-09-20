@@ -93,6 +93,79 @@ describe ShellyplugExporter::Server do
     response.body.should contain "ERROR"
   end
 
+  it "exposes overtemperature and up metrics for Gen1 plugs" do
+    result = build_server
+    server = result[:server]
+    config = result[:config]
+    spawn { server.try(&.run) }
+    sleep(SERVER_STARTUP_DELAY)
+    response = HTTP::Client.get("http://127.0.0.1:#{config.exporter_port}/metrics")
+    response.body.should contain "shellyplug_overtemperature{name=\"TestPlug\"} 1"
+    response.body.should contain "# TYPE shellyplug_up gauge"
+    response.body.should contain "shellyplug_up{name=\"TestPlug\"} 1"
+  end
+
+  it "reports shellyplug_up 0 when the plug does not answer" do
+    WebMock.reset
+    fill_env
+    WebMock.allow_net_connect = true
+    stub_shelly_gen1
+    WebMock.stub(:get, "127.0.0.1:5001/status").to_return(body: "", status: 500)
+    WebMock.stub(:get, "127.0.0.1:5001/settings").to_return(body: "{}", status: 500)
+
+    plug_config = build_plug_config
+    plug = ShellyplugExporter::Plug.new(plug_config)
+    server = ShellyplugExporter::Server.new([plug], 5000)
+    spawn { server.try(&.run) }
+    sleep(SERVER_STARTUP_DELAY)
+    response = HTTP::Client.get("http://127.0.0.1:5000/metrics")
+    response.body.should contain "shellyplug_up{name=\"TestPlug\"} 0"
+  end
+
+  it "emits a single HELP and TYPE line per family with several plugs" do
+    WebMock.reset
+    fill_env
+    WebMock.allow_net_connect = true
+    stub_shelly_gen1
+    stub_shelly_gen1("127.0.0.2", 5001)
+    status_body = File.read(Path[__DIR__, "../fixtures/valid_status.json"])
+    WebMock.stub(:get, "127.0.0.1:5001/status").to_return(body: status_body)
+    WebMock.stub(:get, "127.0.0.2:5001/status").to_return(body: status_body)
+    WebMock.stub(:get, "127.0.0.1:5001/settings").to_return(body: "{}", status: 200)
+    WebMock.stub(:get, "127.0.0.2:5001/settings").to_return(body: "{}", status: 200)
+
+    plugs = [
+      ShellyplugExporter::Plug.new(build_plug_config(name: "plug1")),
+      ShellyplugExporter::Plug.new(build_plug_config(name: "plug2", host: "127.0.0.2"))
+    ]
+    server = ShellyplugExporter::Server.new(plugs, 5000)
+    spawn { server.try(&.run) }
+    sleep(SERVER_STARTUP_DELAY)
+    response = HTTP::Client.get("http://127.0.0.1:5000/metrics")
+
+    body = response.body
+    body.scan(/^# HELP shellyplug_power /m).size.should eq 1
+    body.scan(/^# TYPE shellyplug_power /m).size.should eq 1
+    body.should contain "shellyplug_power{name=\"plug1\"} 71.71"
+    body.should contain "shellyplug_power{name=\"plug2\"} 71.71"
+  end
+
+  it "escapes quotes and backslashes in the plug name label" do
+    WebMock.reset
+    fill_env
+    WebMock.allow_net_connect = true
+    stub_shelly_gen1
+    WebMock.stub(:get, "127.0.0.1:5001/status")
+      .to_return(body: File.read(Path[__DIR__, "../fixtures/valid_status.json"]))
+
+    plug = ShellyplugExporter::Plug.new(build_plug_config(name: %q(we"ird\name)))
+    server = ShellyplugExporter::Server.new([plug], 5000)
+    spawn { server.try(&.run) }
+    sleep(SERVER_STARTUP_DELAY)
+    response = HTTP::Client.get("http://127.0.0.1:5000/metrics")
+    response.body.should contain %q(shellyplug_power{name="we\"ird\\name"})
+  end
+
   it "responds with 404 on unknown endpoint" do
     result = build_server
     server = result[:server]

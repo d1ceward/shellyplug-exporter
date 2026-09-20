@@ -199,4 +199,63 @@ describe ShellyplugExporter::Plug do
       config.generation.should eq(ShellyplugExporter::PlugGeneration::Gen1)
     end
   end
+
+  describe "lazy generation re-detection" do
+    before_each { reset_webmock_and_env }
+
+    it "re-detects the generation and retries when a status fetch fails" do
+      # The plug answers /shelly as Gen1 at startup, then comes back as Gen2.
+      stub_shelly_gen1
+      WebMock.stub(:get, "127.0.0.1:5001/settings").to_return(body: "{}", status: 500)
+
+      config = build_plug_config(name: "")
+      plug = ShellyplugExporter::Plug.new(config)
+      config.generation.should eq(ShellyplugExporter::PlugGeneration::Gen1)
+
+      WebMock.reset
+      stub_shelly_gen2
+      WebMock.stub(:get, "127.0.0.1:5001/status").to_return(status: 404)
+      WebMock.stub(:get, "127.0.0.1:5001/rpc/Shelly.GetStatus")
+             .to_return(body: File.read(Path[__DIR__, "../fixtures/valid_status_gen2.json"]), status: 200)
+      WebMock.stub(:get, "127.0.0.1:5001/rpc/Shelly.GetConfig")
+             .to_return(body: File.read(Path[__DIR__, "../fixtures/valid_settings_gen2.json"]), status: 200)
+
+      data = plug.query_data
+      config.generation.should eq(ShellyplugExporter::PlugGeneration::Gen2)
+      data[:power].should eq(45.3)
+      plug.name.should eq("Gen2TestPlug")
+    end
+
+    it "keeps the generation when the status fetch fails for another reason" do
+      stub_shelly_gen1
+      WebMock.stub(:get, "127.0.0.1:5001/settings")
+             .to_return(body: "{\"name\": \"TestPlug\"}", status: 200)
+      WebMock.stub(:get, "127.0.0.1:5001/status").to_return(status: 500)
+
+      config = build_plug_config
+      plug = ShellyplugExporter::Plug.new(config)
+      plug.query_data[:power].should eq(0_f64)
+      config.generation.should eq(ShellyplugExporter::PlugGeneration::Gen1)
+      config.last_request_succeeded.should be_false
+    end
+
+    it "resolves a pending name once the plug answers again" do
+      stub_shelly_gen1
+      WebMock.stub(:get, "127.0.0.1:5001/settings").to_return(status: 500)
+
+      config = build_plug_config(name: "")
+      plug = ShellyplugExporter::Plug.new(config)
+      plug.name.should be_nil
+
+      WebMock.reset
+      stub_shelly_gen1
+      WebMock.stub(:get, "127.0.0.1:5001/status")
+             .to_return(body: File.read(Path[__DIR__, "../fixtures/valid_status.json"]))
+      WebMock.stub(:get, "127.0.0.1:5001/settings")
+             .to_return(body: "{\"name\": \"LateName\"}", status: 200)
+
+      plug.query_data
+      plug.name.should eq("LateName")
+    end
+  end
 end

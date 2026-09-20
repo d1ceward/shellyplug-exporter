@@ -1,6 +1,6 @@
 module ShellyplugExporter::Gen
   class PlugGen2
-    def self.query_data(data)
+    def self.query_data(data : JSON::Any) : Hash(Symbol, Float64 | Int64)
       switch0 = data["switch:0"]?
       aenergy_total = switch0.try(&.["aenergy"]?).try(&.["total"]?).try(&.as_f?)
       {
@@ -12,7 +12,7 @@ module ShellyplugExporter::Gen
       }
     end
 
-    def self.extract_name(config)
+    def self.extract_name(config : JSON::Any) : String?
       config["sys"]?.try(&.["device"]?).try(&.["name"]?).try(&.as_s?)
     end
   end

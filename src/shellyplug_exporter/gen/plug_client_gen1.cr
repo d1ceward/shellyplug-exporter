@@ -12,7 +12,6 @@ module ShellyplugExporter::Gen
     end
 
     def self.request(client, config : ShellyplugExporter::PlugConfig, endpoint) : HTTP::Client::Response
-      client.connect_timeout = 4.seconds
       if config.auth_username && config.auth_password
         client.basic_auth(config.auth_username, config.auth_password)
       end

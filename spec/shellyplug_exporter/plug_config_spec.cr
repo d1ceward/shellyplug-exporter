@@ -26,7 +26,7 @@ describe ShellyplugExporter::PlugConfig do
     config.port.should eq 8080
     config.auth_username.should eq "user"
     config.auth_password.should eq "pass"
-    config.last_request_succeeded.should eq true
+    config.last_request_succeeded.should be_true
   end
 
   it "allows updating properties" do
@@ -42,6 +42,6 @@ describe ShellyplugExporter::PlugConfig do
     config.port.should eq 8082
     config.auth_username.should eq "admin"
     config.auth_password.should eq "secret"
-    config.last_request_succeeded.should eq false
+    config.last_request_succeeded.should be_false
   end
 end

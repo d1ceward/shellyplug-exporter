@@ -21,7 +21,7 @@ module ShellyplugExporter
                    @generation : PlugGeneration = PlugGeneration::Gen1,
                    @auth_username : String? = nil,
                    @auth_password : String? = nil,
-                   @last_request_succeeded : Bool? = nil)
+                   @last_request_succeeded : Bool? = nil) : Nil
     end
   end
 end

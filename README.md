@@ -2,7 +2,7 @@
 
 # shellyplug-exporter (v3.0.0)
 
-![GitHub Workflow Status (main)](https://github.com/d1ceward/shellyplug-exporter/actions/workflows/main.yml/badge.svg?branch=master)
+[![CI](https://github.com/d1ceward/shellyplug-exporter/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/d1ceward/shellyplug-exporter/actions/workflows/ci.yml)
 [![Docker Pulls](https://img.shields.io/docker/pulls/d1ceward/shellyplug-exporter.svg?logo=docker)](https://hub.docker.com/r/d1ceward/shellyplug-exporter)
 [![GHCR](https://img.shields.io/badge/GHCR-Available-blue?logo=github)](https://github.com/users/d1ceward/packages/container/package/shellyplug-exporter)
 [![GitHub issues](https://img.shields.io/github/issues/d1ceward/shellyplug-exporter)](https://github.com/d1ceward/shellyplug-exporter/issues)
@@ -35,7 +35,7 @@ plugs:
     auth_password: pass2
 ```
 
-> **Note:** The plug generation (Gen1 / Gen2) is automatically detected at startup by probing each plug's `/shelly` endpoint. No manual configuration is needed.
+> **Note:** The plug generation (Gen1 / Gen2) is automatically detected at startup by probing each plug's `/shelly` endpoint, and re-probed after a failed scrape so a plug that was offline at startup is picked up without a restart. No manual configuration is needed.
 
 ### Step 2. Run exporter
 
@@ -95,22 +95,26 @@ docker run -d \
 
 **Endpoint:** `/metrics`
 
-| Name                       | Description                          | Type    | Gen1 | Gen2 |
-|----------------------------|--------------------------------------|---------|------|------|
-| shellyplug_power           | Current power drawn (watts)          | Gauge   |  ✓   |  ✓   |
-| shellyplug_overpower       | Overpower drawn (watts)              | Gauge   |  ✓   |  -   |
-| shellyplug_total           | Total power consumed (watt-minutes)  | Counter |  ✓   |  ✓   |
-| shellyplug_temperature     | Plug temperature (°C)                | Gauge   |  ✓   |  ✓   |
-| shellyplug_overtemperature | Plug overtemperature status (0 or 1) | Gauge   |  ✓   |  -   |
-| shellyplug_uptime          | Plug uptime (seconds)                | Gauge   |  ✓   |  ✓   |
+| Name                       | Description                            | Type    | Gen1 | Gen2 |
+|----------------------------|----------------------------------------|---------|------|------|
+| shellyplug_up              | Last scrape succeeded (1) or failed (0)| Gauge   |  ✓   |  ✓   |
+| shellyplug_power           | Current power drawn (watts)            | Gauge   |  ✓   |  ✓   |
+| shellyplug_overpower       | Overpower drawn (watts)                | Gauge   |  ✓   |  -   |
+| shellyplug_total           | Total power consumed (watt-minutes)    | Counter |  ✓   |  ✓   |
+| shellyplug_temperature     | Plug temperature (°C)                  | Gauge   |  ✓   |  ✓   |
+| shellyplug_overtemperature | Plug overtemperature status (0 or 1)   | Gauge   |  ✓   |  -   |
+| shellyplug_uptime          | Plug uptime (seconds)                  | Gauge   |  ✓   |  ✓   |
 
 > **Note:** Metrics not supported by a plug's generation (marked `-`) are omitted from the output rather than reported as zero.
 
 **Multiple plugs:**
-Metrics include a `plug` label:
+Every sample carries a `name` label, taken from the `name` field in the config file, or
+from the name configured on the plug itself when that field is left empty:
 ```
-shellyplug_power{plug="plug1"} 12.3
-shellyplug_power{plug="plug2"} 8.7
+# HELP shellyplug_power Current power drawn in watts
+# TYPE shellyplug_power gauge
+shellyplug_power{name="plug1"} 12.3
+shellyplug_power{name="plug2"} 8.7
 ```
 
 ## Contributing
@@ -126,7 +130,7 @@ By contributing, you agree to the Code of Merit.
 
 ## Development
 
-1. Install Crystal (see `.crystal-version`)
+1. Install Crystal (see `.tool-versions`)
 2. Install dependencies: `shards install`
 3. Build: `shards build`
 4. Binary: `bin/shellyplug-exporter`

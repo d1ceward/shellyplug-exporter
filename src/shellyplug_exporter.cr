@@ -5,6 +5,7 @@ require "digest/sha256"
 require "http/client"
 require "http/server"
 require "yaml"
+require "wait_group"
 
 require "./version"
 require "./shellyplug_exporter/cli"

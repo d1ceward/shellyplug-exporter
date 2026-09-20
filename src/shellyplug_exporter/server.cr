@@ -1,11 +1,25 @@
 module ShellyplugExporter
   # HTTP server for Prometheus metrics for one or more Shelly plugs.
   class Server
+    alias PlugData = Hash(Symbol, Float64 | Int64)
+    alias PlugSample = Tuple(Plug, PlugData)
+
+    # Metric families exposed on /metrics, in output order.
+    METRICS = {
+      up: {help: "Last scrape of the plug succeeded (1) or failed (0)", type: "gauge"},
+      power: {help: "Current power drawn in watts", type: "gauge"},
+      overpower: {help: "Overpower drawn in watts", type: "gauge"},
+      total: {help: "Total power consumed in watt-minute", type: "counter"},
+      temperature: {help: "Plug temperature in celsius", type: "gauge"},
+      overtemperature: {help: "Plug overtemperature status (0 or 1)", type: "gauge"},
+      uptime: {help: "Plug uptime in seconds", type: "gauge"},
+    }
+
     @server : HTTP::Server
     @plugs : Array(Plug)
     @exporter_port : Int32
 
-    def initialize(plugs : Array(Plug), exporter_port : Int32)
+    def initialize(plugs : Array(Plug), exporter_port : Int32) : Nil
       @plugs = plugs
       @exporter_port = exporter_port
       @server = HTTP::Server.new do |context|
@@ -35,34 +49,56 @@ module ShellyplugExporter
       end
     end
 
-    private def build_prometheus_response(plug : Plug, data : Hash(Symbol, Float64 | Int64)) : String
-      plug_name = plug.name.presence || plug.config.host.presence || "unknown"
-      label = "{name=\"#{plug_name}\"}"
+    # Scrapes every plug concurrently, so a slow or unreachable plug does not
+    # delay the others and push the whole scrape past Prometheus' timeout.
+    private def collect_samples : Array(PlugSample)
+      results = Array(PlugSample?).new(@plugs.size, nil)
+      wait_group = WaitGroup.new
+
+      @plugs.each_with_index do |plug, index|
+        wait_group.spawn { results[index] = {plug, scrape(plug)} }
+      end
+
+      wait_group.wait
+      results.compact
+    end
+
+    private def scrape(plug : Plug) : PlugData
+      data = plug.query_data
+      data[:up] = plug.config.last_request_succeeded ? 1_i64 : 0_i64
+      data
+    rescue ex
+      Log.error { "Failed to scrape #{plug.config.host}: #{ex.message}" }
+      plug.config.last_request_succeeded = false
+
+      {:up => 0_i64} of Symbol => Float64 | Int64
+    end
+
+    # Prometheus rejects a metric family whose HELP or TYPE line appears more
+    # than once, so every sample of a family is grouped under a single header.
+    private def build_prometheus_response_all : String
+      samples = collect_samples
 
       String.build do |io|
-        metrics = {
-          power: { help: "Current power drawn in watts", type: "gauge" },
-          overpower: { help: "Overpower drawn in watts", type: "gauge" },
-          total: { help: "Total power consumed in watt-minute", type: "counter" },
-          temperature: { help: "Plug temperature in celsius", type: "gauge" },
-          uptime: { help: "Plug uptime in seconds", type: "gauge" },
-        }
+        METRICS.each do |key, meta|
+          matching = samples.select { |(_, data)| data.has_key?(key) }
+          next if matching.empty?
 
-        metrics.each do |key, meta|
-          next unless data.has_key?(key)
-
-          io << "# HELP shellyplug_#{key} #{meta[:help]}\n"
-          io << "# TYPE shellyplug_#{key} #{meta[:type]}\n"
-          io << "shellyplug_#{key}#{label} #{data[key]}\n"
+          io << "# HELP shellyplug_" << key << ' ' << meta[:help] << '\n'
+          io << "# TYPE shellyplug_" << key << ' ' << meta[:type] << '\n'
+          matching.each do |(plug, data)|
+            io << "shellyplug_" << key << "{name=\"" << plug_label(plug) << "\"} " << data[key] << '\n'
+          end
         end
       end
     end
 
-    private def build_prometheus_response_all : String
-      @plugs.map do |plug|
-        data = plug.query_data
-        build_prometheus_response(plug, data)
-      end.join("\n")
+    private def plug_label(plug : Plug) : String
+      escape_label_value(plug.name.presence || plug.config.host.presence || "unknown")
+    end
+
+    private def escape_label_value(value : String) : String
+      value.gsub({'\\' => "\\\\", '"' => "\\\"", '\n' => "\\n"})
     end
 
     private def metrics_handler(context : HTTP::Server::Context) : Nil

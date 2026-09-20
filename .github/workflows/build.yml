@@ -33,7 +33,7 @@ jobs:
             apk add make g++ openssl-dev openssl-libs-static yaml-static zlib-static pcre2-static gc-static curl crystal shards
 
             export CRYSTAL_DIR=/tmp/crystal
-            export CRYSTAL_VERSION=$(cat /repository/.crystal-version)
+            export CRYSTAL_VERSION=$(grep '^crystal' /repository/.tool-versions | awk '{print $2}')
 
             mkdir -p $CRYSTAL_DIR
             cd $CRYSTAL_DIR

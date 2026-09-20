@@ -1,5 +1,5 @@
 module CLIHelper
-  def self.run_cli(*args)
+  def self.run_cli(*args) : Tuple(Process::Status, String)
     output = IO::Memory.new
     cmd = ["crystal", "run", "./src/shellyplug_exporter_run.cr", "--"] + args.to_a
     status = Process.run(cmd[0], cmd[1..], output: output, error: output)
