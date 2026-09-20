@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.18.2">
-<meta name="crystal_docs.project_version" content="3.0.0">
+<meta name="generator" content="Crystal Docs 1.20.3">
+<meta name="crystal_docs.project_version" content="3.1.0">
 <meta name="crystal_docs.project_name" content="shellyplug-exporter">
 
 
@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../../js/doc.js"></script>
 
   <meta name="repository-name" content="shellyplug-exporter">
-  <title>ShellyplugExporter::Gen::PlugGen1 - shellyplug-exporter 3.0.0</title>
+  <title>ShellyplugExporter::Gen::PlugGen1 - shellyplug-exporter 3.1.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../../";
   </script>
@@ -45,7 +45,7 @@
       </h1>
 
       <span class="project-version">
-        3.0.0
+        3.1.0
       </span>
     </div>
   </div>
@@ -137,8 +137,23 @@
       
     </li>
   
-  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/Server" data-name="shellyplugexporter::server">
+  <li class="parent " data-id="shellyplug-exporter/ShellyplugExporter/Server" data-name="shellyplugexporter::server">
       <a href="../../ShellyplugExporter/Server.html">Server</a>
+      
+        <ul>
+  
+  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/Server/PlugData" data-name="shellyplugexporter::server::plugdata">
+      <a href="../../ShellyplugExporter/Server/PlugData.html">PlugData</a>
+      
+    </li>
+  
+  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/Server/PlugSample" data-name="shellyplugexporter::server::plugsample">
+      <a href="../../ShellyplugExporter/Server/PlugSample.html">PlugSample</a>
+      
+    </li>
+  
+</ul>
+
       
     </li>
   
@@ -216,12 +231,12 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#extract_name%28config%29-class-method" class="signature"><strong>.extract_name</strong>(config)</a>
+        <a href="#extract_name%28config%3AJSON%3A%3AAny%29%3AString%7CNil-class-method" class="signature"><strong>.extract_name</strong>(config : JSON::Any) : String | Nil</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#query_data%28data%29-class-method" class="signature"><strong>.query_data</strong>(data)</a>
+        <a href="#query_data%28data%3AJSON%3A%3AAny%29%3AHash%28Symbol%2CFloat64%7CInt64%29-class-method" class="signature"><strong>.query_data</strong>(data : JSON::Any) : Hash(Symbol, Float64 | Int64)</a>
         
       </li>
     
@@ -275,12 +290,12 @@
     Class Method Detail
   </h2>
   
-    <div class="entry-detail" id="extract_name(config)-class-method">
+    <div class="entry-detail" id="extract_name(config:JSON::Any):String|Nil-class-method">
       <div class="signature">
         
-        def self.<strong>extract_name</strong>(config)
+        def self.<strong>extract_name</strong>(config : JSON::Any) : String | Nil
 
-        <a class="method-permalink" href="#extract_name%28config%29-class-method">#</a>
+        <a class="method-permalink" href="#extract_name%28config%3AJSON%3A%3AAny%29%3AString%7CNil-class-method">#</a>
       </div>
       
       <br/>
@@ -289,12 +304,12 @@
       </div>
     </div>
   
-    <div class="entry-detail" id="query_data(data)-class-method">
+    <div class="entry-detail" id="query_data(data:JSON::Any):Hash(Symbol,Float64|Int64)-class-method">
       <div class="signature">
         
-        def self.<strong>query_data</strong>(data)
+        def self.<strong>query_data</strong>(data : JSON::Any) : Hash(Symbol, Float64 | Int64)
 
-        <a class="method-permalink" href="#query_data%28data%29-class-method">#</a>
+        <a class="method-permalink" href="#query_data%28data%3AJSON%3A%3AAny%29%3AHash%28Symbol%2CFloat64%7CInt64%29-class-method">#</a>
       </div>
       
       <br/>
