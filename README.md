@@ -105,7 +105,7 @@ docker run -d \
 | shellyplug_overtemperature | Plug overtemperature status (0 or 1)   | Gauge   |  ✓   |  -   |
 | shellyplug_uptime          | Plug uptime (seconds)                  | Gauge   |  ✓   |  ✓   |
 
-> **Note:** Metrics not supported by a plug's generation (marked `-`) are omitted from the output rather than reported as zero.
+> **Note:** Metrics not supported by a plug's generation (marked `-`) are omitted from the output rather than reported as zero. When a scrape of a plug fails, only `shellyplug_up 0` is reported for it, so counters do not drop to zero.
 
 **Multiple plugs:**
 Every sample carries a `name` label, taken from the `name` field in the config file, or

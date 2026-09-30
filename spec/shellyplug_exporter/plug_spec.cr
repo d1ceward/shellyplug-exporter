@@ -66,55 +66,27 @@ describe ShellyplugExporter::Plug do
       })
     end
 
-    it "returns a hash with zero values when host is an invalid hostname" do
+    it "returns no readings when host is an invalid hostname" do
       WebMock.allow_net_connect = true
       plug = ShellyplugExporter::Plug.new(build_plug_config(host: "this-is-a-nonexistant-domain"))
-      plug.query_data.should eq({
-        :power => 0.0,
-        :overpower => 0.0,
-        :total => 0,
-        :temperature => 0.0,
-        :overtemperature => 0,
-        :uptime => 0
-      })
+      plug.query_data.should be_empty
     end
 
-    it "returns a hash with zero values when host is an invalid ip" do
+    it "returns no readings when host is an invalid ip" do
       WebMock.allow_net_connect = true
       plug = ShellyplugExporter::Plug.new(build_plug_config(host: "255.255.255.255"))
-      plug.query_data.should eq({
-        :power => 0.0,
-        :overpower => 0.0,
-        :total => 0,
-        :temperature => 0.0,
-        :overtemperature => 0,
-        :uptime => 0
-      })
+      plug.query_data.should be_empty
     end
 
-    it "returns a hash with zero values when port is invalid" do
+    it "returns no readings when port is invalid" do
       WebMock.allow_net_connect = true
       plug = ShellyplugExporter::Plug.new(build_plug_config(port: 5003))
-      plug.query_data.should eq({
-        :power => 0.0,
-        :overpower => 0.0,
-        :total => 0,
-        :temperature => 0.0,
-        :overtemperature => 0,
-        :uptime => 0
-      })
+      plug.query_data.should be_empty
     end
 
-    it "returns a hash with zero values when authentication informations are invalid" do
+    it "returns no readings when authentication informations are invalid" do
       plug = ShellyplugExporter::Plug.new(build_plug_config(auth_password: "onlymeknowthis"))
-      plug.query_data.should eq({
-        :power => 0.0,
-        :overpower => 0.0,
-        :total => 0,
-        :temperature => 0.0,
-        :overtemperature => 0,
-        :uptime => 0
-      })
+      plug.query_data.should be_empty
     end
   end
 
@@ -234,7 +206,7 @@ describe ShellyplugExporter::Plug do
 
       config = build_plug_config
       plug = ShellyplugExporter::Plug.new(config)
-      plug.query_data[:power].should eq(0_f64)
+      plug.query_data.should be_empty
       config.generation.should eq(ShellyplugExporter::PlugGeneration::Gen1)
       config.last_request_succeeded.should be_false
     end
