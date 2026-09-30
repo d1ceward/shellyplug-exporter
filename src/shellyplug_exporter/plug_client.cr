@@ -10,7 +10,8 @@ module ShellyplugExporter
     def initialize(@config : PlugConfig) : Nil; end
 
     # Detects the plug generation by probing the /shelly endpoint.
-    # Gen2 devices include a "gen" field in their response.
+    # Gen2 and later devices include a "gen" field in their response and all
+    # serve the same RPC API, so Gen3 and Gen4 are handled as Gen2.
     # Returns the detected PlugGeneration, defaulting to Gen1 on failure.
     def detect_generation : PlugGeneration
       with_client do |client|
@@ -19,8 +20,8 @@ module ShellyplugExporter
         if response.status_code == 200
           data = JSON.parse(response.body)
           gen = data["gen"]?.try(&.as_i?)
-          if gen == 2
-            Log.info { "Detected Gen2 for plug at #{@config.host}" }
+          if gen && gen >= 2
+            Log.info { "Detected Gen#{gen} for plug at #{@config.host}" }
             PlugGeneration::Gen2
           else
             Log.info { "Detected Gen1 for plug at #{@config.host}" }

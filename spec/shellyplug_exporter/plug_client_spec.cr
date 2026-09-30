@@ -13,6 +13,16 @@ describe ShellyplugExporter::PlugClient do
       client.detect_generation.should eq(ShellyplugExporter::PlugGeneration::Gen2)
     end
 
+    it "returns Gen2 when /shelly advertises a later generation" do
+      [3, 4].each do |gen|
+        WebMock.stub(:get, "127.0.0.1:5001/shelly")
+               .to_return(body: {name: "Plug", gen: gen}.to_json, status: 200)
+        client = ShellyplugExporter::PlugClient.new(build_plug_config)
+
+        client.detect_generation.should eq(ShellyplugExporter::PlugGeneration::Gen2)
+      end
+    end
+
     it "returns Gen1 when /shelly omits the gen field" do
       stub_shelly_gen1
       client = ShellyplugExporter::PlugClient.new(build_plug_config)

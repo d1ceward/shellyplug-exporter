@@ -35,7 +35,7 @@ plugs:
     auth_password: pass2
 ```
 
-> **Note:** The plug generation (Gen1 / Gen2) is automatically detected at startup by probing each plug's `/shelly` endpoint, and re-probed after a failed scrape so a plug that was offline at startup is picked up without a restart. No manual configuration is needed.
+> **Note:** The plug generation (Gen1 / Gen2) is automatically detected at startup by probing each plug's `/shelly` endpoint, and re-probed after a failed scrape so a plug that was offline at startup is picked up without a restart. Gen3 and Gen4 plugs share the Gen2 API and are handled as Gen2. No manual configuration is needed.
 
 ### Step 2. Run exporter
 
