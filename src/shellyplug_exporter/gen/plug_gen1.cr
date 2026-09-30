@@ -4,6 +4,9 @@ module ShellyplugExporter::Gen
       meter = data["meters"]?.try(&.[0]?)
       Helper::JsonHelper.compact({
         power: Helper::JsonHelper.as_f?(meter.try(&.["power"]?)),
+        # counters[0] is the energy of the last completed minute in watt-minutes,
+        # which is also its average power in watts
+        power_avg_1m: Helper::JsonHelper.as_f?(meter.try(&.["counters"]?).try(&.[0]?)),
         overpower: Helper::JsonHelper.as_f?(meter.try(&.["overpower"]?)),
         total: meter.try(&.["total"]?).try(&.as_i64?),
         temperature: Helper::JsonHelper.as_f?(data["temperature"]?),

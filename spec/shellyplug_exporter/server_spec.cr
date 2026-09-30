@@ -35,6 +35,7 @@ describe ShellyplugExporter::Server do
     response.status_code.should eq 200
     response.body.should contain "shellyplug_power{name=\"TestPlug\"} 71.71"
     response.body.should contain "# HELP shellyplug_power"
+    response.body.should contain "shellyplug_power_avg_1m{name=\"TestPlug\"} 71.78\n"
   end
 
   it "includes overpower metrics for Gen1 plugs" do
@@ -69,6 +70,7 @@ describe ShellyplugExporter::Server do
     response.body.should contain "shellyplug_power{name=\"Gen2TestPlug\"} 45.3"
     response.body.should_not contain "shellyplug_overpower"
     response.body.should contain "shellyplug_total{name=\"Gen2TestPlug\"} 74073.6\n"
+    response.body.should contain "shellyplug_power_avg_1m{name=\"Gen2TestPlug\"} 45.0\n"
     response.body.should contain "shellyplug_uptime{name=\"Gen2TestPlug\"} 123456"
   end
 
