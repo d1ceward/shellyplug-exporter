@@ -104,7 +104,7 @@ describe ShellyplugExporter::Plug do
       plug = ShellyplugExporter::Plug.new(build_plug_config(name: ""))
       plug.query_data.should eq({
         :power => 45.3,
-        :total => 74073_i64,  # 1234.56 Wh * 60 = 74073.6, truncated to i64
+        :total => 74073.6, # 1234.56 Wh * 60
         :temperature => 32.4,
         :uptime => 123_456,
       })
