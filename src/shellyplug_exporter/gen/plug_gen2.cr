@@ -14,6 +14,9 @@ module ShellyplugExporter::Gen
         # Gen1, rounding off the float noise the multiplication adds to the mWh
         # resolution the plug reports
         total: aenergy_total.try { |watt_hours| (watt_hours * 60).round(3) },
+        voltage: Helper::JsonHelper.as_f?(switch0.try(&.["voltage"]?)),
+        current: Helper::JsonHelper.as_f?(switch0.try(&.["current"]?)),
+        frequency: Helper::JsonHelper.as_f?(switch0.try(&.["freq"]?)),
         temperature: Helper::JsonHelper.as_f?(switch0.try(&.["temperature"]?).try(&.["tC"]?)),
         uptime: data["sys"]?.try(&.["uptime"]?).try(&.as_i64?),
       })
