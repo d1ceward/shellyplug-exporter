@@ -71,6 +71,9 @@ describe ShellyplugExporter::Server do
     response.body.should_not contain "shellyplug_overpower"
     response.body.should contain "shellyplug_total{name=\"Gen2TestPlug\"} 74073.6\n"
     response.body.should contain "shellyplug_power_avg_1m{name=\"Gen2TestPlug\"} 45.0\n"
+    response.body.should contain "shellyplug_voltage{name=\"Gen2TestPlug\"} 230.5\n"
+    response.body.should contain "shellyplug_current{name=\"Gen2TestPlug\"} 0.197\n"
+    response.body.should contain "shellyplug_frequency{name=\"Gen2TestPlug\"} 50.0\n"
     response.body.should contain "shellyplug_uptime{name=\"Gen2TestPlug\"} 123456"
   end
 

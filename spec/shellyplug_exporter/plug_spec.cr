@@ -107,6 +107,9 @@ describe ShellyplugExporter::Plug do
         :power => 45.3,
         :power_avg_1m => 45.0, # 750 mWh over one minute * 0.06
         :total => 74073.6, # 1234.56 Wh * 60
+        :voltage => 230.5,
+        :current => 0.197,
+        :frequency => 50.0,
         :temperature => 32.4,
         :uptime => 123_456,
       })

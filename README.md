@@ -102,6 +102,9 @@ docker run -d \
 | shellyplug_power_avg_1m    | Avg power over last full minute (watts)| Gauge   |  ✓   |  ✓   |
 | shellyplug_overpower       | Overpower drawn (watts)                | Gauge   |  ✓   |  -   |
 | shellyplug_total           | Total power consumed (watt-minutes)    | Counter |  ✓   |  ✓   |
+| shellyplug_voltage         | Supply voltage (volts)                 | Gauge   |  -   |  ✓   |
+| shellyplug_current         | Current drawn (amperes)                | Gauge   |  -   |  ✓   |
+| shellyplug_frequency       | Supply frequency (hertz)               | Gauge   |  -   |  ✓   |
 | shellyplug_temperature     | Plug temperature (°C)                  | Gauge   |  ✓   |  ✓   |
 | shellyplug_overtemperature | Plug overtemperature status (0 or 1)   | Gauge   |  ✓   |  -   |
 | shellyplug_uptime          | Plug uptime (seconds)                  | Gauge   |  ✓   |  ✓   |
