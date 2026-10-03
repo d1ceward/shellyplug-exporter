@@ -85,7 +85,7 @@ describe ShellyplugExporter::Plug do
       plug.query_data.should be_empty
     end
 
-    it "returns no readings when authentication informations are invalid" do
+    it "returns no readings when authentication information is invalid" do
       plug = ShellyplugExporter::Plug.new(build_plug_config(auth_password: "onlymeknowthis"))
       plug.query_data.should be_empty
     end
