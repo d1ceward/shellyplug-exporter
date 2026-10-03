@@ -1,15 +1,18 @@
 module ShellyplugExporter::Gen
   class PlugGen1
     def self.query_data(data : JSON::Any) : Hash(Symbol, Float64 | Int64)
-      meter = data["meters"]?.try(&.[0])
-      {
-        :power => meter.try(&.["power"]?).try(&.as_f?) || 0_f64,
-        :overpower => meter.try(&.["overpower"]?).try(&.as_f?) || 0_f64,
-        :total => meter.try(&.["total"]?).try(&.as_i64?) || 0_i64,
-        :temperature => data["temperature"]?.try(&.as_f?) || 0_f64,
-        :overtemperature => data["overtemperature"]?.try(&.as_bool?) ? 1_i64 : 0_i64,
-        :uptime => data["uptime"]?.try(&.as_i64?) || 0_i64
-      }
+      meter = data["meters"]?.try(&.[0]?)
+      Helper::JsonHelper.compact({
+        power: Helper::JsonHelper.as_f?(meter.try(&.["power"]?)),
+        # counters[0] is the energy of the last completed minute in watt-minutes, which is also its average
+        # power in watts
+        power_avg_1m: Helper::JsonHelper.as_f?(meter.try(&.["counters"]?).try(&.[0]?)),
+        overpower: Helper::JsonHelper.as_f?(meter.try(&.["overpower"]?)),
+        total: meter.try(&.["total"]?).try(&.as_i64?),
+        temperature: Helper::JsonHelper.as_f?(data["temperature"]?),
+        overtemperature: data["overtemperature"]?.try(&.as_bool?).try { |hot| hot ? 1_i64 : 0_i64 },
+        uptime: data["uptime"]?.try(&.as_i64?),
+      })
     end
 
     def self.extract_name(config : JSON::Any) : String?

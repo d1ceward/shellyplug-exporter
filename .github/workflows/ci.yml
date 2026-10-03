@@ -18,6 +18,10 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Set crystal version environement variable
         run: echo "CRYSTAL_VERSION=$(grep '^crystal' .tool-versions | awk '{print $2}')" >> $GITHUB_ENV
+      # install-crystal v1.9.2 skips apt-get update, and the runner's stale index points at removed packages.
+      # Drop this once a release ships crystal-lang/install-crystal#84.
+      - name: Refresh apt package index
+        run: sudo apt-get update -q
       - name: Install Crystal
         uses: crystal-lang/install-crystal@d8ef131ecec0352ce0e39b81b0a6d95def58fe2f # v1.9.2
         with:
@@ -40,6 +44,10 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Set crystal version environement variable
         run: echo "CRYSTAL_VERSION=$(grep '^crystal' .tool-versions | awk '{print $2}')" >> $GITHUB_ENV
+      # install-crystal v1.9.2 skips apt-get update, and the runner's stale index points at removed packages.
+      # Drop this once a release ships crystal-lang/install-crystal#84.
+      - name: Refresh apt package index
+        run: sudo apt-get update -q
       - name: Install Crystal
         uses: crystal-lang/install-crystal@d8ef131ecec0352ce0e39b81b0a6d95def58fe2f # v1.9.2
         with:

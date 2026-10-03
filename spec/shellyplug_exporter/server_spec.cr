@@ -35,6 +35,7 @@ describe ShellyplugExporter::Server do
     response.status_code.should eq 200
     response.body.should contain "shellyplug_power{name=\"TestPlug\"} 71.71"
     response.body.should contain "# HELP shellyplug_power"
+    response.body.should contain "shellyplug_power_avg_1m{name=\"TestPlug\"} 71.78\n"
   end
 
   it "includes overpower metrics for Gen1 plugs" do
@@ -68,7 +69,33 @@ describe ShellyplugExporter::Server do
     response.status_code.should eq 200
     response.body.should contain "shellyplug_power{name=\"Gen2TestPlug\"} 45.3"
     response.body.should_not contain "shellyplug_overpower"
+    response.body.should contain "shellyplug_total{name=\"Gen2TestPlug\"} 74073.6\n"
+    response.body.should contain "shellyplug_power_avg_1m{name=\"Gen2TestPlug\"} 45.0\n"
+    response.body.should contain "shellyplug_voltage{name=\"Gen2TestPlug\"} 230.5\n"
+    response.body.should contain "shellyplug_current{name=\"Gen2TestPlug\"} 0.197\n"
+    response.body.should contain "shellyplug_frequency{name=\"Gen2TestPlug\"} 50.0\n"
     response.body.should contain "shellyplug_uptime{name=\"Gen2TestPlug\"} 123456"
+  end
+
+  it "only exposes the up metric for a plug that fails to answer" do
+    WebMock.reset
+    fill_env
+    WebMock.allow_net_connect = true
+    stub_shelly_gen1
+    WebMock.stub(:get, "127.0.0.1:5001/status").to_return(status: 401)
+    WebMock.stub(:get, "127.0.0.1:5001/settings")
+      .to_return(body: "{\"name\": \"TestPlug\"}", status: 200)
+
+    result = build_server
+    server = result[:server]
+    config = result[:config]
+    spawn { server.try(&.run) }
+    sleep(SERVER_STARTUP_DELAY)
+    response = HTTP::Client.get("http://127.0.0.1:#{config.exporter_port}/metrics")
+    response.status_code.should eq 200
+    response.body.should contain "shellyplug_up{name=\"TestPlug\"} 0"
+    response.body.should_not contain "shellyplug_power"
+    response.body.should_not contain "shellyplug_total"
   end
 
   it "responds with 200 OK on /health if last_request_succeeded is true" do
