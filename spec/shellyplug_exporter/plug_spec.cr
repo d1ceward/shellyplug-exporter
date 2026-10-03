@@ -58,6 +58,7 @@ describe ShellyplugExporter::Plug do
       plug = ShellyplugExporter::Plug.new(build_plug_config)
       plug.query_data.should eq({
         :power => 71.71,
+        :power_avg_1m => 71.78,
         :overpower => 3.50,
         :total => 785_892,
         :temperature => 28.6,
@@ -104,9 +105,21 @@ describe ShellyplugExporter::Plug do
       plug = ShellyplugExporter::Plug.new(build_plug_config(name: ""))
       plug.query_data.should eq({
         :power => 45.3,
+        :power_avg_1m => 45.0, # 750 mWh over one minute * 0.06
         :total => 74073.6, # 1234.56 Wh * 60
+        :voltage => 230.5,
+        :current => 0.197,
+        :frequency => 50.0,
         :temperature => 32.4,
         :uptime => 123_456,
+      })
+    end
+
+    it "omits the one-minute average when the plug reports no per-minute energy" do
+      data = JSON.parse(%({"switch:0": {"apower": 12, "aenergy": {"total": 1.5}}}))
+      ShellyplugExporter::Gen::PlugGen2.query_data(data).should eq({
+        :power => 12.0,
+        :total => 90.0,
       })
     end
 
