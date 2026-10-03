@@ -8,8 +8,12 @@ module ShellyplugExporter
     METRICS = {
       up: {help: "Last scrape of the plug succeeded (1) or failed (0)", type: "gauge"},
       power: {help: "Current power drawn in watts", type: "gauge"},
+      power_avg_1m: {help: "Average power drawn over the last completed minute in watts", type: "gauge"},
       overpower: {help: "Overpower drawn in watts", type: "gauge"},
       total: {help: "Total power consumed in watt-minute", type: "counter"},
+      voltage: {help: "Supply voltage in volts", type: "gauge"},
+      current: {help: "Current drawn in amperes", type: "gauge"},
+      frequency: {help: "Supply frequency in hertz", type: "gauge"},
       temperature: {help: "Plug temperature in celsius", type: "gauge"},
       overtemperature: {help: "Plug overtemperature status (0 or 1)", type: "gauge"},
       uptime: {help: "Plug uptime in seconds", type: "gauge"},
