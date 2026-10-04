@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Crystal Docs 1.20.3">
-<meta name="crystal_docs.project_version" content="3.1.1">
+<meta name="crystal_docs.project_version" content="3.2.0">
 <meta name="crystal_docs.project_name" content="shellyplug-exporter">
 
 
@@ -14,7 +14,7 @@
 <script type="text/javascript" src="js/doc.js"></script>
 
   <meta name="repository-name" content="shellyplug-exporter">
-  <title>shellyplug-exporter 3.1.1</title>
+  <title>shellyplug-exporter 3.2.0</title>
   <script type="text/javascript">
   CrystalDocs.base_path = "";
   </script>
@@ -45,7 +45,7 @@
       </h1>
 
       <span class="project-version">
-        3.1.1
+        3.2.0
       </span>
     </div>
   </div>
@@ -84,6 +84,11 @@
   
   <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/Gen/Helper/DigestAuthHelper" data-name="shellyplugexporter::gen::helper::digestauthhelper">
       <a href="ShellyplugExporter/Gen/Helper/DigestAuthHelper.html">DigestAuthHelper</a>
+      
+    </li>
+  
+  <li class=" " data-id="shellyplug-exporter/ShellyplugExporter/Gen/Helper/JsonHelper" data-name="shellyplugexporter::gen::helper::jsonhelper">
+      <a href="ShellyplugExporter/Gen/Helper/JsonHelper.html">JsonHelper</a>
       
     </li>
   
@@ -170,11 +175,11 @@
 
 <div class="main-content">
 <p><img src=".github/images/shelly_plug_s.png" alt="" /></p>
-<h1><a id="shellyplug-exporter-v3.1.1" class="anchor" href="#shellyplug-exporter-v3.1.1">
+<h1><a id="shellyplug-exporter-v3.2.0" class="anchor" href="#shellyplug-exporter-v3.2.0">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
-</a>shellyplug-exporter (v3.1.1)</h1>
+</a>shellyplug-exporter (v3.2.0)</h1>
 <p><a href="https://github.com/d1ceward/shellyplug-exporter/actions/workflows/ci.yml"><img src="https://github.com/d1ceward/shellyplug-exporter/actions/workflows/ci.yml/badge.svg?branch=master" alt="CI" /></a>
 <a href="https://hub.docker.com/r/d1ceward/shellyplug-exporter"><img src="https://img.shields.io/docker/pulls/d1ceward/shellyplug-exporter.svg?logo=docker" alt="Docker Pulls" /></a>
 <a href="https://github.com/users/d1ceward/packages/container/package/shellyplug-exporter"><img src="https://img.shields.io/badge/GHCR-Available-blue?logo=github" alt="GHCR" /></a>
@@ -209,7 +214,7 @@ plugs:
     auth_username: user2
     auth_password: pass2</code></pre>
 <blockquote>
-<p><strong>Note:</strong> The plug generation (Gen1 / Gen2) is automatically detected at startup by probing each plug's <code>/shelly</code> endpoint, and re-probed after a failed scrape so a plug that was offline at startup is picked up without a restart. No manual configuration is needed.</p>
+<p><strong>Note:</strong> The plug generation (Gen1 / Gen2) is automatically detected at startup by probing each plug's <code>/shelly</code> endpoint, and re-probed after a failed scrape so a plug that was offline at startup is picked up without a restart. Gen3 and Gen4 plugs share the Gen2 API and are handled as Gen2. No manual configuration is needed.</p>
 </blockquote>
 <h3><a id="step-2.-run-exporter" class="anchor" href="#step-2.-run-exporter">
   <svg class="octicon-link" aria-hidden="true">
@@ -277,13 +282,17 @@ plugs:
 |----------------------------|----------------------------------------|---------|------|------|
 | shellyplug_up              | Last scrape succeeded (1) or failed (0)| Gauge   |  ✓   |  ✓   |
 | shellyplug_power           | Current power drawn (watts)            | Gauge   |  ✓   |  ✓   |
+| shellyplug_power_avg_1m    | Avg power over last full minute (watts)| Gauge   |  ✓   |  ✓   |
 | shellyplug_overpower       | Overpower drawn (watts)                | Gauge   |  ✓   |  -   |
 | shellyplug_total           | Total power consumed (watt-minutes)    | Counter |  ✓   |  ✓   |
+| shellyplug_voltage         | Supply voltage (volts)                 | Gauge   |  -   |  ✓   |
+| shellyplug_current         | Current drawn (amperes)                | Gauge   |  -   |  ✓   |
+| shellyplug_frequency       | Supply frequency (hertz)               | Gauge   |  -   |  ✓   |
 | shellyplug_temperature     | Plug temperature (°C)                  | Gauge   |  ✓   |  ✓   |
 | shellyplug_overtemperature | Plug overtemperature status (0 or 1)   | Gauge   |  ✓   |  -   |
 | shellyplug_uptime          | Plug uptime (seconds)                  | Gauge   |  ✓   |  ✓   |</p>
 <blockquote>
-<p><strong>Note:</strong> Metrics not supported by a plug's generation (marked <code>-</code>) are omitted from the output rather than reported as zero.</p>
+<p><strong>Note:</strong> Metrics not supported by a plug's generation (marked <code>-</code>) are omitted from the output rather than reported as zero. When a scrape of a plug fails, only <code>shellyplug_up 0</code> is reported for it, so counters do not drop to zero.</p>
 </blockquote>
 <p><strong>Multiple plugs:</strong>
 Every sample carries a <code>name</code> label, taken from the <code>name</code> field in the config file, or
