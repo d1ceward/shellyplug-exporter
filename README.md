@@ -104,12 +104,14 @@ docker run -d \
 | shellyplug_total           | Total power consumed (watt-minutes)    | Counter |  ✓   |  ✓   |
 | shellyplug_voltage         | Supply voltage (volts)                 | Gauge   |  -   |  ✓   |
 | shellyplug_current         | Current drawn (amperes)                | Gauge   |  -   |  ✓   |
-| shellyplug_frequency       | Supply frequency (hertz)               | Gauge   |  -   |  ✓   |
+| shellyplug_frequency       | Supply frequency (hertz)               | Gauge   |  -   |  ✓¹  |
 | shellyplug_temperature     | Plug temperature (°C)                  | Gauge   |  ✓   |  ✓   |
 | shellyplug_overtemperature | Plug overtemperature status (0 or 1)   | Gauge   |  ✓   |  -   |
 | shellyplug_uptime          | Plug uptime (seconds)                  | Gauge   |  ✓   |  ✓   |
 
 > **Note:** Metrics not supported by a plug's generation (marked `-`) are omitted from the output rather than reported as zero. When a scrape of a plug fails, only `shellyplug_up 0` is reported for it, so counters do not drop to zero.
+
+¹ Only reported by plugs whose firmware measures it: the `freq` field of `Switch.GetStatus` is optional and some models omit it.
 
 **Multiple plugs:**
 Every sample carries a `name` label, taken from the `name` field in the config file, or
@@ -120,6 +122,12 @@ from the name configured on the plug itself when that field is left empty:
 shellyplug_power{name="plug1"} 12.3
 shellyplug_power{name="plug2"} 8.7
 ```
+
+## Grafana dashboard
+
+A ready-made dashboard is available in [`grafana/dashboard.json`](grafana/dashboard.json) (schema v2, built
+with Grafana 13). Import it via **Dashboards > New > Import**, then pick your Prometheus data source and set
+the kWh price.
 
 ## Contributing
 
