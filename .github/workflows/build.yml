@@ -60,6 +60,10 @@ jobs:
     name: Publish
     needs: build
     runs-on: ubuntu-latest
+    # The repository default for GITHUB_TOKEN is read only: the release and the GHCR push need these two.
+    permissions:
+      contents: write
+      packages: write
     timeout-minutes: 15
     steps:
       - name: Checkout code
