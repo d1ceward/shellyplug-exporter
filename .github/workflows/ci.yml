@@ -23,7 +23,7 @@ jobs:
       - name: Refresh apt package index
         run: sudo apt-get update -q
       - name: Install Crystal
-        uses: crystal-lang/install-crystal@19ef8675e43f44f0d38b79f732df7ad4b6b669ed # v1.9.4
+        uses: crystal-lang/install-crystal@36a22e9145188eec527c96e5a789ce4b832af587 # v1.9.5
         with:
           crystal: ${{ env.CRYSTAL_VERSION }}
       - name: Crystal shard cache
@@ -49,7 +49,7 @@ jobs:
       - name: Refresh apt package index
         run: sudo apt-get update -q
       - name: Install Crystal
-        uses: crystal-lang/install-crystal@19ef8675e43f44f0d38b79f732df7ad4b6b669ed # v1.9.4
+        uses: crystal-lang/install-crystal@36a22e9145188eec527c96e5a789ce4b832af587 # v1.9.5
         with:
           crystal: ${{ env.CRYSTAL_VERSION }}
       - name: Crystal shard cache
