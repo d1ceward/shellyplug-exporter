@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.20.3">
-<meta name="crystal_docs.project_version" content="3.2.0">
+<meta name="generator" content="Crystal Docs 1.21.0">
+<meta name="crystal_docs.project_version" content="3.3.0">
 <meta name="crystal_docs.project_name" content="shellyplug-exporter">
 
 
@@ -14,7 +14,7 @@
 <script type="text/javascript" src="js/doc.js"></script>
 
   <meta name="repository-name" content="shellyplug-exporter">
-  <title>shellyplug-exporter 3.2.0</title>
+  <title>shellyplug-exporter 3.3.0</title>
   <script type="text/javascript">
   CrystalDocs.base_path = "";
   </script>
@@ -45,7 +45,7 @@
       </h1>
 
       <span class="project-version">
-        3.2.0
+        3.3.0
       </span>
     </div>
   </div>
@@ -175,11 +175,11 @@
 
 <div class="main-content">
 <p><img src=".github/images/shelly_plug_s.png" alt="" /></p>
-<h1><a id="shellyplug-exporter-v3.2.0" class="anchor" href="#shellyplug-exporter-v3.2.0">
+<h1><a id="shellyplug-exporter-v3.3.0" class="anchor" href="#shellyplug-exporter-v3.3.0">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
-</a>shellyplug-exporter (v3.2.0)</h1>
+</a>shellyplug-exporter (v3.3.0)</h1>
 <p><a href="https://github.com/d1ceward/shellyplug-exporter/actions/workflows/ci.yml"><img src="https://github.com/d1ceward/shellyplug-exporter/actions/workflows/ci.yml/badge.svg?branch=master" alt="CI" /></a>
 <a href="https://hub.docker.com/r/d1ceward/shellyplug-exporter"><img src="https://img.shields.io/docker/pulls/d1ceward/shellyplug-exporter.svg?logo=docker" alt="Docker Pulls" /></a>
 <a href="https://github.com/users/d1ceward/packages/container/package/shellyplug-exporter"><img src="https://img.shields.io/badge/GHCR-Available-blue?logo=github" alt="GHCR" /></a>
@@ -287,13 +287,14 @@ plugs:
 | shellyplug_total           | Total power consumed (watt-minutes)    | Counter |  ✓   |  ✓   |
 | shellyplug_voltage         | Supply voltage (volts)                 | Gauge   |  -   |  ✓   |
 | shellyplug_current         | Current drawn (amperes)                | Gauge   |  -   |  ✓   |
-| shellyplug_frequency       | Supply frequency (hertz)               | Gauge   |  -   |  ✓   |
+| shellyplug_frequency       | Supply frequency (hertz)               | Gauge   |  -   |  ✓¹  |
 | shellyplug_temperature     | Plug temperature (°C)                  | Gauge   |  ✓   |  ✓   |
 | shellyplug_overtemperature | Plug overtemperature status (0 or 1)   | Gauge   |  ✓   |  -   |
 | shellyplug_uptime          | Plug uptime (seconds)                  | Gauge   |  ✓   |  ✓   |</p>
 <blockquote>
 <p><strong>Note:</strong> Metrics not supported by a plug's generation (marked <code>-</code>) are omitted from the output rather than reported as zero. When a scrape of a plug fails, only <code>shellyplug_up 0</code> is reported for it, so counters do not drop to zero.</p>
 </blockquote>
+<p>¹ Only reported by plugs whose firmware measures it: the <code>freq</code> field of <code>Switch.GetStatus</code> is optional and some models omit it.</p>
 <p><strong>Multiple plugs:</strong>
 Every sample carries a <code>name</code> label, taken from the <code>name</code> field in the config file, or
 from the name configured on the plug itself when that field is left empty:</p>
@@ -301,6 +302,14 @@ from the name configured on the plug itself when that field is left empty:</p>
 <span class="c"># TYPE shellyplug_power gauge</span>
 shellyplug_power{name<span class="o">=</span><span class="s">&quot;plug1&quot;</span>} <span class="n">12.3</span>
 shellyplug_power{name<span class="o">=</span><span class="s">&quot;plug2&quot;</span>} <span class="n">8.7</span></code></pre>
+<h2><a id="grafana-dashboard" class="anchor" href="#grafana-dashboard">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Grafana dashboard</h2>
+<p>A ready-made dashboard is available in <a href="grafana/dashboard.json"><code>grafana/dashboard.json</code></a> (schema v2, built
+with Grafana 13). Import it via <strong>Dashboards &gt; New &gt; Import</strong>, then pick your Prometheus data source and set
+the kWh price.</p>
 <h2><a id="contributing" class="anchor" href="#contributing">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
