@@ -26,6 +26,8 @@ jobs:
         uses: crystal-lang/install-crystal@47f17b5ecff0cc09e96fa95f5220311329bf4bc8 # v1.10.0
         with:
           crystal: ${{ env.CRYSTAL_VERSION }}
+          # Gitea's token is rejected by api.github.com, query it anonymously there
+          token: ${{ github.server_url == 'https://github.com' && github.token || '' }}
       - name: Crystal shard cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
@@ -52,6 +54,8 @@ jobs:
         uses: crystal-lang/install-crystal@47f17b5ecff0cc09e96fa95f5220311329bf4bc8 # v1.10.0
         with:
           crystal: ${{ env.CRYSTAL_VERSION }}
+          # Gitea's token is rejected by api.github.com, query it anonymously there
+          token: ${{ github.server_url == 'https://github.com' && github.token || '' }}
       - name: Crystal shard cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
